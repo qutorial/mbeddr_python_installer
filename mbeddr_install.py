@@ -94,11 +94,7 @@ def downloadFile(url, destdir):
   f.close()
   
   return resName
-  
-  
-
-
-
+    
 def getOs():
   s = platform.platform()
   if "Lin" in s:
@@ -162,6 +158,11 @@ def main():
     print j;
     return 1;  
   
+  print "Detecting ant"
+#TODO 
+  print "NOT IMPLEMENTED"
+
+  
   print "Preparing destination directory";  
   dest = prepareDestDir();
   if dest == False:
@@ -184,12 +185,21 @@ def main():
   os.rename(os.path.join(dest, MPSArcDir), MPSDir)
   
   print "Setting mps.vmoptions"
-  print "NOT IMPLEMENTED YET!!!"
-  
+#TODO 
+  print "NOT IMPLEMENTED"
   
   print "Cloning mbeddr..."
   cloneMbeddr(dest);
   
-  print "Done";
+  print "Setting up mbeddr..."
+#TODO 
+  print "NOT IMPLEMENTED"
+  
+  print "Building mbeddr..."
+#TODO 
+  print "NOT IMPLEMENTED"
+  
+  
+  print "Welcome to mbeddr. C the difference C the future.";
   
 main();
