@@ -1,7 +1,12 @@
+#bash command to run it
+#mi=`mktemp` && wget -nv mbeddr.fortiss.org/uploads/media/mbeddr_install_01.py -O $mi && python $mi; rm $mi;
+
 import sys, os, subprocess, urllib2, platform, tarfile
 from os.path import expanduser
 import zipfile
 import os.path
+
+Debug = False
 
 EAPNum = "27"  
 MPSSourceUrl = """http://download-ln.jetbrains.com/mps/31/"""
@@ -12,11 +17,17 @@ MPSZip = """MPS-3.1-EAP1-"""+EAPNum+""".zip"""
 
 MPSArcDir = """MPS 3.1 EAP"""
 
+
+CBMCVersion="""4"""
+CBMCSubVersion = """7"""
+CBMC32BitLinuxUrl = """http://www.cprover.org/cbmc/download/cbmc-"""+CBMCVersion+"-" + CBMCSubVersion + """-linux-32.tgz"""
+CBMC64BitLinuxUrl = """http://www.cprover.org/cbmc/download/cbmc-"""+CBMCVersion+"-" + CBMCSubVersion + """-linux-64.tgz"""
+
+CBMCInstallDir = "/usr/bin"
+
 MbeddrRepo = """https://github.com/mbeddr/mbeddr.core.git"""
 
 TheBranch = "fortissStable"
-
-Debug = False
 
 InstallJavaMessage= """Please, install a Java (R, TM) from Oracle. 
 
@@ -138,8 +149,84 @@ def checkAnt():
   except OSError:
     return "No ant installed, please install Apache Ant(TM)\n"
 
-  
-  
+
+def getCBMCVersion():
+  return CBMCVersion+"."+CBMCSubVersion
+    
+def checkCBMCVersion(cbmc):
+  if getCBMCVersion() in cbmc:
+    return True;
+  else:
+    return "Unrecognized CBMC C Prover version\n"
+    
+def checkCBMC():
+  try:
+    cbmc = subprocess.check_output(["cbmc", "--version"], stderr=subprocess.STDOUT)
+    return checkCBMCVersion(cbmc)
+  except OSError:
+    return "No CBMC C Prover installed\n"
+
+def printCBMCIntro():
+   print "mbeddr verification heavily relies on CBMC C Prover, which is copyrighted:\n"
+   
+def printOnlyCBMCCopyright(): 
+  print """(C) 2001-2008, Daniel Kroening, ETH Zurich,
+Edmund Clarke, Computer Science Department, Carnegie Mellon University\n"""
+
+def printCBMCCopyright(): 
+  printCBMCIntro();
+  printOnlyCBMCCopyright();
+
+def getCBMCFallbackLicense():
+  return """(C) 2001-2008, Daniel Kroening, ETH Zurich,
+Edmund Clarke, Computer Science Department, Carnegie Mellon University
+
+All rights reserved. Redistribution and use in source and binary forms, with
+or without modification, are permitted provided that the following
+conditions are met:
+
+  1. Redistributions of source code must retain the above copyright
+     notice, this list of conditions and the following disclaimer.
+
+  2. Redistributions in binary form must reproduce the above copyright
+     notice, this list of conditions and the following disclaimer in the
+     documentation and/or other materials provided with the distribution.
+
+  3. All advertising materials mentioning features or use of this software
+     must display the following acknowledgement:
+
+     This product includes software developed by Daniel Kroening,
+     ETH Zurich and Edmund Clarke, Computer Science Department,
+     Carnegie Mellon University.
+
+  4. Neither the name of the University nor the names of its contributors
+     may be used to endorse or promote products derived from this software
+     without specific prior written permission.
+
+   
+THIS SOFTWARE IS PROVIDED BY THE UNIVERSITIES AND CONTRIBUTORS `AS IS'' AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+DAMAGE.\n"""
+
+def getCBMCLicense():
+  try:
+    return urllib2.urlopen("http://www.cprover.org/cbmc/LICENSE").read();
+  except urllib2.HTTPError, e:
+    return getCBMCFallbackLicense()
+  except urllib2.URLError, e:
+    return getCBMCFallbackLicense()  
+  except httplib.HTTPException, e:
+    return getCBMCFallbackLicense()  
+  except Exception:
+    return getCBMCFallbackLicense()
   
 def prepareDestDir():
   home = os.path.join(expanduser("~"), "mbeddr")
@@ -190,12 +277,15 @@ def downloadFile(url, destdir):
 def getOs():
   s = platform.platform()
   if "Lin" in s:
-    return "Lin"
+    if platform.architecture()[0] == '64bit':
+      return "Lin64"
+    else:
+      return "Lin32";
   if "Mac" in s:
     return "Mac"
   if "Win" in s:
     return "Win"
-  
+
 def fakeDownload(url, dest):
   print "Would download ", url
   downloadFile("""http://www.kontextfrei.net/wp-content/themes/it-passau/rotator/sample-1.jpg""", dest);
@@ -219,8 +309,7 @@ def downloadMPS(dest):
     return fName;
   else:
     return downloadFile(url, dest);
-
-    
+  
 def unzip(zipzip, dest):
   zfile = zipfile.ZipFile(zipzip)
   for name in zfile.namelist():
@@ -240,7 +329,43 @@ def unarchive(a, dest):
   else:
     untgz(a, dest);
 
+def getCBMCInstallPath():
+  if "Lin" in getOs():
+    return "/usr/bin/cbmc";
+  else:
+    raise Exception("Not supported OS " + getOS()); 
 
+def installCBMC(dest):
+  print getCBMCLicense();
+  printCBMCIntro();
+  print "Above is the CBMC license, do you accept it [y/n]?"
+  accept = str(raw_input()).strip();
+  if "y" != accept:
+    return 1;
+  
+  dest = os.path.join(dest, "cbmc");
+  if not os.path.exists(dest):
+    os.makedirs(dest);
+  
+  fName = None
+  if "32" in getOs():
+    fName = downloadFile(CBMC32BitLinuxUrl, dest);
+  else:
+    fName = downloadFile(CBMC64BitLinuxUrl, dest);
+  
+  unarchive(fName, dest);
+  
+  print "\nTo finish the CBMC installation, you might be asked for the root/administrator password.\n"
+  proc = subprocess.Popen(["sudo","-p", "", "ln", "-s", "--force", os.path.join(dest, "cbmc"), getCBMCInstallPath()], stdin=subprocess.PIPE)
+  proc.wait()
+  
+  c = checkCBMC()
+  
+  if c == True:
+    return True;
+  else:
+    return c;
+  
 def cloneMbeddr(dest, MbeddrDir):
   
   if not os.path.exists(MbeddrDir):
@@ -250,6 +375,7 @@ def cloneMbeddr(dest, MbeddrDir):
       return;
   os.system("git clone " + MbeddrRepo+ " " + MbeddrDir);
   print "Checking out " + TheBranch + " branch..."
+  os.system("git --git-dir="+ os.path.join(MbeddrDir, ".git") + " reset --hard");
   os.system("git --git-dir="+ os.path.join(MbeddrDir, ".git") + " checkout " + TheBranch);
   
   
@@ -294,6 +420,19 @@ def buildMbeddr(MbeddrDir):
   os.chdir(BuildPath);
   os.system(os.path.join(BuildPath, "buildLanguages.sh"));
 
+def greetings(MPSDir, MbeddrDir):
+  print """\nTo start working: Run\n"""+os.path.join(MPSDir, "mps.sh")+"""\nand go through the tutorial project from"""
+  print os.path.join(MbeddrDir, "code", "application"),""" folder.\n"""
+  
+  print """\nVisit mbeddr.com to learn what's new!\n"""
+  
+  print "\nWelcome to mbeddr. C the difference C the future.\n";
+  print "-----------------------------------------------------------\n"
+  print """This installer for mbeddr advanced users has been built by molotnikov (at) fortiss (dot) org.\n
+Please, let me know, if it does not work for you!"""
+  
+
+  
 def main():
   print("Welcome!")
   print("You are about to install the last stable version of mbeddr.")
@@ -315,6 +454,19 @@ def main():
   if j != True:
     print j;
     return 1;  
+    
+  print "Detecting CBMC"
+  j = checkCBMC()
+  if j != True:
+    print j
+    if installCBMC("/home/zaur/mbeddr") != True:
+      print "Failed to install CBMC!\n"
+      exit(1);
+    else:
+      print "CBMC installed!\n"
+  else:
+    print """You have CBMC already installed."""
+    printCBMCCopyright();
   
   print "Preparing destination directory";  
   dest = prepareDestDir();
@@ -352,7 +504,6 @@ def main():
   #Second time, because first time fails shortly after the start,
   buildMbeddr(MbeddrDir);
   
-  
-  print "Welcome to mbeddr. C the difference C the future.";
+  greetings(MPSDir, MbeddrDir);
   
 main();
