@@ -232,11 +232,8 @@ def checkJava():
     return InstallJavaMessage;
 
 def testJavaCheck():
-  print checkJava();
-  exit(0);
-  
-testJavaCheck();
-    
+  print "Java: " + checkJava();
+   
 # ANT
     
 def checkAntVersion(ant):
@@ -252,8 +249,13 @@ def checkAnt():
   except OSError:
     return "No ant installed, please install Apache Ant(TM)\n"
 
-
+def testAntCheck():
+  print "Ant: " + checkAnt();
     
+testAntCheck();
+
+exit(0);
+
 # Preparing a destination directory
     
 def prepareDestDir():
