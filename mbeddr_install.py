@@ -17,7 +17,7 @@ MPSArcDir = """MPS 3.1 EAP"""
 
 
 CBMCVersion="""4"""
-CBMCSubVersion = """7"""
+CBMCSubVersion = """6"""
 CBMC32BitLinuxUrl = """http://www.cprover.org/cbmc/download/cbmc-"""+CBMCVersion+"-" + CBMCSubVersion + """-linux-32.tgz"""
 CBMC64BitLinuxUrl = """http://www.cprover.org/cbmc/download/cbmc-"""+CBMCVersion+"-" + CBMCSubVersion + """-linux-64.tgz"""
 
@@ -511,7 +511,7 @@ def main():
   print "Building mbeddr..."
   buildMbeddr(MbeddrDir);
   #Second time, because first time fails shortly after the start,
-  print "Please, notice: BUILD FAILED messages above are known, they do not represent an actual problem.\nBelow this line they should not appear though. It would be an indication of an actual error."
+  print " * Please, notice: BUILD FAILED messages above are known, they do not represent an actual problem.\nBelow this line they should not appear though. It would be an indication of an error."
   buildMbeddr(MbeddrDir);
   
   greetings(MPSDir, MbeddrDir);
