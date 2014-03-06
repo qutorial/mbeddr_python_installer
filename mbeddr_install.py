@@ -454,7 +454,7 @@ class CBMCInstallerForMac(CBMCInstallerBase):
   def setUpCBMC(self, dest, fname):
     print "\nPlease, proceed installing CBMC..."
     proc = subprocess.Popen(["open", fname], stdin=subprocess.PIPE)    
-    print "Continuing installation...e\n"
+    print "Continuing installation...\n"
     return True;
 
 
