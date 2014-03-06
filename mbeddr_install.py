@@ -479,7 +479,7 @@ def testCBMCInstaller():
   installer = getCBMCInstaller();
   installer.installCBMC(dest);
   
-testCBMCInstaller();
+print testCBMCInstaller();
 exit(0);
      
 # ------------------ END INSTALLING CBMC ------------------
