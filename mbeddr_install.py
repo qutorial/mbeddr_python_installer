@@ -130,6 +130,14 @@ def getOs():
   if "Win" in s:
     return "Win"
     
+    
+# Checking Python
+
+if sys.version_info < (2, 7):
+    print "Your Python version is old. Please, install Python 2.7.\n"
+    print "http://www.python.org/download/"
+    exit(1);
+
 
 # Downloading file with progress
 
@@ -218,7 +226,7 @@ def checkJavaVersion(java):
   
 def checkJava():  
   try:
-    java = check_output(["java", "-version"])
+    java = subprocess.check_output(["java", "-version"], stderr=subprocess.STDOUT)
     return checkJavaVersion(java)
   except OSError:
     return InstallJavaMessage;
