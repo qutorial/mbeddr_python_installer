@@ -136,7 +136,7 @@ def getOs():
       return "Lin64"
     else:
       return "Lin32";
-  if "Mac" in s:
+  if "darwin" in s:
     return "Mac"
   if "Win" in s:
     return "Win"
