@@ -405,15 +405,8 @@ DAMAGE.\n"""
       return False;
         
     if self.setUpCBMC(dest, fName) != True:
-      return False;
-    
-    c = self.checkCBMC();
-    
-    if c == True:
-      return True;
-    else:
-      print "Error installing CBMC: " + c;
       return False;    
+    return True;
       
   def downloadCBMC(self, dest):
     print "Not implemented in CBMC Installer Base"
@@ -444,7 +437,7 @@ class CBMCInstallerForLinux(CBMCInstallerBase):
     print "Password: "
     proc = subprocess.Popen(["sudo","-p", "", "ln", "-s", "--force", os.path.join(dest, "cbmc"), self.getCBMCInstallPath()], stdin=subprocess.PIPE)
     proc.wait()
-    print "Done\n"
+    print "Finished installing"
     return True;
     
 class CBMCInstallerForMac(CBMCInstallerBase):
@@ -460,9 +453,8 @@ class CBMCInstallerForMac(CBMCInstallerBase):
     
   def setUpCBMC(self, dest, fname):
     print "\nPlease, proceed installing CBMC..."
-    proc = subprocess.Popen(["open", fname], stdin=subprocess.PIPE)
-    proc.wait()
-    print "Done\n"
+    proc = subprocess.Popen(["open", fname], stdin=subprocess.PIPE)    
+    print "Continuing installation...e\n"
     return True;
 
 
@@ -479,7 +471,7 @@ def testCBMCInstaller():
   dest = prepareDestDir();
   print "Testing CBMC installer";
   installer = getCBMCInstaller();
-  installer.installCBMC(dest);
+  return installer.installCBMC(dest);
   
 print testCBMCInstaller();
 exit(0);
