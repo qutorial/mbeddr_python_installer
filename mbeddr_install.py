@@ -371,11 +371,11 @@ def cloneMbeddr(dest, MbeddrDir):
   if not os.path.exists(MbeddrDir):
     os.makedirs(MbeddrDir);
   else:
-  os.system("git clone " + MbeddrRepo+ " " + MbeddrDir);
-  print "Checking out " + TheBranch + " branch..."
-  os.system("git --git-dir="+ os.path.join(MbeddrDir, ".git") + " reset --hard");
-  os.system("git --git-dir="+ os.path.join(MbeddrDir, ".git") + " checkout " + TheBranch);
-  
+    os.system("git clone " + MbeddrRepo+ " " + MbeddrDir);
+    print "Checking out " + TheBranch + " branch..."
+    os.system("git --git-dir="+ os.path.join(MbeddrDir, ".git") + " reset --hard");
+    os.system("git --git-dir="+ os.path.join(MbeddrDir, ".git") + " checkout " + TheBranch);
+    
   
 def configureMpsVmopts(MPSDir, MbeddrDir):
     f = open(os.path.join(MPSDir, "bin", "mps.vmoptions"), 'w');
