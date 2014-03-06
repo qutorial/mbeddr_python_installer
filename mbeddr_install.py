@@ -273,6 +273,8 @@ def downloadFile(url, destdir):
 
   f.close()
   
+  print "\n"
+  
   return resName
     
 def getOs():
@@ -367,14 +369,11 @@ def installCBMC(dest):
   else:
     return c;
   
-def cloneMbeddr(dest, MbeddrDir):  
-  if not os.path.exists(MbeddrDir):
-    os.makedirs(MbeddrDir);
-  else:
-    os.system("git clone " + MbeddrRepo+ " " + MbeddrDir);
-    print "Checking out " + TheBranch + " branch..."
-    os.system("git --git-dir="+ os.path.join(MbeddrDir, ".git") + " reset --hard");
-    os.system("git --git-dir="+ os.path.join(MbeddrDir, ".git") + " checkout " + TheBranch);
+def cloneMbeddr(dest, MbeddrDir):
+  os.system("git clone " + MbeddrRepo+ " " + MbeddrDir);
+  print "Checking out " + TheBranch + " branch..."
+  os.system("git --git-dir="+ os.path.join(MbeddrDir, ".git") + " reset --hard");
+  os.system("git --git-dir="+ os.path.join(MbeddrDir, ".git") + " checkout " + TheBranch);
     
   
 def configureMpsVmopts(MPSDir, MbeddrDir):
@@ -476,7 +475,7 @@ def main():
   j = checkCBMC()
   if j != True:
     print j
-    if installCBMC(MbeddrDir) != True:
+    if installCBMC(dest) != True:
       print "Failed to install CBMC!\n"
       exit(1);
     else:
