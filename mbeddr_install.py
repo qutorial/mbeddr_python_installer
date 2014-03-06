@@ -371,8 +371,6 @@ def cloneMbeddr(dest, MbeddrDir):
   if not os.path.exists(MbeddrDir):
     os.makedirs(MbeddrDir);
   else:
-    if Debug == True:
-      return;
   os.system("git clone " + MbeddrRepo+ " " + MbeddrDir);
   print "Checking out " + TheBranch + " branch..."
   os.system("git --git-dir="+ os.path.join(MbeddrDir, ".git") + " reset --hard");
