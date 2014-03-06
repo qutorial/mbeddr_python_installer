@@ -80,9 +80,11 @@ mbeddr.github.core.home=MbeddrDir
 # JAVA CONFIGURATION
 InstallJavaMessage= """Please, install a Java (R, TM) from Oracle. 
 
-http://www.oracle.com/technetwork/java/javase/downloads/index.html
+http://www.oracle.com/technetwork/java/javase/downloads/index.html"""
 
-On Ubuntu this might work:
+
+
+InstallJavaHintUbuntu = """\nOn Ubuntu this might work:
 sudo add-apt-repository ppa:webupd8team/java
 sudo apt-get update
 sudo apt-get install oracle-java7-installer
@@ -207,7 +209,11 @@ def checkJavaVersion(java):
   if len(c) > 0:
     if len(a) + len(b) > 0:
       return True;
-  return "Java version is not recognized\n"+InstallJavaMessage;
+  answer = "Java version is not recognized\n"+InstallJavaMessage;
+  if "Lin" in getOs():
+    answer = answer + InstallJavaHintUbuntu;
+    
+  return answer;
   
   
 def checkJava():  
@@ -217,6 +223,11 @@ def checkJava():
   except OSError:
     return InstallJavaMessage;
 
+def testJavaCheck():
+  print checkJava();
+  exit(0);
+  
+testJavaCheck();
     
 # ANT
     
