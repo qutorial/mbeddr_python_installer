@@ -96,9 +96,9 @@ sudo apt-get install oracle-java7-installer
 # ANT CONFIGURATION
 InstallAntMessage= """Please, install Apache Ant(TM).\n 
 
-http://ant.apache.org/bindownload.cgi
+http://ant.apache.org/bindownload.cgi"""
 
-On Ubuntu this might work:
+InstallAntHintUbuntu = """\nOn Ubuntu this might work:
 sudo apt-get install ant
 """
 
@@ -243,8 +243,13 @@ def checkAntVersion(ant):
   if "Apache Ant" in ant:
     return True;
   else:
-    return "Unrecognized ant version\n"
+  
+  answer = "Unrecognized ant version\n"
+  if "Lin" in getOs():
+    answer = answer + InstallAntHintUbuntu;
     
+  return answer;
+  
 def checkAnt():
   try:
     ant = subprocess.check_output(["ant", "-version"], stderr=subprocess.STDOUT)
@@ -472,9 +477,6 @@ def testCBMCInstaller():
   print "Testing CBMC installer";
   installer = getCBMCInstaller();
   return installer.installCBMC(dest);
-  
-print testCBMCInstaller();
-exit(0);
      
 # ------------------ END INSTALLING CBMC ------------------
     
@@ -599,8 +601,6 @@ def main():
       print """You have CBMC already installed."""
       print installer.getCBMCCopyright();
     
-  
-  
   
   print "Downloading MPS..."
   archive = downloadMPS(dest);      
