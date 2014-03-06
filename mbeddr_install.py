@@ -359,8 +359,10 @@ def installCBMC(dest):
   unarchive(fName, dest);
   
   print "\nTo finish the CBMC installation, you might be asked for the root/administrator password.\n"
+  print "Password: "
   proc = subprocess.Popen(["sudo","-p", "", "ln", "-s", "--force", os.path.join(dest, "cbmc"), getCBMCInstallPath()], stdin=subprocess.PIPE)
   proc.wait()
+  print "Done\n"
   
   c = checkCBMC()
   
@@ -509,6 +511,7 @@ def main():
   print "Building mbeddr..."
   buildMbeddr(MbeddrDir);
   #Second time, because first time fails shortly after the start,
+  print "Please, notice: BUILD FAILED messages above are known, they do not represent an actual problem.\nBelow this line they should not appear though. It would be an indication of an actual error."
   buildMbeddr(MbeddrDir);
   
   greetings(MPSDir, MbeddrDir);
