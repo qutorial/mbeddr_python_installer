@@ -242,7 +242,6 @@ def testJavaCheck():
 def checkAntVersion(ant):
   if "Apache Ant" in ant:
     return True;
-  else:
   
   answer = "Unrecognized ant version\n"
   if "Lin" in getOs():
