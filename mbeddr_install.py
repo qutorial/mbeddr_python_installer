@@ -218,7 +218,7 @@ def checkJavaVersion(java):
   
 def checkJava():  
   try:
-    java = subprocess.check_output(["java", "-version"], stderr=subprocess.STDOUT)
+    java = subprocess.check_output(["java", "-version"])
     return checkJavaVersion(java)
   except OSError:
     return InstallJavaMessage;
