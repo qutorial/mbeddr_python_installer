@@ -1,7 +1,7 @@
 # THE WAY TO RUN THE NEWEST SCRIPT VERSION
 
 #bash command to run it
-#mi=`mktemp` && wget -nv https://raw.github.com/qutorial/mbeddr_python_installer/master/mbeddr_install.py -O $mi && python $mi; rm $mi;
+#mi=`mktemp` && wget -nv https://raw.github.com/qutorial/mbeddr_python_installer/master/mbeddr_install.py -O $mi && python2.7 $mi; rm $mi;
 
 ################### -- CONFIGURATION -- ###################
 
@@ -116,6 +116,14 @@ from os.path import expanduser
 import zipfile, tarfile
 import os.path
 
+# Checking Python
+
+if sys.version_info < (2, 7):
+    print "Your Python version is old. Please, install Python 2.7."
+    print "http://www.python.org/download/"
+    print "Run the script like this afterwards: python2.7 "+os.path.basename(__file__)
+    exit(1);
+
 # Detecting OS
     
 def getOs():
@@ -131,14 +139,6 @@ def getOs():
     return "Win"
     
     
-# Checking Python
-
-if sys.version_info < (2, 7):
-    print "Your Python version is old. Please, install Python 2.7.\n"
-    print "http://www.python.org/download/"
-    exit(1);
-
-
 # Downloading file with progress
 
 def downloadFile(url, destdir):
