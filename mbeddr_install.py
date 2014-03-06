@@ -1,10 +1,11 @@
+# THE WAY TO RUN THE NEWEST SCRIPT VERSION
+
 #bash command to run it
 #mi=`mktemp` && wget -nv https://raw.github.com/qutorial/mbeddr_python_installer/master/mbeddr_install.py -O $mi && python $mi; rm $mi;
 
-import sys, os, subprocess, urllib2, platform, tarfile
-from os.path import expanduser
-import zipfile
-import os.path
+################### -- CONFIGURATION -- ###################
+
+# MPS CONFIGURATION
 
 EAPNum = "27"  
 MPSSourceUrl = """http://download-ln.jetbrains.com/mps/31/"""
@@ -12,46 +13,7 @@ MPSWin = """MPS-3.1-EAP1-"""+EAPNum+""".exe"""
 MPSMac = """MPS-3.1-EAP1-"""+EAPNum+"""-macos.dmg"""
 MPSLin = """MPS-3.1-EAP1-"""+EAPNum+""".tar.gz"""
 MPSZip = """MPS-3.1-EAP1-"""+EAPNum+""".zip"""
-
 MPSArcDir = """MPS 3.1 EAP"""
-
-
-CBMCVersion="""4"""
-CBMCSubVersion = """6"""
-CBMC32BitLinuxUrl = """http://www.cprover.org/cbmc/download/cbmc-"""+CBMCVersion+"-" + CBMCSubVersion + """-linux-32.tgz"""
-CBMC64BitLinuxUrl = """http://www.cprover.org/cbmc/download/cbmc-"""+CBMCVersion+"-" + CBMCSubVersion + """-linux-64.tgz"""
-
-CBMCInstallDir = "/usr/bin"
-
-MbeddrRepo = """https://github.com/mbeddr/mbeddr.core.git"""
-
-TheBranch = "fortissStable"
-
-InstallJavaMessage= """Please, install a Java (R, TM) from Oracle. 
-
-http://www.oracle.com/technetwork/java/javase/downloads/index.html
-
-On Ubuntu this might work:
-sudo add-apt-repository ppa:webupd8team/java
-sudo apt-get update
-sudo apt-get install oracle-java7-installer
-"""
-
-InstallAntMessage= """Please, install Apache Ant(TM).\n 
-
-http://ant.apache.org/bindownload.cgi
-
-On Ubuntu this might work:
-sudo apt-get install ant
-"""
-
-InstallGitMessage= """Please, install Git.\n 
-
-http://git-scm.com/downloads
-
-On Ubuntu this might work:
-sudo apt-get install git
-"""
 
 MPS_VMOPTIONS="""-client
 -Xss1024k
@@ -93,6 +55,18 @@ PATH_MACROS = """<?xml version="1.0" encoding="UTF-8"?>
 </application>
 """
 
+
+# CBMC CONFIGURATION
+CBMCVersion="""4"""
+CBMCSubVersion = """6"""
+CBMC32BitLinuxUrl = """http://www.cprover.org/cbmc/download/cbmc-"""+CBMCVersion+"-" + CBMCSubVersion + """-linux-32.tgz"""
+CBMC64BitLinuxUrl = """http://www.cprover.org/cbmc/download/cbmc-"""+CBMCVersion+"-" + CBMCSubVersion + """-linux-64.tgz"""
+CBMCInstallDir = "/usr/bin"
+
+
+# MBEDDR CONFIGURATION
+MbeddrRepo = """https://github.com/mbeddr/mbeddr.core.git"""
+TheBranch = "fortissStable"
 BUILD_PROPERTIES = """# MPS installation
 mps.home=MPSDir
 # Folder where MPS stores it's cache
@@ -101,6 +75,129 @@ mps.platform.caches=MPSCaches
 mbeddr.github.core.home=MbeddrDir
 """
 
+
+
+# JAVA CONFIGURATION
+InstallJavaMessage= """Please, install a Java (R, TM) from Oracle. 
+
+http://www.oracle.com/technetwork/java/javase/downloads/index.html
+
+On Ubuntu this might work:
+sudo add-apt-repository ppa:webupd8team/java
+sudo apt-get update
+sudo apt-get install oracle-java7-installer
+"""
+
+# ANT CONFIGURATION
+InstallAntMessage= """Please, install Apache Ant(TM).\n 
+
+http://ant.apache.org/bindownload.cgi
+
+On Ubuntu this might work:
+sudo apt-get install ant
+"""
+
+
+# GIT CONFIGURATION
+InstallGitMessage= """Please, install Git.\n 
+
+http://git-scm.com/downloads
+
+On Ubuntu this might work:
+sudo apt-get install git
+"""
+
+################### END OF CONFIGURATION ###################
+
+import sys, os, subprocess, urllib2, platform, tarfile
+from os.path import expanduser
+import zipfile, tarfile
+import os.path
+
+# Detecting OS
+    
+def getOs():
+  s = platform.platform()
+  if "Lin" in s:
+    if platform.architecture()[0] == '64bit':
+      return "Lin64"
+    else:
+      return "Lin32";
+  if "Mac" in s:
+    return "Mac"
+  if "Win" in s:
+    return "Win"
+    
+
+# Downloading file with progress
+
+def downloadFile(url, destdir):
+  file_name = url.split('/')[-1]
+  u = urllib2.urlopen(url)
+  resName = os.path.join(destdir, file_name)
+  f = open(resName, 'wb')
+  meta = u.info()
+  file_size = int(meta.getheaders("Content-Length")[0])
+  print "Downloading: %s Bytes: %s" % (file_name, file_size)
+
+  file_size_dl = 0
+  block_sz = 8192
+  while True:
+      buffer = u.read(block_sz)
+      if not buffer:
+	  break
+
+      file_size_dl += len(buffer)
+      f.write(buffer)
+      status = r"%10d  [%3.2f%%]" % (file_size_dl, file_size_dl * 100. / file_size)
+      status = status + chr(8)*(len(status)+1)
+      print status,
+
+  f.close()
+  
+  print "\n"
+  
+  return resName
+    
+# Unarchiving Zips and Tars
+
+def unzip(zipzip, dest):
+  zfile = zipfile.ZipFile(zipzip)
+  for name in zfile.namelist():
+    (dirname, filename) = os.path.split(name)
+    print "Decompressing " + filename + " on " + dirname
+    if not os.path.exists(dirname):
+      os.makedirs(dirname)
+    zfile.extract(name, os.path.join(dest,dirname))
+
+def untgz(arc, dest):
+  tfile = tarfile.open(arc, 'r:gz');
+  tfile.extractall(dest);
+  
+def unarchive(a, dest):
+  if "zip" in a:
+    unzip(a, dest);
+  else:
+    untgz(a, dest);
+
+    
+# GIT 
+
+def checkGitVersion(git):
+  if "git version" in git:
+    return True;
+  else:
+    return "Unrecognized git version\n"    
+   
+def checkGit():  
+  try:
+    git = subprocess.check_output(["git", "--version"], stderr=subprocess.STDOUT)
+    return checkGitVersion(git)
+  except OSError:
+    return InstallGitMessage;
+
+    
+# JAVA 
 
 def checkJavaVersion(java):
   vals = java.split() 
@@ -120,19 +217,8 @@ def checkJava():
   except OSError:
     return InstallJavaMessage;
 
-def checkGitVersion(git):
-  if "git version" in git:
-    return True;
-  else:
-    return "Unrecognized git version\n"    
-   
-def checkGit():  
-  try:
-    git = subprocess.check_output(["git", "--version"], stderr=subprocess.STDOUT)
-    return checkGitVersion(git)
-  except OSError:
-    return InstallGitMessage;
     
+# ANT
     
 def checkAntVersion(ant):
   if "Apache Ant" in ant:
@@ -148,35 +234,90 @@ def checkAnt():
     return "No ant installed, please install Apache Ant(TM)\n"
 
 
-def getCBMCVersion():
-  return CBMCVersion+"."+CBMCSubVersion
     
-def checkCBMCVersion(cbmc):
-  if getCBMCVersion() in cbmc:
-    return True;
-  else:
-    return "Unrecognized CBMC C Prover version\n"
+# Preparing a destination directory
     
-def checkCBMC():
+def prepareDestDir():
+  home = os.path.join(expanduser("~"), "mbeddr")
+  print("Where would you like to install it["+home+"]: ")
   try:
-    cbmc = subprocess.check_output(["cbmc", "--version"], stderr=subprocess.STDOUT)
-    return checkCBMCVersion(cbmc)
+    destdir = str(raw_input()).strip()
+  except EOFError:
+    destdir = None
+  
+  if (destdir is None) or (len(destdir) == 0):
+    print("Selecting " + home)
+    destdir = home;
+    
+  try:
+    if os.path.exists(destdir):
+      print "This directory already exists, please, use another one."
+      return False;
+    else:
+      os.makedirs(destdir)
   except OSError:
-    return "No CBMC C Prover installed\n"
+    return False;
+  
+  return destdir;
+  
+  
+  
+# Downloading MPS
 
-def printCBMCIntro():
-   print "mbeddr verification heavily relies on CBMC C Prover, which is copyrighted:\n"
+def MPSFilename():
+  url="";
+  s = getOs();
+  if "Lin" in s:
+    url+=MPSLin
+  if "Mac" in s:
+    url+=MPSMac
+  if "Win" in s:
+    url+=MPSWin
+  return url;
+
+def downloadMPS(dest):
+  fName = MPSFilename();
+  url = MPSSourceUrl + fName; 
+  fName = os.path.join(dest, fName);  
+  if os.path.exists(fName):
+    return fName;
+  else:
+    return downloadFile(url, dest);
+  
+
+
+
+# ------------------ INSTALLING CBMC ------------------
+
+class CBMCInstallerBase:
+  
+  def getCBMCVersion(self):
+    return CBMCVersion + "." + CBMCSubVersion
+    
+  def checkCBMCVersion(self, cbmc):
+    if self.getCBMCVersion() in cbmc:
+      return True;
+    else:
+      return "Unrecognized CBMC C Prover version\n"
+       
+  def checkCBMC(self):
+    try:
+      cbmc = subprocess.check_output(["cbmc", "--version"], stderr=subprocess.STDOUT)
+      return self.checkCBMCVersion(cbmc)
+    except OSError:
+      return "No CBMC C Prover installed\n"
+
+  def getCBMCIntro(self):
+    return "mbeddr verification heavily relies on CBMC C Prover, which is copyrighted:\n"
    
-def printOnlyCBMCCopyright(): 
-  print """(C) 2001-2008, Daniel Kroening, ETH Zurich,
-Edmund Clarke, Computer Science Department, Carnegie Mellon University\n"""
+  def getOnlyCBMCCopyright(self): 
+    return """(C) 2001-2008, Daniel Kroening, ETH Zurich,\nEdmund Clarke, Computer Science Department, Carnegie Mellon University\n"""
 
-def printCBMCCopyright(): 
-  printCBMCIntro();
-  printOnlyCBMCCopyright();
-
-def getCBMCFallbackLicense():
-  return """(C) 2001-2008, Daniel Kroening, ETH Zurich,
+  def getCBMCCopyright(self): 
+    return self.getCBMCIntro() + self.getOnlyCBMCCopyright();
+  
+  def getCBMCFallbackLicense(self):
+    return """(C) 2001-2008, Daniel Kroening, ETH Zurich,
 Edmund Clarke, Computer Science Department, Carnegie Mellon University
 
 All rights reserved. Redistribution and use in source and binary forms, with
@@ -214,163 +355,98 @@ LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
 OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 DAMAGE.\n"""
 
-def getCBMCLicense():
-  try:
-    return urllib2.urlopen("http://www.cprover.org/cbmc/LICENSE").read();
-  except urllib2.HTTPError, e:
-    return getCBMCFallbackLicense()
-  except urllib2.URLError, e:
-    return getCBMCFallbackLicense()  
-  except httplib.HTTPException, e:
-    return getCBMCFallbackLicense()  
-  except Exception:
-    return getCBMCFallbackLicense()
-  
-def prepareDestDir():
-  home = os.path.join(expanduser("~"), "mbeddr")
-  print("Where would you like to install it["+home+"]: ")
-  try:
-    destdir = str(raw_input()).strip()
-  except EOFError:
-    destdir = None
-  
-  if (destdir is None) or (len(destdir) == 0):
-    print("Selecting " + home)
-    destdir = home;
+  def getCBMCLicense(self):
+    try:
+      return urllib2.urlopen("http://www.cprover.org/cbmc/LICENSE").read();
+    except urllib2.HTTPError, e:
+      return self.getCBMCFallbackLicense()
+    except urllib2.URLError, e:
+      return self.getCBMCFallbackLicense()
+    except httplib.HTTPException, e:
+      return self.getCBMCFallbackLicense()
+    except Exception:
+      return self.getCBMCFallbackLicense()
     
-  try:
-    if os.path.exists(destdir):
-      print "This directory already exists, please, use another one."
+  
+  def installCBMC(self, dest):
+    print self.getCBMCLicense();
+    print self.getCBMCIntro();
+    print "Above is the CBMC license, do you accept it [y/n]?"
+    accept = str(raw_input()).strip();
+    if "y" != accept:
       return False;
-    else:
-      os.makedirs(destdir)
-  except OSError:
-    return False;
-  
-  return destdir;
-
-def downloadFile(url, destdir):
-  file_name = url.split('/')[-1]
-  u = urllib2.urlopen(url)
-  resName = os.path.join(destdir, file_name)
-  f = open(resName, 'wb')
-  meta = u.info()
-  file_size = int(meta.getheaders("Content-Length")[0])
-  print "Downloading: %s Bytes: %s" % (file_name, file_size)
-
-  file_size_dl = 0
-  block_sz = 8192
-  while True:
-      buffer = u.read(block_sz)
-      if not buffer:
-	  break
-
-      file_size_dl += len(buffer)
-      f.write(buffer)
-      status = r"%10d  [%3.2f%%]" % (file_size_dl, file_size_dl * 100. / file_size)
-      status = status + chr(8)*(len(status)+1)
-      print status,
-
-  f.close()
-  
-  print "\n"
-  
-  return resName
     
-def getOs():
-  s = platform.platform()
-  if "Lin" in s:
-    if platform.architecture()[0] == '64bit':
-      return "Lin64"
+    dest = os.path.join(dest, "cbmc");
+    if not os.path.exists(dest):
+      os.makedirs(dest);
+    
+    fName = self.downloadCBMC(dest);
+    if fName == False:
+      return False;
+    
+    unarchive(fName, dest);
+    
+    if self.setUpCBMC(dest) != True:
+      return False;
+    
+    c = self.checkCBMC();
+    
+    if c == True:
+      return True;
     else:
-      return "Lin32";
-  if "Mac" in s:
-    return "Mac"
-  if "Win" in s:
-    return "Win"
-
-def fakeDownload(url, dest):
-  print "Would download ", url
-  downloadFile("""http://www.kontextfrei.net/wp-content/themes/it-passau/rotator/sample-1.jpg""", dest);
-  
-def MPSFilename():
-  url="";
-  s = getOs();
-  if "Lin" in s:
-    url+=MPSLin
-  if "Mac" in s:
-    url+=MPSMac
-  if "Win" in s:
-    url+=MPSWin
-  return url;
-
-def downloadMPS(dest):
-  fName = MPSFilename();
-  url = MPSSourceUrl + fName; 
-  fName = os.path.join(dest, fName);  
-  if os.path.exists(fName):
+      print "Error installing CBMC: " + c;
+      return False;    
+      
+  def downloadCBMC(self, dest):
+    print "Not implemented in CBMC Installer Base"
+    return False
+        
+    
+class CBMCInstallerForLinux(CBMCInstallerBase):
+  def downloadCBMC(self, dest):
+    fName = False
+    url=""    
+    if "Lin32" in getOs():
+      url = CBMC32BitLinuxUrl;
+    if "Lin64" in getOs():
+      url = CBMC64BitLinuxUrl;    
+    try:
+      fName = downloadFile(url, dest);
+    except Exception:      
+      return False;      
     return fName;
-  else:
-    return downloadFile(url, dest);
-  
-def unzip(zipzip, dest):
-  zfile = zipfile.ZipFile(zipzip)
-  for name in zfile.namelist():
-    (dirname, filename) = os.path.split(name)
-    print "Decompressing " + filename + " on " + dirname
-    if not os.path.exists(dirname):
-      os.makedirs(dirname)
-    zfile.extract(name, os.path.join(dest,dirname))
     
-def untgz(arc, dest):
-  tfile = tarfile.open(arc, 'r:gz');
-  tfile.extractall(dest);
-  
-def unarchive(a, dest):
-  if "zip" in a:
-    unzip(a, dest);
-  else:
-    untgz(a, dest);
-
-def getCBMCInstallPath():
-  if "Lin" in getOs():
-    return "/usr/bin/cbmc";
-  else:
-    raise Exception("Not supported OS " + getOS()); 
-
-def installCBMC(dest):
-  print getCBMCLicense();
-  printCBMCIntro();
-  print "Above is the CBMC license, do you accept it [y/n]?"
-  accept = str(raw_input()).strip();
-  if "y" != accept:
-    return 1;
-  
-  dest = os.path.join(dest, "cbmc");
-  if not os.path.exists(dest):
-    os.makedirs(dest);
-  
-  fName = None
-  if "32" in getOs():
-    fName = downloadFile(CBMC32BitLinuxUrl, dest);
-  else:
-    fName = downloadFile(CBMC64BitLinuxUrl, dest);
-  
-  unarchive(fName, dest);
-  
-  print "\nTo finish the CBMC installation, you might be asked for the root/administrator password.\n"
-  print "Password: "
-  proc = subprocess.Popen(["sudo","-p", "", "ln", "-s", "--force", os.path.join(dest, "cbmc"), getCBMCInstallPath()], stdin=subprocess.PIPE)
-  proc.wait()
-  print "Done\n"
-  
-  c = checkCBMC()
-  
-  if c == True:
+  def getCBMCInstallPath(self):  
+    return "/usr/bin/cbmc";  
+    
+  def setUpCBMC(self, dest):
+    print "\nTo finish the CBMC installation, you might be asked for the root/administrator password.\n"
+    print "Password: "
+    proc = subprocess.Popen(["sudo","-p", "", "ln", "-s", "--force", os.path.join(dest, "cbmc"), self.getCBMCInstallPath()], stdin=subprocess.PIPE)
+    proc.wait()
+    print "Done\n"
     return True;
+
+
+def getCBMCInstaller():
+  if "Lin" in getOs():
+    return CBMCInstallerForLinux();
   else:
-    return c;
+    return None;
+
+    
+    
+def testCBMCInstaller():
+  dest = prepareDestDir();
+  print "Testing CBMC installer";
+  installer = getCBMCInstaller();
+  installer.installCBMC(dest);
   
+     
+# ------------------ END INSTALLING CBMC ------------------
+    
+ 
+    
 def cloneMbeddr(dest, MbeddrDir):
   os.system("git clone " + MbeddrRepo+ " " + MbeddrDir);
   print "Checking out " + TheBranch + " branch..."
@@ -474,17 +550,18 @@ def main():
     
   
   print "Detecting CBMC"
-  j = checkCBMC()
+  installer = getCBMCInstaller();
+  j = installer.checkCBMC()
   if j != True:
     print j
-    if installCBMC(dest) != True:
+    if installer.installCBMC(dest) != True:
       print "Failed to install CBMC!\n"
       exit(1);
     else:
       print "CBMC installed!\n"
   else:
     print """You have CBMC already installed."""
-    printCBMCCopyright();
+    print installer.getCBMCCopyright();
   
   
   
