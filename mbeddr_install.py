@@ -1,5 +1,5 @@
 #bash command to run it
-#mi=`mktemp` && wget -nv mbeddr.fortiss.org/uploads/media/mbeddr_install_01.py -O $mi && python $mi; rm $mi;
+#mi=`mktemp` && wget -nv https://raw.github.com/qutorial/mbeddr_python_installer/master/mbeddr_install.py -O $mi && python $mi; rm $mi;
 
 import sys, os, subprocess, urllib2, platform, tarfile
 from os.path import expanduser
@@ -454,19 +454,6 @@ def main():
   if j != True:
     print j;
     return 1;  
-    
-  print "Detecting CBMC"
-  j = checkCBMC()
-  if j != True:
-    print j
-    if installCBMC("/home/zaur/mbeddr") != True:
-      print "Failed to install CBMC!\n"
-      exit(1);
-    else:
-      print "CBMC installed!\n"
-  else:
-    print """You have CBMC already installed."""
-    printCBMCCopyright();
   
   print "Preparing destination directory";  
   dest = prepareDestDir();
@@ -476,6 +463,23 @@ def main():
   
   MPSDir = os.path.join(dest, "MPS31");
   MbeddrDir = os.path.join(dest, "mbeddr.github");
+  
+  
+  
+  print "Detecting CBMC"
+  j = checkCBMC()
+  if j != True:
+    print j
+    if installCBMC(MbeddrDir) != True:
+      print "Failed to install CBMC!\n"
+      exit(1);
+    else:
+      print "CBMC installed!\n"
+  else:
+    print """You have CBMC already installed."""
+    printCBMCCopyright();
+  
+  
   
   if os.path.exists(MPSDir) == False or Debug == False:
     print "Downloading MPS..."
