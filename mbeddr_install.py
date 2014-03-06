@@ -428,6 +428,7 @@ class CBMCInstallerForLinux(CBMCInstallerBase):
       url = CBMC32BitLinuxUrl;
     if "Lin64" in getOs():
       url = CBMC64BitLinuxUrl;    
+    print "Downloading CBMC: " + url;
     try:
       fName = downloadFile(url, dest);
     except Exception:      
@@ -450,6 +451,7 @@ class CBMCInstallerForMac(CBMCInstallerBase):
   def downloadCBMC(self, dest):
     fName = False
     url = CBMCMacUrl;
+    print "Downloading CBMC: " + url;
     try:
       fName = downloadFile(url, dest);
     except Exception:      
