@@ -6,8 +6,6 @@ from os.path import expanduser
 import zipfile
 import os.path
 
-Debug = False
-
 EAPNum = "27"  
 MPSSourceUrl = """http://download-ln.jetbrains.com/mps/31/"""
 MPSWin = """MPS-3.1-EAP1-"""+EAPNum+""".exe"""
@@ -366,8 +364,7 @@ def installCBMC(dest):
   else:
     return c;
   
-def cloneMbeddr(dest, MbeddrDir):
-  
+def cloneMbeddr(dest, MbeddrDir):  
   if not os.path.exists(MbeddrDir):
     os.makedirs(MbeddrDir);
   else:
@@ -465,6 +462,14 @@ def main():
   MbeddrDir = os.path.join(dest, "mbeddr.github");
   
   
+  if os.path.exists(MPSDir):
+    print "Can not install MPS, the folder " + MPSDir + " already exists, please delete it first or specify a new one."
+    exit(1);
+  if os.path.exists(MbeddrDir):
+    print "Can not install mbeddr, the folder " + MbeddrDir + " already exists, please delete it first or specify a new one.\n"
+    print "Don't forget to save your changes if made to mbeddr!"
+    exit(1);
+    
   
   print "Detecting CBMC"
   j = checkCBMC()
@@ -481,20 +486,18 @@ def main():
   
   
   
-  if os.path.exists(MPSDir) == False or Debug == False:
-    print "Downloading MPS..."
-    archive = downloadMPS(dest);      
-    print "Extracting..."
-    unarchive(archive, dest);  
-    print "Deleting archive"
-    if Debug == False:
-      os.remove(archive);    
-    print "Renaming MPS folder"    
-    os.rename(os.path.join(dest, MPSArcDir), MPSDir)
   
-  if os.path.exists(MPSDir) == False or Debug == False:
-    print "Cloning mbeddr..."
-    cloneMbeddr(dest, MbeddrDir);
+  print "Downloading MPS..."
+  archive = downloadMPS(dest);      
+  print "Extracting..."
+  unarchive(archive, dest);  
+  print "Deleting archive"
+  os.remove(archive);    
+  print "Renaming MPS folder"    
+  os.rename(os.path.join(dest, MPSArcDir), MPSDir)
+  
+  print "Cloning mbeddr..."
+  cloneMbeddr(dest, MbeddrDir);
   
   print "Setting mps.vmoptions"
   configureMpsVmopts(MPSDir, MbeddrDir);
