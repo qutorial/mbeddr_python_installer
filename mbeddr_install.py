@@ -585,7 +585,7 @@ def main():
   
   print "Detecting CBMC"
   installer = getCBMCInstaller();
-  if install == None:
+  if installer == None:
     print "Problem configurring CBMC, analyses might not work!"
   else:    
     j = installer.checkCBMC()
