@@ -232,7 +232,7 @@ def checkJava():
     return InstallJavaMessage;
 
 def testJavaCheck():
-  print "Java: " + checkJava();
+  print "Java: ", checkJava();
    
 # ANT
     
@@ -250,8 +250,10 @@ def checkAnt():
     return "No ant installed, please install Apache Ant(TM)\n"
 
 def testAntCheck():
-  print "Ant: " + checkAnt();
-    
+  print "Ant: ", checkAnt();
+  
+  
+testJavaCheck();
 testAntCheck();
 
 exit(0);
