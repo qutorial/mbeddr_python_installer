@@ -239,7 +239,10 @@ def prepareDestDir():
     destdir = home;
     
   try:
-    if(not os.path.exists(destdir)):
+    if os.path.exists(destdir):
+      print "This directory already exists, please, use another one."
+      return False;
+    else:
       os.makedirs(destdir)
   except OSError:
     return False;
