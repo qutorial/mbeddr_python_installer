@@ -59,9 +59,12 @@ PATH_MACROS = """<?xml version="1.0" encoding="UTF-8"?>
 # CBMC CONFIGURATION
 CBMCVersion="""4"""
 CBMCSubVersion = """6"""
-CBMC32BitLinuxUrl = """http://www.cprover.org/cbmc/download/cbmc-"""+CBMCVersion+"-" + CBMCSubVersion + """-linux-32.tgz"""
-CBMC64BitLinuxUrl = """http://www.cprover.org/cbmc/download/cbmc-"""+CBMCVersion+"-" + CBMCSubVersion + """-linux-64.tgz"""
+CBMC32BitLinuxUrl = """http://www.cprover.org/cbmc/download/cbmc-""" + CBMCVersion + "-" + CBMCSubVersion + """-linux-32.tgz"""
+CBMC64BitLinuxUrl = """http://www.cprover.org/cbmc/download/cbmc-""" + CBMCVersion + "-" + CBMCSubVersion + """-linux-64.tgz"""
+CBMCMacFileName = """cbmc-""" + CBMCVersion + "-" + CBMCSubVersion + """.pkg"""
+CBMCMacUrl = """http://www.cprover.org/cbmc/download/""" + CBMCMacFileName;
 CBMCInstallDir = "/usr/bin"
+
 
 
 # MBEDDR CONFIGURATION
@@ -252,12 +255,6 @@ def checkAnt():
 def testAntCheck():
   print "Ant: ", checkAnt();
   
-  
-testJavaCheck();
-testAntCheck();
-
-exit(0);
-
 # Preparing a destination directory
     
 def prepareDestDir():
@@ -406,10 +403,8 @@ DAMAGE.\n"""
     fName = self.downloadCBMC(dest);
     if fName == False:
       return False;
-    
-    unarchive(fName, dest);
-    
-    if self.setUpCBMC(dest) != True:
+        
+    if self.setUpCBMC(dest, fName) != True:
       return False;
     
     c = self.checkCBMC();
@@ -442,10 +437,28 @@ class CBMCInstallerForLinux(CBMCInstallerBase):
   def getCBMCInstallPath(self):  
     return "/usr/bin/cbmc";  
     
-  def setUpCBMC(self, dest):
+  def setUpCBMC(self, dest, fname):
+    unarchive(fname, dest);
     print "\nTo finish the CBMC installation, you might be asked for the root/administrator password.\n"
     print "Password: "
     proc = subprocess.Popen(["sudo","-p", "", "ln", "-s", "--force", os.path.join(dest, "cbmc"), self.getCBMCInstallPath()], stdin=subprocess.PIPE)
+    proc.wait()
+    print "Done\n"
+    return True;
+    
+class CBMCInstallerForMac(CBMCInstallerBase):
+  def downloadCBMC(self, dest):
+    fName = False
+    url = CBMCMacUrl;
+    try:
+      fName = downloadFile(url, dest);
+    except Exception:      
+      return False;      
+    return fName;
+    
+  def setUpCBMC(self, dest, fname):
+    print "\nPlease, proceed installing CBMC..."
+    proc = subprocess.Popen(["open", fname], stdin=subprocess.PIPE)
     proc.wait()
     print "Done\n"
     return True;
@@ -454,8 +467,9 @@ class CBMCInstallerForLinux(CBMCInstallerBase):
 def getCBMCInstaller():
   if "Lin" in getOs():
     return CBMCInstallerForLinux();
-  else:
-    return None;
+  if "Mac" in getOs():
+    return CBMCInstallerForMac();
+  return None;
 
     
     
@@ -465,6 +479,8 @@ def testCBMCInstaller():
   installer = getCBMCInstaller();
   installer.installCBMC(dest);
   
+testCBMCInstaller();
+exit(0);
      
 # ------------------ END INSTALLING CBMC ------------------
     
@@ -574,18 +590,21 @@ def main():
   
   print "Detecting CBMC"
   installer = getCBMCInstaller();
-  j = installer.checkCBMC()
-  if j != True:
-    print j
-    if installer.installCBMC(dest) != True:
-      print "Failed to install CBMC!\n"
-      exit(1);
+  if install == None:
+    print "Problem configurring CBMC, analyses might not work!"
+  else:    
+    j = installer.checkCBMC()
+    if j != True:
+      print j
+      if installer.installCBMC(dest) != True:
+	print "Failed to install CBMC!\n"
+	exit(1);
+      else:
+	print "CBMC installed!\n"
     else:
-      print "CBMC installed!\n"
-  else:
-    print """You have CBMC already installed."""
-    print installer.getCBMCCopyright();
-  
+      print """You have CBMC already installed."""
+      print installer.getCBMCCopyright();
+    
   
   
   
