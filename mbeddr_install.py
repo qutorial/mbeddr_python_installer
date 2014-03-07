@@ -577,6 +577,7 @@ def testMPSInstaller():
 def cloneMbeddr(dest, MbeddrDir):
   os.system("git clone " + MbeddrRepo+ " " + MbeddrDir);
   print "Checking out " + TheBranch + " branch..."
+  os.chdir(MbeddrDir);
   os.system("git --git-dir="+ os.path.join(MbeddrDir, ".git") + " reset --hard");
   os.system("git --git-dir="+ os.path.join(MbeddrDir, ".git") + " checkout " + TheBranch);
     
