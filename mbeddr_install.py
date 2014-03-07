@@ -59,7 +59,7 @@ PATH_MACROS = """<?xml version="1.0" encoding="UTF-8"?>
 
 # CBMC CONFIGURATION
 CBMCVersion="""4"""
-CBMCSubVersion = """7"""
+CBMCSubVersion = """6"""
 CBMC32BitLinuxUrl = """http://www.cprover.org/cbmc/download/cbmc-""" + CBMCVersion + "-" + CBMCSubVersion + """-linux-32.tgz"""
 CBMC64BitLinuxUrl = """http://www.cprover.org/cbmc/download/cbmc-""" + CBMCVersion + "-" + CBMCSubVersion + """-linux-64.tgz"""
 CBMCMacFileName = """cbmc-""" + CBMCVersion + "-" + CBMCSubVersion + """.pkg"""
@@ -437,7 +437,7 @@ class CBMCInstallerForMac(CBMCInstallerBase):
     return True;
 
 #TODO Write to CBMC team that CBMC crashes on Mac, AND REMOVE THIS WORKAROUND!
-  def checkCBMC(self):
+  def checkCBMC(self):    
     return True
 
 def getCBMCInstaller():
