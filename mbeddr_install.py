@@ -502,6 +502,9 @@ class MPSInstallerBase:
     print "Not implemented for this platform in MPSInstallerBase"
     return False;
     
+  # This is only relevant for MAC OS X  
+  def printInstallMPSMessage(self):
+    return;
     
 class MPSInstallerForLinux(MPSInstallerBase):  
   
@@ -526,7 +529,7 @@ class MPSInstallerForLinux(MPSInstallerBase):
     
 class MPSInstallerForMac(MPSInstallerBase):
   def setUpMPS(self, dest):
-    print "Please, move MPS into Applications";
+    self.printInstallMPSMessage();
     proc = subprocess.Popen(["open", self.archive], stdin=subprocess.PIPE)    
     print "Continuing installation..."
     
@@ -536,6 +539,9 @@ class MPSInstallerForMac(MPSInstallerBase):
   
   def getMPSPath(self):
     return MPSMacDir;
+    
+  def printInstallMPSMessage(self):
+    print "  *********   Please, move MPS into Applications   *********";
     
   
 def getMPSInstaller():
@@ -609,9 +615,22 @@ def buildMbeddr(MbeddrDir):
   BuildPath = os.path.join(MbeddrDir, "code", "languages");
   os.chdir(BuildPath);
   os.system(os.path.join(BuildPath, "buildLanguages.sh"));
+  
+# ---------- FINAL GREETINGS ------------
+  
+  
+def greetingsLinux(MPSDir, MbeddrDir):
+  print """\nTo start working: Run\n"""+os.path.join(MPSDir, "mps.sh")+"""\nand go through the tutorial project from:"""
+
+def greetingsMac(MPSDir, MbeddrDir):
+  print """\nTo start working: Run MPS (located in Applications) and go through the tutorial project from:"""
+
 
 def greetings(MPSDir, MbeddrDir):
-  print """\nTo start working: Run\n"""+os.path.join(MPSDir, "mps.sh")+"""\nand go through the tutorial project from"""
+   if "Lin" in getOs():
+    greetingsLinux(MPSDir, MbeddrDir);
+  if "Mac" in getOs():
+    greetingsMac(MPSDir, MbeddrDir);
   print os.path.join(MbeddrDir, "code", "application"),""" folder.\n"""
   
   print """\nVisit mbeddr.com to learn what's new!\n"""
@@ -620,7 +639,9 @@ def greetings(MPSDir, MbeddrDir):
   print "-----------------------------------------------------------\n"
   print """This installer for mbeddr advanced users has been built by molotnikov (at) fortiss (dot) org.\n
 Please, let me know, if it does not work for you!"""
-  
+
+
+# ---------- FINAL GREETINGS ------------
 
   
 def main():
@@ -685,10 +706,11 @@ def main():
   print "Cloning mbeddr..."
   cloneMbeddr(dest, MbeddrDir);
   
-  print "Waiting for MPS to install..."
-  while(installer.isMPSInstalled() == False):
-    time.sleep(2);
-    
+  if(installer.isMPSInstalled() == False):
+    installer.printInstallMPSMessage();
+    print "Waiting for MPS to install..."  
+    while(installer.isMPSInstalled() == False):
+      time.sleep(2);    
     
   MPSDir = installer.getMPSPath();
   print "Setting mps.vmoptions"
