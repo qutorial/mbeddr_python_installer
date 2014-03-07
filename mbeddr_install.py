@@ -532,7 +532,7 @@ class MPSInstallerForMac(MPSInstallerBase):
     
   
   def isMPSInstalled(self):
-    return os.path.exists(os.path.join(self.getMPSPath(), "bin", "mps.vmoptions");
+    return os.path.exists(os.path.join(self.getMPSPath(), "bin", "mps.vmoptions"));
   
   def getMPSPath(self):
     return MPSMacDir;
