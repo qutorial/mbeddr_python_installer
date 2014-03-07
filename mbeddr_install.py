@@ -532,7 +532,7 @@ class MPSInstallerForMac(MPSInstallerBase):
     
   
   def isMPSInstalled(self):
-    return os.path.exists(self.getMPSPath());
+    return os.path.exists(os.path.join(self.getMPSPath(), "bin", "mps.vmoptions");
   
   def getMPSPath(self):
     return MPSMacDir;
@@ -557,11 +557,7 @@ def testMPSInstaller():
   while(installer.isMPSInstalled() == False):
     time.sleep(2);
   print "MPS Installed to: " + installer.getMPSPath();
-    
-
-testMPSInstaller();
-exit(0);
- 
+     
 # ------------------ END INSTALLING MPS ------------------
 
 
