@@ -285,32 +285,6 @@ def prepareDestDir():
   return destdir;
   
   
-  
-# Downloading MPS
-
-def MPSFilename():
-  url="";
-  s = getOs();
-  if "Lin" in s:
-    url+=MPSLin
-  if "Mac" in s:
-    url+=MPSMac
-  if "Win" in s:
-    url+=MPSWin
-  return url;
-
-def downloadMPS(dest):
-  fName = MPSFilename();
-  url = MPSSourceUrl + fName; 
-  fName = os.path.join(dest, fName);  
-  if os.path.exists(fName):
-    return fName;
-  else:
-    return downloadFile(url, dest);
-  
-
-
-
 # ------------------ INSTALLING CBMC ------------------
 
 class CBMCInstallerBase:
@@ -482,7 +456,116 @@ def testCBMCInstaller():
      
 # ------------------ END INSTALLING CBMC ------------------
     
+
+    
+    
+# ------------------ INSTALLING MPS ------------------
+
+
+def MPSFilename():
+  url="";
+  s = getOs();
+  if "Lin" in s:
+    url+=MPSLin
+  if "Mac" in s:
+    url+=MPSMac
+  if "Win" in s:
+    url+=MPSWin
+  return url;
+
+def downloadMPSOSDep(dest):
+  fName = MPSFilename();
+  url = MPSSourceUrl + fName; 
+  fName = os.path.join(dest, fName);  
+  if os.path.exists(fName):
+    return fName;
+  else:
+    return downloadFile(url, dest);
+  
+
+class MPSInstallerBase:
+  archive = None
+  mpsPath = None
+  def downloadMPS(self, dest):
+    self.archive = downloadMPSOSDep(dest);
+    return self.archive;
+    
+  def setUpMPS(self, dest):
+    print "Not implemented for this platform in MPSInstallerBase"
+    return None   
+    
+  def getMPSPath(self):
+    return self.mpsPath;
+    
+  def isMPSInstalled(self):
+    print "Not implemented for this platform in MPSInstallerBase"
+    return False;
+    
+    
+class MPSInstallerForLinux(MPSInstallerBase):  
+  
+  isInstalled = False;
+  
+  def setUpMPS(self, dest):
+    MPSDir = os.path.join(dest, "MPS31");
+    if os.path.exists(MPSDir):
+      print "Can not install MPS, the folder " + MPSDir + " already exists, please delete it first or specify a new one."
+      return False;    
+    print "Extracting..."
+    unarchive(self.archive, dest);  
+    print "Deleting archive"
+    os.remove(self.archive);    
+    print "Renaming MPS folder"    
+    os.rename(os.path.join(dest, MPSArcDir), MPSDir)
+    self.mpsPath = MPSDir;
+    self.isInstalled = True;
+    
+  def isMPSInstalled(seld):
+    return seld.isInstalled;
+    
+class MPSInstallerForMac(MPSInstallerBase):
+  def setUpMPS(self, dest):
+    print "Please, move MPS into Applications";
+    proc = subprocess.Popen(["open", self.archive], stdin=subprocess.PIPE)    
+    print "Continuing installation..."
+    
+  
+  def isMPSInstalled(self):
+    return os.path.exists(self.getMPSPath());
+  
+  def getMPSPath(self):
+    return "/blah/blah/foo";
+    
+  
+def getMPSInstaller():
+  if "Lin" in getOs():
+    return MPSInstallerForLinux();
+  if "Mac" in getOs():
+    return MPSInstallerForMac();
+  return None;
+
+    
+    
+def testMPSInstaller():
+  dest = prepareDestDir();
+  print "Testing MPS installer";
+  installer = getMPSInstaller();
+  installer.downloadMPS(dest);  
+  installer.setUpMPS(dest);
+  while(installer.isMPSInstalled() == False):
+    print "Not yet installed. Wait more?"
+    accept = str(raw_input()).strip();
+    if "y" != accept:
+      return;    
+  print "MPS Installed to: " + installer.getMPSPath();
+    
+
+testMPSInstaller();
+exit(0);
  
+# ------------------ END INSTALLING MPS ------------------
+
+
     
 def cloneMbeddr(dest, MbeddrDir):
   os.system("git clone " + MbeddrRepo+ " " + MbeddrDir);
@@ -573,19 +656,6 @@ def main():
     print "Problem creating destination directory";
     return 1;
   
-  MPSDir = os.path.join(dest, "MPS31");
-  MbeddrDir = os.path.join(dest, "mbeddr.github");
-  
-  
-  if os.path.exists(MPSDir):
-    print "Can not install MPS, the folder " + MPSDir + " already exists, please delete it first or specify a new one."
-    exit(1);
-  if os.path.exists(MbeddrDir):
-    print "Can not install mbeddr, the folder " + MbeddrDir + " already exists, please delete it first or specify a new one.\n"
-    print "Don't forget to save your changes if made to mbeddr!"
-    exit(1);
-    
-  
   print "Detecting CBMC"
   installer = getCBMCInstaller();
   if installer == None:
@@ -603,17 +673,19 @@ def main():
       print """You have CBMC already installed."""
       print installer.getCBMCCopyright();
     
+    
+  #TODO Install MPS
   
-#TODO Download ZIPped MPS always
-  print "Downloading MPS..."
-  archive = downloadMPS(dest);      
-  print "Extracting..."
-  unarchive(archive, dest);  
-  print "Deleting archive"
-  os.remove(archive);    
-  print "Renaming MPS folder"    
-  os.rename(os.path.join(dest, MPSArcDir), MPSDir)
   
+  
+  
+  
+  MbeddrDir = os.path.join(dest, "mbeddr.github");      
+  if os.path.exists(MbeddrDir):
+    print "Can not install mbeddr, the folder " + MbeddrDir + " already exists, please delete it first or specify a new one.\n"
+    print "Don't forget to save your changes if made to mbeddr!"
+    exit(1);
+    
   print "Cloning mbeddr..."
   cloneMbeddr(dest, MbeddrDir);
   
