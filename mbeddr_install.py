@@ -541,7 +541,7 @@ class MPSInstallerForMac(MPSInstallerBase):
     
   
   def isMPSInstalled(self):
-    return os.path.exists(os.path.join(self.getMPSPath(), "bin", "mps.vmoptions"));
+    return os.path.exists(os.path.join(self.getMPSPath(), "bin", "mps.vmoptions")) and os.path.exists(os.path.join(self.getMPSPath(), "plugins"))
   
   def getMPSPath(self):
     return MPSMacDir;
@@ -717,6 +717,9 @@ def main():
     print "Waiting for MPS to install..."  
     while(installer.isMPSInstalled() == False):
       time.sleep(2);    
+    print "This can take a while..."
+    # Wait untill everything is really copied
+    time.sleep(20);
   
   installer.removeArchive();
     
