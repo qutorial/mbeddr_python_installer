@@ -535,9 +535,12 @@ class MPSInstallerForLinux(MPSInstallerBase):
     return seld.isInstalled;
     
 class MPSInstallerForMac(MPSInstallerBase):
-  def setUpMPS(self, dest):
-    self.printInstallMPSMessage();
+  def setUpMPS(self, dest):    
     proc = subprocess.Popen(["open", self.archive], stdin=subprocess.PIPE)    
+    self.printInstallMPSMessage();
+    time.sleep(10);
+    
+    
     print "Continuing installation..."
     
   
@@ -549,6 +552,7 @@ class MPSInstallerForMac(MPSInstallerBase):
     
   def printInstallMPSMessage(self):
     print "  *********   Please, move MPS into Applications   *********";
+    print "A window with MPS image should be opened in front of you now, please, drag MPS into Applications!"
     print "In the case you do not have  a window opened with MPS installer, navigate, please, to the mounted MPS disk in Finder"
     
   
