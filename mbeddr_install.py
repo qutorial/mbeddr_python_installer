@@ -441,6 +441,7 @@ class CBMCInstallerForMac(CBMCInstallerBase):
 
 #TODO Write to CBMC team that CBMC crashes on Mac, AND REMOVE THIS WORKAROUND!
   def checkCBMC(self):    
+    print "Currently CBMC installation does not work for Mac OS X, this is a stub :( \n *** PLEASE INSTALL CBMC MANUALLY ***\n" 
     return True
 
 def getCBMCInstaller():
