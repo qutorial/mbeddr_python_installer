@@ -294,7 +294,7 @@ def MPSFilename():
   if "Lin" in s:
     url+=MPSLin
   if "Mac" in s:
-    url+=MPSZip
+    url+=MPSMac
   if "Win" in s:
     url+=MPSWin
   return url;
