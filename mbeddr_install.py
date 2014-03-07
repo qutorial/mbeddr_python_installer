@@ -506,6 +506,11 @@ class MPSInstallerBase:
   def printInstallMPSMessage(self):
     return;
     
+  def removeArchive(self):
+    print "Deleting downloaded MPS archive"
+    os.remove(self.archive);  
+    
+    
 class MPSInstallerForLinux(MPSInstallerBase):  
   
   isInstalled = False;
@@ -516,9 +521,7 @@ class MPSInstallerForLinux(MPSInstallerBase):
       print "Can not install MPS, the folder " + MPSDir + " already exists, please delete it first or specify a new one."
       return False;    
     print "Extracting..."
-    unarchive(self.archive, dest);  
-    print "Deleting archive"
-    os.remove(self.archive);    
+    unarchive(self.archive, dest);        
     print "Renaming MPS folder"    
     os.rename(os.path.join(dest, MPSArcDir), MPSDir)
     self.mpsPath = MPSDir;
@@ -710,6 +713,8 @@ def main():
     print "Waiting for MPS to install..."  
     while(installer.isMPSInstalled() == False):
       time.sleep(2);    
+  
+  installer.removeArchive();
     
   MPSDir = installer.getMPSPath();
   print "Setting mps.vmoptions"
