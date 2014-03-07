@@ -549,6 +549,7 @@ class MPSInstallerForMac(MPSInstallerBase):
     
   def printInstallMPSMessage(self):
     print "  *********   Please, move MPS into Applications   *********";
+    print "In the case you do not have  a window opened with MPS installer, navigate, please, to the mounted MPS disk in Finder"
     
   
 def getMPSInstaller():
