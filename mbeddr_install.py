@@ -294,7 +294,7 @@ def MPSFilename():
   if "Lin" in s:
     url+=MPSLin
   if "Mac" in s:
-    url+=MPSMac
+    url+=MPSZip
   if "Win" in s:
     url+=MPSWin
   return url;
@@ -604,6 +604,7 @@ def main():
       print installer.getCBMCCopyright();
     
   
+#TODO Download ZIPped MPS always
   print "Downloading MPS..."
   archive = downloadMPS(dest);      
   print "Extracting..."
