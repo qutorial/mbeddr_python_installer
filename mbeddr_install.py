@@ -627,14 +627,13 @@ def greetingsMac(MPSDir, MbeddrDir):
 
 
 def greetings(MPSDir, MbeddrDir):
-   if "Lin" in getOs():
+  if "Lin" in getOs():
     greetingsLinux(MPSDir, MbeddrDir);
   if "Mac" in getOs():
     greetingsMac(MPSDir, MbeddrDir);
-  print os.path.join(MbeddrDir, "code", "application"),""" folder.\n"""
   
-  print """\nVisit mbeddr.com to learn what's new!\n"""
-  
+  print os.path.join(MbeddrDir, "code", "application"),""" folder.\n"""  
+  print """\nVisit mbeddr.com to learn what's new!\n"""  
   print "\nWelcome to mbeddr. C the difference C the future.\n";
   print "-----------------------------------------------------------\n"
   print """This installer for mbeddr advanced users has been built by molotnikov (at) fortiss (dot) org.\n
