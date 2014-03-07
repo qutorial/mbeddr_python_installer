@@ -537,11 +537,11 @@ class MPSInstallerForLinux(MPSInstallerBase):
 class MPSInstallerForMac(MPSInstallerBase):
   def setUpMPS(self, dest):    
     proc = subprocess.Popen(["open", self.archive], stdin=subprocess.PIPE)    
-    self.printInstallMPSMessage();
-    time.sleep(10);
-    
-    
+    self.printInstallMPSMessage();              
+    print "\nReady? [y]"
+    accept = str(raw_input()).strip();            
     print "Continuing installation..."
+    time.sleep(10);
     
   
   def isMPSInstalled(self):
