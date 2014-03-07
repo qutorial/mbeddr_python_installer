@@ -14,6 +14,7 @@ MPSMac = """MPS-3.1-EAP1-"""+EAPNum+"""-macos.dmg"""
 MPSLin = """MPS-3.1-EAP1-"""+EAPNum+""".tar.gz"""
 MPSZip = """MPS-3.1-EAP1-"""+EAPNum+""".zip"""
 MPSArcDir = """MPS 3.1 EAP"""
+MPSMacDir = """/Applications/MPS 3.1 EAP.app"""
 
 MPS_VMOPTIONS="""-client
 -Xss1024k
@@ -114,7 +115,7 @@ sudo apt-get install git
 
 ################### END OF CONFIGURATION ###################
 
-import sys, os, subprocess, urllib2, platform, tarfile
+import sys, os, subprocess, urllib2, platform, tarfile, time
 from os.path import expanduser
 import zipfile, tarfile
 import os.path
@@ -534,7 +535,7 @@ class MPSInstallerForMac(MPSInstallerBase):
     return os.path.exists(self.getMPSPath());
   
   def getMPSPath(self):
-    return "/blah/blah/foo";
+    return MPSMacDir;
     
   
 def getMPSInstaller():
@@ -552,11 +553,9 @@ def testMPSInstaller():
   installer = getMPSInstaller();
   installer.downloadMPS(dest);  
   installer.setUpMPS(dest);
+  print "Waiting for MPS to install..."
   while(installer.isMPSInstalled() == False):
-    print "Not yet installed. Wait more?"
-    accept = str(raw_input()).strip();
-    if "y" != accept:
-      return;    
+    time.sleep(2);
   print "MPS Installed to: " + installer.getMPSPath();
     
 
@@ -676,8 +675,9 @@ def main():
     
   #TODO Install MPS
   
-  
-  
+  installer = getMPSInstaller();
+  installer.downloadMPS(dest);  
+  installer.setUpMPS(dest);
   
   
   MbeddrDir = os.path.join(dest, "mbeddr.github");      
@@ -689,6 +689,12 @@ def main():
   print "Cloning mbeddr..."
   cloneMbeddr(dest, MbeddrDir);
   
+  print "Waiting for MPS to install..."
+  while(installer.isMPSInstalled() == False):
+    time.sleep(2);
+    
+    
+  MPSDir = installer.getMPSPath();
   print "Setting mps.vmoptions"
   configureMpsVmopts(MPSDir, MbeddrDir);
   
