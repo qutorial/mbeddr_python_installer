@@ -515,11 +515,6 @@ class CBMCInstallerForMac(CBMCInstallerBase):
     print "Continuing installation...\n"
     return True;
 
-#TODO Write to CBMC team that CBMC crashes on Mac, AND REMOVE THIS WORKAROUND!
-  def checkCBMC(self):    
-    print "Currently CBMC installation does not work for Mac OS X, this is a stub :( \n *** PLEASE INSTALL CBMC MANUALLY ***\n" 
-    return True
-
 def getCBMCInstaller():
   if "Lin" in getOs():
     return CBMCInstallerForLinux();
@@ -528,13 +523,36 @@ def getCBMCInstaller():
   return None;
 
     
+def installCBMC(dest):
+  print "Detecting CBMC"
+  cbmcInstaller = getCBMCInstaller();
+  if cbmcInstaller == None:
+    print "Problem configurring CBMC, analyses might not work!"
+  else:    
+    j = cbmcInstaller.checkCBMC()
+    if j != True:
+      print j
+      
+      #TODO this is a Mac Work around, when CBMC fails, remove it when CBMC is fixed
+      if "Mac" in getOs():
+	print "Please, install CBMC from sources on Mac."
+	return;
+	
+      if cbmcInstaller.installCBMC(dest) != True:
+	print "Failed to install CBMC!\n"
+	exit(1);
+      else:
+	print "CBMC installed!\n"
+    else:
+      print """You have CBMC already installed."""
+      print cbmcInstaller.getCBMCCopyright();
+    
     
 def testCBMCInstaller():
   dest = prepareDestDir();
   print "Testing CBMC installer";
-  installer = getCBMCInstaller();
-  return installer.installCBMC(dest);
-     
+  installCBMC(dest);
+  
 # ------------------ END INSTALLING CBMC ------------------
     
 
@@ -610,9 +628,9 @@ class MPSInstallerForMac(MPSInstallerBase):
 	print "Image not mounted, installation fails!"
 	exit(1);	      
     
-    self.path = os.path.join(dest, "MPS31.app");
+    self.mpsPath = os.path.join(dest, "MPS31.app");
     print "Copying MPS...";
-    shutil.copytree(MPSVolumesDir, self.path);
+    shutil.copytree(MPSVolumesDir, self.mpsPath);
     print "Ready!"
     print "You can eject the MPS drive!"    
     
@@ -767,32 +785,21 @@ def main():
     print "Problem creating destination directory";
     return 1;
   
-  print "Detecting CBMC"
-  cbmcInstaller = getCBMCInstaller();
-  if cbmcInstaller == None:
-    print "Problem configurring CBMC, analyses might not work!"
-  else:    
-    j = cbmcInstaller.checkCBMC()
-    if j != True:
-      print j
-      if cbmcInstaller.installCBMC(dest) != True:
-	print "Failed to install CBMC!\n"
-	exit(1);
-      else:
-	print "CBMC installed!\n"
-    else:
-      print """You have CBMC already installed."""
-      print cbmcInstaller.getCBMCCopyright();
-    
-    
-  #TODO Install MPS
   
+  
+  
+  #Installing CBMC
+  installCBMC(dest);
+    
+  
+  
+  #Installing MPS
   mpsInstaller = getMPSInstaller();
   mpsInstaller.downloadMPS(dest);  
   mpsInstaller.setUpMPS(dest);
+  MPSDir = mpsInstaller.getMPSPath();
   
-  
-  
+    
   MbeddrDir = os.path.join(dest, "mbeddr.github");      
   if os.path.exists(MbeddrDir):
     print "Can not install mbeddr, the folder " + MbeddrDir + " already exists, please delete it first or specify a new one.\n"
@@ -801,8 +808,7 @@ def main():
     
   print "Cloning mbeddr..."
   cloneMbeddr(dest, MbeddrDir);
-      
-  MPSDir = mpsInstaller.getMPSPath();
+  
   print "Setting up MPS to work with mbeddr..."
   configureMPSWithMbeddr(MPSDir, MbeddrDir);
   
