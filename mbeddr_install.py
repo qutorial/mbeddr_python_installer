@@ -535,7 +535,7 @@ def installCBMC(dest):
       
       #TODO this is a Mac Work around, when CBMC fails, remove it when CBMC is fixed
       if "Mac" in getOs():
-	print "Please, install CBMC from sources on Mac."
+	print " * Please, install CBMC from sources on Mac: http://www.cprover.org/cbmc/ * \nAnalyses will not work without CBMC.\n"
 	return;
 	
       if cbmcInstaller.installCBMC(dest) != True:
@@ -632,7 +632,7 @@ class MPSInstallerForMac(MPSInstallerBase):
     print "Copying MPS...";
     shutil.copytree(MPSVolumesDir, self.mpsPath);
     print "Ready!"
-    print "You can eject the MPS drive!"    
+    print " * You can eject the MPS drive now!"    
     
   
 def getMPSInstaller():
