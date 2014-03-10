@@ -617,10 +617,10 @@ class MPSInstallerForMac(MPSInstallerBase):
     #accept = str(raw_input()).strip();          
     #proc = subprocess.Popen(["open", self.archive], stdin=subprocess.PIPE)    
     proc = subprocess.Popen(["hdiutil", "-quiet", "attach", self.archive], stdin=subprocess.PIPE)
-    time.sleep(5);
+    proc.wait();
     if not os.path.exists(MPSVolumesDir):
       print "Waiting for the image to mount..."
-      time.sleep(10);
+      time.sleep(5);
       if not os.path.exists(MPSVolumesDir):
 	print "Image not mounted, installation fails!"
 	exit(1);	  
