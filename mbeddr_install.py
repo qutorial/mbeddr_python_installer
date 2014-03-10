@@ -662,22 +662,22 @@ def getFileNameToWritePropertiesTo(MPSDir):
   if "Mac" in getOs():
     return os.path.join(MPSDir, "Contents", "Info.plist");
     
-def getTemplateForVMOpts(MpsDir):
+def getTemplateForMPSProperties(MpsDir):
   if "Lin" in getOs():
     return MPS_VMOPTIONS;
   if "Mac" in getOs():
     return MPS_INFO_PLIST;
 
-def writeVMOpts(MPSDir, ConfigPath, SysPath):
-  opts = getTemplateForVMOpts();
+def writeMPSProperties (MPSDir, ConfigPath, SysPath):
+  opts = getTemplateForMPSProperties();
   opts = opts.replace("IdeaConfig", ConfigPath);
   opts = opts.replace("IdeaSystem", SysPath);
        
-  f = open( getFileNameToWritePropertiesTo(MPSDir, 'w');    
+  f = open( getFileNameToWritePropertiesTo(MPSDir) , 'w');    
   f.write(opts);
   f.close();
   
-def configureMpsVmopts(MPSDir, MbeddrDir):
+def configureMPSWithMbeddr(MPSDir, MbeddrDir):
     ConfigPath = os.path.join(MPSDir, "IdeaConfig");
     if not os.path.exists(ConfigPath):
       os.makedirs(ConfigPath);
@@ -698,7 +698,7 @@ def configureMpsVmopts(MPSDir, MbeddrDir):
     f.write(PATH_MACROS.replace("MbeddrDir", MbeddrDir));
     f. close();
     
-    writeVMOpts(MPSDir, ConfigPath, SysPath);
+    writeMPSProperties(MPSDir, ConfigPath, SysPath);
     
     
 
@@ -827,8 +827,8 @@ def main():
   installer.removeArchive();
     
   MPSDir = installer.getMPSPath();
-  print "Setting mps.vmoptions"
-  configureMpsVmopts(MPSDir, MbeddrDir);
+  print "Setting up MPS to work with mbeddr..."
+  configureMPSWithMbeddr(MPSDir, MbeddrDir);
   
   print "Setting up mbeddr..."
   configureMbeddr(MPSDir, MbeddrDir);
