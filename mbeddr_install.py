@@ -616,7 +616,7 @@ class MPSInstallerForMac(MPSInstallerBase):
     #print "\nProceed? [y]"
     #accept = str(raw_input()).strip();          
     #proc = subprocess.Popen(["open", self.archive], stdin=subprocess.PIPE)    
-    proc = subprocess.Popen(["hdiutil", "attach", self.archive], stdin=subprocess.PIPE)
+    proc = subprocess.Popen(["hdiutil", "-quiet", "attach", self.archive], stdin=subprocess.PIPE)
     time.sleep(5);
     if not os.path.exists(MPSVolumesDir):
       print "Waiting for the image to mount..."
@@ -660,6 +660,7 @@ def testMPSInstaller():
   while(installer.isMPSInstalled() == False):
     time.sleep(2);
   print "MPS Installed to: " + installer.getMPSPath();
+  installer.removeArchive();
   
 testMPSInstaller();
 exit (0);
