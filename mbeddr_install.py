@@ -101,7 +101,7 @@ MPS_INFO_PLIST="""<!DOCTYPE plist PUBLIC '-//Apple Computer//DTD PLIST 1.0//EN' 
         <string>false</string>
       </dict>
       <key>VMOptions</key>
-      <string>-client -Xss1024k -ea -Xmx1100m -XX:MaxPermSize=256m -XX:NewSize=256m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8 -Dapple.awt.graphics.UseQuartz=true -Didea.paths.selector=MPS31 -Didea.config.path=IdeaConfig -Didea.system.path=IdeaSystem</string>
+      <string>-client -Xss1024k -ea -Xmx1100m -XX:MaxPermSize=256m -XX:NewSize=256m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8 -Dapple.awt.graphics.UseQuartz=true -Didea.paths.selector=MPS31 -Didea.config.path="IdeaConfig" -Didea.system.path="IdeaSystem"</string>
       <key>WorkingDirectory</key>
       <string>$APP_PACKAGE/bin</string>
     </dict>
