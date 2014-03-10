@@ -18,7 +18,7 @@ MPSLin = """MPS-3.1-EAP1-"""+EAPNum+""".tar.gz"""
 MPSZip = """MPS-3.1-EAP1-"""+EAPNum+""".zip"""
 MPSArcDir = """MPS 3.1 EAP"""
 MPSMacDir = """/Applications/MPS 3.1 EAP.app"""
-MPSVolumesDir = """/Volumes/MPS 3.1 EAP"""
+MPSVolumesDir = """/Volumes/MPS 3.1 EAP/MPS 3.1 EAP.app"""
 
 MPS_VMOPTIONS="""-client
 -Xss1024k
@@ -638,7 +638,7 @@ class MPSInstallerForMac(MPSInstallerBase):
     return self.mpsPath;
     
   def printInstallMPSMessage(self):
-    print """"This installer is going to copy MPS to the installation directory, 
+    print """This installer is going to copy MPS to the installation directory, 
 please, *do not drag MPS to Applications* when a window pops up!"""
     
   
