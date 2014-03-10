@@ -613,7 +613,8 @@ class MPSInstallerForMac(MPSInstallerBase):
     self.path = os.path.join(dest, "MPS31.app");
     print "Copying MPS...";
     shutil.copytree(MPSVolumesDir, self.path);
-    
+    print "Ready!"
+    print "You can eject the MPS drive!"    
     
   
 def getMPSInstaller():
@@ -631,14 +632,8 @@ def testMPSInstaller():
   installer = getMPSInstaller();
   installer.downloadMPS(dest);  
   installer.setUpMPS(dest);
-  print "Waiting for MPS to install..."
-  while(installer.isMPSInstalled() == False):
-    time.sleep(2);
   print "MPS Installed to: " + installer.getMPSPath();
-  installer.removeArchive();
   
-testMPSInstaller();
-exit (0);
      
 # ------------------ END INSTALLING MPS ------------------
 
