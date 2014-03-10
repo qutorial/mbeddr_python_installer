@@ -621,9 +621,9 @@ class MPSInstallerForMac(MPSInstallerBase):
     if not os.path.exists(MPSVolumesDir):
       print "Waiting for the image to mount..."
       time.sleep(10);
-	if not os.path.exists(MPSVolumesDir):
-	  print "Image not mounted, installation fails!"
-	  exit(1);
+      if not os.path.exists(MPSVolumesDir):
+	print "Image not mounted, installation fails!"
+	exit(1);
 	  
     self.path = os.path.join(dest, "MPS31");
     print "Copying MPS...";
