@@ -690,6 +690,8 @@ def configureMPSWithMbeddr(MPSDir, MbeddrDir):
 
     
 def cloneMbeddr(dest, MbeddrDir):
+  if not os.path.exists(MbeddrDir):
+      os.makedirs(MbeddrDir);
   os.chdir(MbeddrDir);
   os.system("git clone " + MbeddrRepo+ " .");
   print "Checking out " + TheBranch + " branch..."  
