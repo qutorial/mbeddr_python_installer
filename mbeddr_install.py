@@ -612,19 +612,18 @@ class MPSInstallerForLinux(MPSInstallerBase):
     
 class MPSInstallerForMac(MPSInstallerBase):
   def setUpMPS(self, dest):    
-    self.printInstallMPSMessage();
-    print "\nProceed? [y]"
-    accept = str(raw_input()).strip();          
-    proc = subprocess.Popen(["open", self.archive], stdin=subprocess.PIPE)    
-    
+    #self.printInstallMPSMessage();
+    #print "\nProceed? [y]"
+    #accept = str(raw_input()).strip();          
+    #proc = subprocess.Popen(["open", self.archive], stdin=subprocess.PIPE)    
+    proc = subprocess.Popen(["hdiutil", "attach", self.archive], stdin=subprocess.PIPE)
     time.sleep(5);
     if not os.path.exists(MPSVolumesDir):
       print "Waiting for the image to mount..."
       time.sleep(10);
       if not os.path.exists(MPSVolumesDir):
 	print "Image not mounted, installation fails!"
-	exit(1);
-	  
+	exit(1);	  
     self.path = os.path.join(dest, "MPS31.app");
     print "Copying MPS...";
     shutil.copytree(MPSVolumesDir, self.path);    
@@ -635,7 +634,7 @@ class MPSInstallerForMac(MPSInstallerBase):
     return True;
   
   def getMPSPath(self):
-    return self.mpsPath;
+    return self.path;
     
   def printInstallMPSMessage(self):
     print """This installer is going to copy MPS to the installation directory, 
