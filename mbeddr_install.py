@@ -571,31 +571,24 @@ class MPSInstallerBase:
     self.archive = downloadMPSOSDep(dest);
     return self.archive;
     
-  def setUpMPS(self, dest):
+  def setUpMPSHook(self, dest):
     print "Not implemented for this platform in MPSInstallerBase"
     return None   
     
+  def setUpMPS(self, dest):
+    self.setUpMPSHook(dest);    
+    self.removeArchive();
+    
   def getMPSPath(self):
     return self.mpsPath;
-    
-  def isMPSInstalled(self):
-    print "Not implemented for this platform in MPSInstallerBase"
-    return False;
-    
-  # This is only relevant for MAC OS X  
-  def printInstallMPSMessage(self):
-    return;
     
   def removeArchive(self):
     print "Deleting downloaded MPS archive"
     os.remove(self.archive);  
     
     
-class MPSInstallerForLinux(MPSInstallerBase):  
-  
-  isInstalled = False;
-  
-  def setUpMPS(self, dest):
+class MPSInstallerForLinux(MPSInstallerBase):    
+  def setUpMPSHook(self, dest):
     MPSDir = os.path.join(dest, "MPS31");
     if os.path.exists(MPSDir):
       print "Can not install MPS, the folder " + MPSDir + " already exists, please delete it first or specify a new one."
@@ -605,17 +598,9 @@ class MPSInstallerForLinux(MPSInstallerBase):
     print "Renaming MPS folder"    
     os.rename(os.path.join(dest, MPSArcDir), MPSDir)
     self.mpsPath = MPSDir;
-    self.isInstalled = True;
-    
-  def isMPSInstalled(seld):
-    return seld.isInstalled;
     
 class MPSInstallerForMac(MPSInstallerBase):
-  def setUpMPS(self, dest):    
-    #self.printInstallMPSMessage();
-    #print "\nProceed? [y]"
-    #accept = str(raw_input()).strip();          
-    #proc = subprocess.Popen(["open", self.archive], stdin=subprocess.PIPE)    
+  def setUpMPSHook(self, dest):    
     proc = subprocess.Popen(["hdiutil", "attach", "-quiet", self.archive], stdin=subprocess.PIPE)
     proc.wait();
     if not os.path.exists(MPSVolumesDir):
@@ -623,22 +608,12 @@ class MPSInstallerForMac(MPSInstallerBase):
       time.sleep(5);
       if not os.path.exists(MPSVolumesDir):
 	print "Image not mounted, installation fails!"
-	exit(1);	  
+	exit(1);	      
+    
     self.path = os.path.join(dest, "MPS31.app");
     print "Copying MPS...";
-    shutil.copytree(MPSVolumesDir, self.path);    
-    print "Continuing installation..."
+    shutil.copytree(MPSVolumesDir, self.path);
     
-  
-  def isMPSInstalled(self):
-    return True;
-  
-  def getMPSPath(self):
-    return self.path;
-    
-  def printInstallMPSMessage(self):
-    print """This installer is going to copy MPS to the installation directory, 
-please, *do not drag MPS to Applications* when a window pops up!"""
     
   
 def getMPSInstaller():
@@ -796,28 +771,29 @@ def main():
     return 1;
   
   print "Detecting CBMC"
-  installer = getCBMCInstaller();
-  if installer == None:
+  cbmcInstaller = getCBMCInstaller();
+  if cbmcInstaller == None:
     print "Problem configurring CBMC, analyses might not work!"
   else:    
-    j = installer.checkCBMC()
+    j = cbmcInstaller.checkCBMC()
     if j != True:
       print j
-      if installer.installCBMC(dest) != True:
+      if cbmcInstaller.installCBMC(dest) != True:
 	print "Failed to install CBMC!\n"
 	exit(1);
       else:
 	print "CBMC installed!\n"
     else:
       print """You have CBMC already installed."""
-      print installer.getCBMCCopyright();
+      print cbmcInstaller.getCBMCCopyright();
     
     
   #TODO Install MPS
   
-  installer = getMPSInstaller();
-  installer.downloadMPS(dest);  
-  installer.setUpMPS(dest);
+  mpsInstaller = getMPSInstaller();
+  mpsInstaller.downloadMPS(dest);  
+  mpsInstaller.setUpMPS(dest);
+  
   
   
   MbeddrDir = os.path.join(dest, "mbeddr.github");      
@@ -828,19 +804,8 @@ def main():
     
   print "Cloning mbeddr..."
   cloneMbeddr(dest, MbeddrDir);
-  
-  if(installer.isMPSInstalled() == False):
-    installer.printInstallMPSMessage();
-    print "Waiting for MPS to install..."  
-    while(installer.isMPSInstalled() == False):
-      time.sleep(2);    
-    print "This can take a while..."
-    # Wait untill everything is really copied
-    time.sleep(20);
-  
-  installer.removeArchive();
-    
-  MPSDir = installer.getMPSPath();
+      
+  MPSDir = mpsInstaller.getMPSPath();
   print "Setting up MPS to work with mbeddr..."
   configureMPSWithMbeddr(MPSDir, MbeddrDir);
   
