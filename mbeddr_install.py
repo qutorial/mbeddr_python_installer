@@ -18,6 +18,7 @@ MPSLin = """MPS-3.1-EAP1-"""+EAPNum+""".tar.gz"""
 MPSZip = """MPS-3.1-EAP1-"""+EAPNum+""".zip"""
 MPSArcDir = """MPS 3.1 EAP"""
 MPSMacDir = """/Applications/MPS 3.1 EAP.app"""
+MPSVolumesDir = """/Volumes/MPS 3.1 EAP"""
 
 MPS_VMOPTIONS="""-client
 -Xss1024k
@@ -193,7 +194,7 @@ sudo apt-get install git
 
 ################### END OF CONFIGURATION ###################
 
-import sys, os, subprocess, urllib2, platform, tarfile, time
+import sys, os, subprocess, urllib2, platform, tarfile, time, shutil
 from os.path import expanduser
 import zipfile, tarfile
 import os.path
@@ -611,24 +612,34 @@ class MPSInstallerForLinux(MPSInstallerBase):
     
 class MPSInstallerForMac(MPSInstallerBase):
   def setUpMPS(self, dest):    
+    self.printInstallMPSMessage();
+    print "\nProceed? [y]"
+    accept = str(raw_input()).strip();          
     proc = subprocess.Popen(["open", self.archive], stdin=subprocess.PIPE)    
-    self.printInstallMPSMessage();              
-    print "\nReady? [y]"
-    accept = str(raw_input()).strip();            
+    
+    time.sleep(5);
+    if not os.path.exists(MPSVolumesDir):
+      print "Waiting for the image to mount..."
+      time.sleep(10);
+	if not os.path.exists(MPSVolumesDir):
+	  print "Image not mounted, installation fails!"
+	  exit(1);
+	  
+    self.path = os.path.join(dest, "MPS31");
+    print "Copying MPS...";
+    shutil.copytree(MPSVolumesDir, self.path);    
     print "Continuing installation..."
-    time.sleep(10);
     
   
   def isMPSInstalled(self):
-    return os.path.exists(os.path.join(self.getMPSPath(), "bin", "mps.vmoptions")) and os.path.exists(os.path.join(self.getMPSPath(), "plugins"))
+    return true
   
   def getMPSPath(self):
-    return MPSMacDir;
+    return self.mpsPath;
     
   def printInstallMPSMessage(self):
-    print "  *********   Please, move MPS into Applications   *********";
-    print "A window with MPS image should be opened in front of you now, please, drag MPS into Applications!"
-    print "In the case you do not have  a window opened with MPS installer, navigate, please, to the mounted MPS disk in Finder"
+    print """"This installer is going to copy MPS to the installation directory, 
+please, *do not drag MPS to Applications* when a window pops up!"""
     
   
 def getMPSInstaller():
@@ -650,6 +661,9 @@ def testMPSInstaller():
   while(installer.isMPSInstalled() == False):
     time.sleep(2);
   print "MPS Installed to: " + installer.getMPSPath();
+  
+testMPSInstaller();
+exit (0);
      
 # ------------------ END INSTALLING MPS ------------------
 
@@ -706,9 +720,9 @@ def configureMPSWithMbeddr(MPSDir, MbeddrDir):
 
     
 def cloneMbeddr(dest, MbeddrDir):
-  os.system("git clone " + MbeddrRepo+ " " + MbeddrDir);
-  print "Checking out " + TheBranch + " branch..."
   os.chdir(MbeddrDir);
+  os.system("git clone " + MbeddrRepo+ " .");
+  print "Checking out " + TheBranch + " branch..."  
   os.system("git --git-dir="+ os.path.join(MbeddrDir, ".git") + " reset --hard");
   os.system("git --git-dir="+ os.path.join(MbeddrDir, ".git") + " checkout " + TheBranch);
     
