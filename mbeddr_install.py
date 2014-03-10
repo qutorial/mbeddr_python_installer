@@ -8,6 +8,18 @@
 
 ################### -- CONFIGURATION -- ###################
 
+# MBEDDR CONFIGURATION
+MbeddrRepo = """https://github.com/mbeddr/mbeddr.core.git"""
+TheBranch = "fortissStable"
+#TheBranch = "master"
+BUILD_PROPERTIES = """# MPS installation
+mps.home=MPSDir
+# Folder where MPS stores it's cache
+mps.platform.caches=MPSCaches
+# Points to the root folder of the mbeddr.core repository
+mbeddr.github.core.home=MbeddrDir
+"""
+
 # MPS CONFIGURATION
 
 EAPNum = "27"  
@@ -145,18 +157,6 @@ CBMCMacFileName = """cbmc-""" + CBMCVersion + "-" + CBMCSubVersion + """.pkg"""
 CBMCMacUrl = """http://www.cprover.org/cbmc/download/""" + CBMCMacFileName;
 CBMCInstallDir = "/usr/bin"
 
-
-
-# MBEDDR CONFIGURATION
-MbeddrRepo = """https://github.com/mbeddr/mbeddr.core.git"""
-TheBranch = "fortissStable"
-BUILD_PROPERTIES = """# MPS installation
-mps.home=MPSDir
-# Folder where MPS stores it's cache
-mps.platform.caches=MPSCaches
-# Points to the root folder of the mbeddr.core repository
-mbeddr.github.core.home=MbeddrDir
-"""
 
 
 
