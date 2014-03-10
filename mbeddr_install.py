@@ -616,7 +616,7 @@ class MPSInstallerForMac(MPSInstallerBase):
     #print "\nProceed? [y]"
     #accept = str(raw_input()).strip();          
     #proc = subprocess.Popen(["open", self.archive], stdin=subprocess.PIPE)    
-    proc = subprocess.Popen(["hdiutil", "-quiet", "attach", self.archive], stdin=subprocess.PIPE)
+    proc = subprocess.Popen(["hdiutil", "attach", "-quiet", self.archive], stdin=subprocess.PIPE)
     proc.wait();
     if not os.path.exists(MPSVolumesDir):
       print "Waiting for the image to mount..."
