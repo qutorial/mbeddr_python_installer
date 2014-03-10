@@ -820,9 +820,8 @@ def main():
   buildMbeddr(MbeddrDir);
   
   #Second time, because first time fails shortly after the start,
-  if "Lin" in getOs():
-    print " * Please, notice: BUILD FAILED messages above are known, they do not represent an actual problem.\nBelow this line they should not appear though. It would be an indication of an error."
-    buildMbeddr(MbeddrDir);
+  print " * Please, notice: BUILD FAILED messages above are known, they do not represent an actual problem.\nBelow this line they should not appear though. It would be an indication of an error."
+  buildMbeddr(MbeddrDir);
   
   greetings(MPSDir, MbeddrDir, dest);
   
