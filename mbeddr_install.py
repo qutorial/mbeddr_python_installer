@@ -669,7 +669,7 @@ def getTemplateForMPSProperties(MpsDir):
     return MPS_INFO_PLIST;
 
 def writeMPSProperties (MPSDir, ConfigPath, SysPath):
-  opts = getTemplateForMPSProperties();
+  opts = getTemplateForMPSProperties(MPSDir);
   opts = opts.replace("IdeaConfig", ConfigPath);
   opts = opts.replace("IdeaSystem", SysPath);
        
