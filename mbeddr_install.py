@@ -625,14 +625,14 @@ class MPSInstallerForMac(MPSInstallerBase):
 	print "Image not mounted, installation fails!"
 	exit(1);
 	  
-    self.path = os.path.join(dest, "MPS31");
+    self.path = os.path.join(dest, "MPS31.app");
     print "Copying MPS...";
     shutil.copytree(MPSVolumesDir, self.path);    
     print "Continuing installation..."
     
   
   def isMPSInstalled(self):
-    return true
+    return True;
   
   def getMPSPath(self):
     return self.mpsPath;
@@ -743,18 +743,18 @@ def buildMbeddr(MbeddrDir):
 # ---------- FINAL GREETINGS ------------
   
   
-def greetingsLinux(MPSDir, MbeddrDir):
+def greetingsLinux(MPSDir, MbeddrDir, dest):
   print """\nTo start working: Run\n"""+os.path.join(MPSDir, "mps.sh")+"""\nand go through the tutorial project from:"""
 
-def greetingsMac(MPSDir, MbeddrDir):
-  print """\nTo start working: Run MPS (located in Applications) and go through the tutorial project from:"""
+def greetingsMac(MPSDir, MbeddrDir, dest):
+  print "\nTo start working: Run MPS (located in " + dest + ") and go through the tutorial project from:"
 
 
-def greetings(MPSDir, MbeddrDir):
+def greetings(MPSDir, MbeddrDir, dest):
   if "Lin" in getOs():
-    greetingsLinux(MPSDir, MbeddrDir);
+    greetingsLinux(MPSDir, MbeddrDir, dest);
   if "Mac" in getOs():
-    greetingsMac(MPSDir, MbeddrDir);
+    greetingsMac(MPSDir, MbeddrDir, dest);
   
   print os.path.join(MbeddrDir, "code", "application"),""" folder.\n"""  
   print """\nVisit mbeddr.com to learn what's new!\n"""  
@@ -856,6 +856,6 @@ def main():
     print " * Please, notice: BUILD FAILED messages above are known, they do not represent an actual problem.\nBelow this line they should not appear though. It would be an indication of an error."
     buildMbeddr(MbeddrDir);
   
-  greetings(MPSDir, MbeddrDir);
+  greetings(MPSDir, MbeddrDir, dest);
   
 main();
