@@ -284,8 +284,6 @@ def testCompletion():
   s = readFileName("File: ")
   print "Result: ", s
     
-testCompletion();
-exit(1);
 # Unarchiving Zips and Tars
 
 def unzip(zipzip, dest):
