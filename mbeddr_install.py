@@ -194,10 +194,14 @@ sudo apt-get install git
 
 ################### END OF CONFIGURATION ###################
 
-import sys, os, subprocess, urllib2, platform, tarfile, time, shutil
-from os.path import expanduser
-import zipfile, tarfile
+import sys, os, subprocess, urllib2, platform, time, shutil
 import os.path
+from os.path import expanduser
+#Archiving
+import zipfile, tarfile
+#Autocompletion input
+import readline, glob
+
 
 # Checking Python
 
@@ -251,7 +255,37 @@ def downloadFile(url, destdir):
   print "\n"
   
   return resName
+  
+  
+# Autocomplete file names
+def completeSimple(text, state):
+    return (glob.glob(text+'*')+[None])[state]
+
+def completeDirAware(text, state):
+    res = completeSimple(text, state);
     
+    if os.path.exists(res):
+      if os.path.isdir(res):
+	if not res.endswith(os.sep):
+	  res = res + os.sep;
+	  
+    return res
+
+complete = completeDirAware
+
+def readFileName(promptMessage):
+  readline.set_completer_delims(' \t\n;')
+  readline.parse_and_bind("tab: complete")
+  readline.set_completer(complete)  
+  return raw_input(promptMessage).strip()
+
+
+def testCompletion():
+  s = readFileName("File: ")
+  print "Result: ", s
+    
+testCompletion();
+exit(1);
 # Unarchiving Zips and Tars
 
 def unzip(zipzip, dest):
@@ -343,16 +377,16 @@ def testAntCheck():
     
 def prepareDestDir():
   home = os.path.join(expanduser("~"), "mbeddr")
-  print("Where would you like to install it["+home+"]: ")
   try:
-    destdir = str(raw_input()).strip()
+    destdir = readFileName("Where would you like to install it["+home+"]: ")
   except EOFError:
     destdir = None
   
-  if (destdir is None) or (len(destdir) == 0):
-    print("Selecting " + home)
+  if (destdir is None) or (len(destdir) == 0):    
     destdir = home;
-    
+ 
+  print("Selecting: " + destdir)
+   
   try:
     if os.path.exists(destdir):
       print "This directory already exists, please, use another one."
@@ -361,6 +395,8 @@ def prepareDestDir():
       os.makedirs(destdir)
   except OSError:
     return False;
+    
+  
   
   return destdir;
   
