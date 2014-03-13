@@ -150,7 +150,7 @@ PATH_MACROS = """<?xml version="1.0" encoding="UTF-8"?>
 
 # CBMC CONFIGURATION
 CBMCVersion="""4"""
-CBMCSubVersion = """6"""
+CBMCSubVersion = """7"""
 CBMC32BitLinuxUrl = """http://www.cprover.org/cbmc/download/cbmc-""" + CBMCVersion + "-" + CBMCSubVersion + """-linux-32.tgz"""
 CBMC64BitLinuxUrl = """http://www.cprover.org/cbmc/download/cbmc-""" + CBMCVersion + "-" + CBMCSubVersion + """-linux-64.tgz"""
 CBMCMacFileName = """cbmc-""" + CBMCVersion + "-" + CBMCSubVersion + """.pkg"""
@@ -567,7 +567,7 @@ def installCBMC(dest):
     if j != True:
       print j
       
-      #TODO this is a Mac Work around, when CBMC fails, remove it when CBMC is fixed
+      #TODO this is a Mac workaround, when CBMC fails, remove it when CBMC is fixed
       if "Mac" in getOs():
 	print " * Please, install CBMC from sources on Mac: http://www.cprover.org/cbmc/ * \nAnalyses will not work without CBMC.\n"
 	return;
