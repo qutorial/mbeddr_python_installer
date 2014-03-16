@@ -566,12 +566,6 @@ def installCBMC(dest):
     j = cbmcInstaller.checkCBMC()
     if j != True:
       print j
-      
-      #TODO this is a Mac workaround, when CBMC fails, remove it when CBMC is fixed
-      if "Mac" in getOs():
-	print " * Please, install CBMC from sources on Mac: http://www.cprover.org/cbmc/ * \nAnalyses will not work without CBMC.\n"
-	return;
-	
       if cbmcInstaller.installCBMC(dest) != True:
 	print "Failed to install CBMC!\n"
 	exit(1);
