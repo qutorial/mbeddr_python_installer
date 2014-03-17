@@ -686,11 +686,6 @@ def testConfigureMPSWithMbeddr():
   configureMPSWithMbeddr(MPSDir, MbeddrDir);
   
 
-testConfigureMPSWithMbeddr();
-exit(1);
-  
-  
-
 # ------------------ END CONFIGURING MPS WITH MBEDDR ------------------
 
     
