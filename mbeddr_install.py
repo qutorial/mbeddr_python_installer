@@ -90,7 +90,7 @@ MPS_INFO_PLIST="""<!DOCTYPE plist PUBLIC '-//Apple Computer//DTD PLIST 1.0//EN' 
     <key>CFBundleURLTypes</key>
     <array>
       <dict>
-        <key>CFBundleTypeRole</key>
+        <key>CFBundleTypeRole</key>https://github.com/qutorial/mbeddr_python_installer/blob/master/mbeddr-userguide.pdf?raw=true
         <string>Editor</string>
         <key>CFBundleURLName</key>
         <string>Stacktrace</string>
@@ -109,13 +109,13 @@ MPS_INFO_PLIST="""<!DOCTYPE plist PUBLIC '-//Apple Computer//DTD PLIST 1.0//EN' 
       <key>Properties</key>
       <dict>
         <key>apple.laf.useScreenMenuBar</key>
-        <string>true</string>
+        <string>true</string>https://github.com/qutorial/mbeddr_python_installer/blob/master/mbeddr-userguide.pdf?raw=true
         <key>com.apple.mrj.application.live-resize</key>
         <string>false</string>
       </dict>
       <key>VMOptions</key>
       <string>-client -Xss1024k -ea -Xmx1100m -XX:MaxPermSize=256m -XX:NewSize=256m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8 -Dapple.awt.graphics.UseQuartz=true -Didea.paths.selector=MPS31 -Didea.config.path="IdeaConfig" -Didea.system.path="IdeaSystem"</string>
-      <key>WorkingDirectory</key>
+      <key>WorkingDirectory</key>https://github.com/qutorial/mbeddr_python_installer/blob/master/mbeddr-userguide.pdf?raw=true
       <string>$APP_PACKAGE/bin</string>
     </dict>
   </dict>
@@ -194,7 +194,7 @@ sudo apt-get install git
 
 
 # USER GUIDE CONFIGURATION
-UserGuideURL = """http://"""
+UserGuideURL = """https://github.com/qutorial/mbeddr_python_installer/blob/master/mbeddr-userguide.pdf?raw=true"""
 
 ################### END OF CONFIGURATION ###################
 
@@ -794,6 +794,8 @@ def greetings(MPSDir, MbeddrDir, dest):
   
   print os.path.join(MbeddrDir, "code", "application"),""" folder.\n"""  
   print """\nVisit mbeddr.com to learn what's new!\n"""  
+  print """A user guide PDF has been downloaded to the destination folder!"""
+  
   print "\nWelcome to mbeddr. C the difference C the future.\n";
   print "-----------------------------------------------------------\n"
   print """This installer for mbeddr advanced users has been built by molotnikov (at) fortiss (dot) org.\n
