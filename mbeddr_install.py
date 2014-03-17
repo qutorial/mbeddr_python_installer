@@ -201,6 +201,7 @@ UserGuideURL = """https://github.com/qutorial/mbeddr_python_installer/blob/maste
 import sys, os, subprocess, urllib2, platform, time, shutil
 import os.path
 from os.path import expanduser
+from urllib2 import urlparse
 #Archiving
 import zipfile, tarfile
 #Autocompletion input
@@ -232,8 +233,17 @@ def getOs():
     
 # Downloading file with progress
 
+def getFileNameFromUrl(url):
+  parsed = urlparse.urlsplit(url);
+  path = parsed.path;
+  return os.path.basename(path);
+
+def testGetFileNameFromUrl():
+  print getFileNameFromUrl(UserGuideURL);
+  print getFileNameFromUrl(MPSMac);
+  
 def downloadFile(url, destdir):
-  file_name = url.split('/')[-1]
+  file_name = getFileNameFromUrl(url);
   u = urllib2.urlopen(url)
   resName = os.path.join(destdir, file_name)
   f = open(resName, 'wb')
