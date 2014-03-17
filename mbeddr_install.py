@@ -872,7 +872,6 @@ def main():
   
   print "Setting up mbeddr..."
   configureMbeddr(MPSDir, MbeddrDir);
-
   
   print "Building mbeddr..."
   buildMbeddr(MbeddrDir);
