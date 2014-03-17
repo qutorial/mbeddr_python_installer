@@ -90,7 +90,7 @@ MPS_INFO_PLIST="""<!DOCTYPE plist PUBLIC '-//Apple Computer//DTD PLIST 1.0//EN' 
     <key>CFBundleURLTypes</key>
     <array>
       <dict>
-        <key>CFBundleTypeRole</key>https://github.com/qutorial/mbeddr_python_installer/blob/master/mbeddr-userguide.pdf?raw=true
+        <key>CFBundleTypeRole</key>
         <string>Editor</string>
         <key>CFBundleURLName</key>
         <string>Stacktrace</string>
@@ -109,13 +109,13 @@ MPS_INFO_PLIST="""<!DOCTYPE plist PUBLIC '-//Apple Computer//DTD PLIST 1.0//EN' 
       <key>Properties</key>
       <dict>
         <key>apple.laf.useScreenMenuBar</key>
-        <string>true</string>https://github.com/qutorial/mbeddr_python_installer/blob/master/mbeddr-userguide.pdf?raw=true
+        <string>true</string>
         <key>com.apple.mrj.application.live-resize</key>
         <string>false</string>
       </dict>
       <key>VMOptions</key>
       <string>-client -Xss1024k -ea -Xmx1100m -XX:MaxPermSize=256m -XX:NewSize=256m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8 -Dapple.awt.graphics.UseQuartz=true -Didea.paths.selector=MPS31 -Didea.config.path="IdeaConfig" -Didea.system.path="IdeaSystem"</string>
-      <key>WorkingDirectory</key>https://github.com/qutorial/mbeddr_python_installer/blob/master/mbeddr-userguide.pdf?raw=true
+      <key>WorkingDirectory</key>
       <string>$APP_PACKAGE/bin</string>
     </dict>
   </dict>
