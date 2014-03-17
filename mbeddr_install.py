@@ -192,6 +192,10 @@ On Ubuntu this might work:
 sudo apt-get install git
 """
 
+
+# USER GUIDE CONFIGURATION
+UserGuideURL = """http://"""
+
 ################### END OF CONFIGURATION ###################
 
 import sys, os, subprocess, urllib2, platform, time, shutil
@@ -758,7 +762,21 @@ def buildMbeddr(MbeddrDir):
   os.chdir(BuildPath);
   os.system(os.path.join(BuildPath, "buildLanguages.sh"));
   
+  
+# ---------- DOWNLOADING USER GUIDE ------------
+
+def downloadTheUserGuide(dest):
+  downloadFile(UserGuideURL, dest);
+
+# ---------- END OF : DOWNLOADING USER GUIDE ------------
+
+  
 # ---------- FINAL GREETINGS ------------
+
+  
+  
+  
+# ---------- END OF :  FINAL GREETINGS ------------
   
   
 def greetingsLinux(MPSDir, MbeddrDir, dest):
@@ -850,6 +868,10 @@ def main():
   #Second time, because first time fails shortly after the start,
   print " * Please, notice: BUILD FAILED messages above are known, they do not represent an actual problem.\nBelow this line they should not appear though. It would be an indication of an error."
   buildMbeddr(MbeddrDir);
+  
+  print "Downloading the user guide..."
+  downloadTheUserGuide(dest);
+  
   
   greetings(MPSDir, MbeddrDir, dest);
   
