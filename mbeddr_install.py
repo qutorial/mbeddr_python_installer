@@ -685,6 +685,9 @@ def testConfigureMPSWithMbeddr():
   MPSDir = mpsInstaller.getMPSEndPath(dest);  
   configureMPSWithMbeddr(MPSDir, MbeddrDir);
   
+testConfigureMPSWithMbeddr();
+exit(1);
+  
 
 # ------------------ END CONFIGURING MPS WITH MBEDDR ------------------
 
@@ -808,7 +811,7 @@ def main():
   cloneMbeddr(dest, MbeddrDir);
   
   print "Setting up MPS to work with mbeddr..."
-  #configureMPSWithMbeddr(MPSDir, MbeddrDir);
+  configureMPSWithMbeddr(MPSDir, MbeddrDir);
   
   print "Setting up mbeddr..."
   configureMbeddr(MPSDir, MbeddrDir);
