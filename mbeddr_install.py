@@ -685,9 +685,7 @@ def testConfigureMPSWithMbeddr():
   MPSDir = mpsInstaller.getMPSEndPath(dest);  
   configureMPSWithMbeddr(MPSDir, MbeddrDir);
   
-testConfigureMPSWithMbeddr();
-exit(1);
-  
+ 
 
 # ------------------ END CONFIGURING MPS WITH MBEDDR ------------------
 
