@@ -12,7 +12,7 @@
 MbeddrRepo = """https://github.com/mbeddr/mbeddr.core.git"""
 TheBranch = "fortissStable"
 #TheBranch = "master"
-BUILD_PROPERTIES = """# MPS installation
+BuildProperties = """# MPS installation
 mps.home=MPSDir
 # Folder where MPS stores it's cache
 mps.platform.caches=MPSCaches
@@ -31,7 +31,6 @@ MPSMac = """MPS-3.1-EAP1-"""+EAPNum+"""-macos.dmg"""
 MPSLin = """MPS-3.1-EAP1-"""+EAPNum+""".tar.gz"""
 MPSZip = """MPS-3.1-EAP1-"""+EAPNum+""".zip"""
 MPSArcDir = """MPS 3.1 EAP"""
-MPSMacDir = """/Applications/MPS 3.1 EAP.app"""
 MPSVolumesDir = """/Volumes/MPS 3.1 EAP/MPS 3.1 EAP.app"""
 
 MPS_VMOPTIONS="""-client
@@ -704,7 +703,7 @@ def cloneMbeddr(dest, MbeddrDir):
 def configureMbeddr(MPSDir, MbeddrDir):
   BuildPropsPath = os.path.join(MbeddrDir, "code", "languages", "build.properties");
   f = open(BuildPropsPath, 'w');
-  f.write(BUILD_PROPERTIES.replace("MPSDir", MPSDir).replace("MPSCaches", os.path.join(MPSDir, "CachesMbeddr")).replace(
+  f.write(BuildProperties.replace("MPSDir", MPSDir).replace("MPSCaches", os.path.join(MPSDir, "CachesMbeddr")).replace(
  "MbeddrDir", MbeddrDir));
   f.close();
 
