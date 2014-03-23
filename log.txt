@@ -1,0 +1,13 @@
+Welcome!
+You are about to install the last stable version of mbeddr.
+Detecting Git
+Detecting Java
+Detecting Ant
+Preparing destination directory
+Where would you like to install it[/home/zaur/mbeddr]: Selecting: sds
+Detecting CBMC
+You have CBMC already installed.
+mbeddr verification heavily relies on CBMC C Prover, which is copyrighted:
+(C) 2001-2008, Daniel Kroening, ETH Zurich,
+Edmund Clarke, Computer Science Department, Carnegie Mellon University
+

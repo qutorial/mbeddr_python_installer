@@ -142,7 +142,7 @@ ReadMeURL = """https://github.com/qutorial/mbeddr_python_installer/blob/master/R
 
 # Detecting OS
     
-def getOs():
+def getOS():
   s = platform.platform()
   if "Lin" in s:
     if platform.architecture()[0] == '64bit':
@@ -270,7 +270,7 @@ def checkJavaVersion(java):
     if len(a) + len(b) > 0:
       return True;
   answer = "Java version is not recognized\n"+InstallJavaMessage;
-  if "Lin" in getOs():
+  if "Lin" in getOS():
     answer = answer + InstallJavaHintUbuntu;
     
   return answer;
@@ -293,7 +293,7 @@ def checkAntVersion(ant):
     return True;
   
   answer = "Unrecognized ant version\n"
-  if "Lin" in getOs():
+  if "Lin" in getOS():
     answer = answer + InstallAntHintUbuntu;
     
   return answer;
@@ -447,9 +447,9 @@ class CBMCInstallerForLinux(CBMCInstallerBase):
   def downloadCBMC(self, dest):
     fName = False
     url=""    
-    if "Lin32" in getOs():
+    if "Lin32" in getOS():
       url = CBMC32BitLinuxUrl;
-    if "Lin64" in getOs():
+    if "Lin64" in getOS():
       url = CBMC64BitLinuxUrl;    
     print "Downloading CBMC: " + url;
     try:
@@ -488,9 +488,9 @@ class CBMCInstallerForMac(CBMCInstallerBase):
     return True;
 
 def getCBMCInstaller():
-  if "Lin" in getOs():
+  if "Lin" in getOS():
     return CBMCInstallerForLinux();
-  if "Mac" in getOs():
+  if "Mac" in getOS():
     return CBMCInstallerForMac();
   return None;
 
@@ -529,7 +529,7 @@ def testCBMCInstaller():
 
 def MPSFilename():
   url="";
-  s = getOs();
+  s = getOS();
   if "Lin" in s:
     url+=MPSLin
   if "Mac" in s:
@@ -612,9 +612,9 @@ class MPSInstallerForMac(MPSInstallerBase):
     
   
 def getMPSInstaller():
-  if "Lin" in getOs():
+  if "Lin" in getOS():
     return MPSInstallerForLinux();
-  if "Mac" in getOs():
+  if "Mac" in getOS():
     return MPSInstallerForMac();
   return None;
 
@@ -739,9 +739,9 @@ def greetingsMac(MPSDir, MbeddrDir, dest):
 
 
 def greetings(MPSDir, MbeddrDir, dest):
-  if "Lin" in getOs():
+  if "Lin" in getOS():
     greetingsLinux(MPSDir, MbeddrDir, dest);
-  if "Mac" in getOs():
+  if "Mac" in getOS():
     greetingsMac(MPSDir, MbeddrDir, dest);
   
   print os.path.join(MbeddrDir, "code", "application"),""" folder.\n"""  
