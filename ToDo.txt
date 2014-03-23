@@ -1,0 +1,3 @@
+0) Make the installer to print out the info about the environment first.
+1) Use the python mbeddr_install.py | tee log.txt to log the progress of the installer. Or something similar.
+2) Add instructions to include the log.txt file in the bug report.
