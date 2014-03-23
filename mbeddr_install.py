@@ -133,6 +133,11 @@ sudo apt-get install git
 # USER GUIDE CONFIGURATION
 UserGuideURL = """https://github.com/qutorial/mbeddr_python_installer/blob/master/mbeddr-userguide.pdf?raw=true"""
 
+# README CONFIGURATION
+ReadMeURL = """https://github.com/qutorial/mbeddr_python_installer/blob/master/README.txt?raw=true"""
+
+
+
 ################### END OF CONFIGURATION ###################
 
 # Detecting OS
@@ -712,13 +717,18 @@ def downloadTheUserGuide(dest):
 
 # ---------- END OF : DOWNLOADING USER GUIDE ------------
 
-  
-# ---------- FINAL GREETINGS ------------
+
+
+# ---------- DOWNLOADING README ------------
+
+def downloadTheReadMe(dest):
+  downloadFile(ReadMeURL, dest);
+
+# ---------- END OF : DOWNLOADING README ------------
+
 
   
-  
-  
-# ---------- END OF :  FINAL GREETINGS ------------
+# ---------- FINAL GREETINGS ------------
   
   
 def greetingsLinux(MPSDir, MbeddrDir, dest):
@@ -736,15 +746,16 @@ def greetings(MPSDir, MbeddrDir, dest):
   
   print os.path.join(MbeddrDir, "code", "application"),""" folder.\n"""  
   print """\nVisit mbeddr.com to learn what's new!\n"""  
-  print """A user guide PDF has been downloaded to the destination folder!"""
+  print """ * A user guide PDF has been downloaded to the destination folder!"""
+  print """ * See the README.txt file for the further instructions and basic troubleshooting.""" 
   
   print "\nWelcome to mbeddr. C the difference C the future.\n";
   print "-----------------------------------------------------------\n"
   print """This installer for mbeddr advanced users has been built by molotnikov (at) fortiss (dot) org.\n
 Please, let me know, if it does not work for you!"""
 
-
-# ---------- FINAL GREETINGS ------------
+  
+# ---------- END OF :  FINAL GREETINGS ------------
 
   
 def main():
