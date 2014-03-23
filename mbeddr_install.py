@@ -6,6 +6,22 @@
 #bash command to run it on Mac
 #mi=`mktemp /tmp/mbeddr_install.py.XXXXX` && curl  https://raw.github.com/qutorial/mbeddr_python_installer/master/mbeddr_install.py -o $mi && python2.7 $mi; rm $mi;
 
+import sys, os, subprocess, urllib2, platform, time, shutil
+import os.path
+from os.path import expanduser
+from urllib2 import urlparse
+import zipfile, tarfile
+#Autocompletion, input
+import readline, glob
+
+
+# Checking Python
+
+if sys.version_info < (2, 7):
+    print "Your Python version is old. Please, install Python 2.7."
+    print "http://www.python.org/download/"
+    exit(1);
+
 ################### -- CONFIGURATION -- ###################
 
 # MBEDDR CONFIGURATION
@@ -33,7 +49,7 @@ MPSZip = """MPS-3.1-EAP1-"""+EAPNum+""".zip"""
 MPSArcDir = """MPS 3.1 EAP"""
 MPSVolumesDir = """/Volumes/MPS 3.1 EAP/MPS 3.1 EAP.app"""
 
-MPS_VMOPTIONS="""-client
+MPSVMOptions="""-client
 -Xss1024k
 -ea
 -Xmx2100m
@@ -47,7 +63,7 @@ MPS_VMOPTIONS="""-client
 -Didea.system.path=IdeaSystem"""
 #-Didea.plugins.path=IdeaPlugins"""
 
-LIBRARY_MANAGER = """<?xml version="1.0" encoding="UTF-8"?>
+MPSLibraryManager = """<?xml version="1.0" encoding="UTF-8"?>
 <application>
   <component name="LibraryManager">
     <option name="libraries">
@@ -65,7 +81,7 @@ LIBRARY_MANAGER = """<?xml version="1.0" encoding="UTF-8"?>
   </component>
 </application>"""
 
-PATH_MACROS = """<?xml version="1.0" encoding="UTF-8"?>
+MPSPathMacros = """<?xml version="1.0" encoding="UTF-8"?>
 <application>
   <component name="PathMacrosImpl">
     <macro name="mbeddr.github.core.home" value="MbeddrDir" />
@@ -84,14 +100,9 @@ CBMCMacUrl = """http://www.cprover.org/cbmc/download/""" + CBMCMacFileName;
 CBMCInstallDir = "/usr/bin"
 
 
-
-
 # JAVA CONFIGURATION
 InstallJavaMessage= """Please, install a Java (R, TM) from Oracle. 
-
 http://www.oracle.com/technetwork/java/javase/downloads/index.html"""
-
-
 
 InstallJavaHintUbuntu = """\nOn Ubuntu this might work:
 sudo add-apt-repository ppa:webupd8team/java
@@ -112,9 +123,9 @@ sudo apt-get install ant
 # GIT CONFIGURATION
 InstallGitMessage= """Please, install Git.\n 
 
-http://git-scm.com/downloads
+http://git-scm.com/downloads"""
 
-On Ubuntu this might work:
+InstallGitHintUbuntu = """\nOn Ubuntu this might work:
 sudo apt-get install git
 """
 
@@ -123,24 +134,6 @@ sudo apt-get install git
 UserGuideURL = """https://github.com/qutorial/mbeddr_python_installer/blob/master/mbeddr-userguide.pdf?raw=true"""
 
 ################### END OF CONFIGURATION ###################
-
-import sys, os, subprocess, urllib2, platform, time, shutil
-import os.path
-from os.path import expanduser
-from urllib2 import urlparse
-#Archiving
-import zipfile, tarfile
-#Autocompletion input
-import readline, glob
-
-
-# Checking Python
-
-if sys.version_info < (2, 7):
-    print "Your Python version is old. Please, install Python 2.7."
-    print "http://www.python.org/download/"
-    print "Run the script like this afterwards: python2.7 "+os.path.basename(__file__)
-    exit(1);
 
 # Detecting OS
     
@@ -155,7 +148,6 @@ def getOs():
     return "Mac"
   if "Win" in s:
     return "Win"
-    
     
 # Downloading file with progress
 
@@ -641,7 +633,7 @@ def getFileNameToWritePropertiesTo(MPSDir):
   return os.path.join(MPSDir, "bin", "mps.vmoptions");
     
 def getTemplateForMPSProperties(MpsDir):
-  return MPS_VMOPTIONS;
+  return MPSVMOptions;
   
 def writeMPSProperties (MPSDir, ConfigPath, SysPath):
   print "Write mps props is called with mpsdir ", MPSDir, " and  ConfigPath ", ConfigPath, " and SysPath ", SysPath;
@@ -668,11 +660,11 @@ def configureMPSWithMbeddr(MPSDir, MbeddrDir):
     os.makedirs(OptionsPath);
   
   f = open(os.path.join(OptionsPath, "libraryManager.xml"), 'w');
-  f.write(LIBRARY_MANAGER);
+  f.write(MPSLibraryManager);
   f. close();
   
   f = open(os.path.join(OptionsPath, "path.macros.xml"), 'w');
-  f.write(PATH_MACROS.replace("MbeddrDir", MbeddrDir));
+  f.write(MPSPathMacros.replace("MbeddrDir", MbeddrDir));
   f. close();
   
   writeMPSProperties(MPSDir, ConfigPath, SysPath);
