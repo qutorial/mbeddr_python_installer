@@ -48,6 +48,8 @@ MPSLin = """MPS-3.1-EAP1-"""+EAPNum+""".tar.gz"""
 MPSZip = """MPS-3.1-EAP1-"""+EAPNum+""".zip"""
 MPSArcDir = """MPS 3.1 EAP"""
 MPSVolumesDir = """/Volumes/MPS 3.1 EAP/MPS 3.1 EAP.app"""
+MPSDestDirLinux = "MPS31"
+MPSDestDirMac = "MPS31.app"
 
 MPSVMOptions="""-client
 -Xss1024k
@@ -586,7 +588,7 @@ def downloadMPSOSDep(dest):
   url = getMPSUrl();
   fName = os.path.join(dest, getMPSFileName());  
   if os.path.exists(fName):
-    #TODO Check this branch
+    print "\nAn archive with MPS has already been downloaded to: " + fName + "\nDelete it manually, if the installation fails to use it!"
     return fName;
   else:
     return downloadFile(url, dest);
@@ -622,7 +624,7 @@ class MPSInstallerBase:
     
 class MPSInstallerForLinux(MPSInstallerBase):    
   def getMPSEndPath(self, dest):
-    return os.path.join(dest, "MPS31");
+    return os.path.join(dest, MPSDestDirLinux);
     
   def setUpMPSHook(dest):
     MPSDir = self.getMPSEndPath(dest);
@@ -637,7 +639,7 @@ class MPSInstallerForLinux(MPSInstallerBase):
     
 class MPSInstallerForMac(MPSInstallerBase):
   def getMPSEndPath(self, dest):
-    return os.path.join(dest, "MPS31.app");
+    return os.path.join(dest, MPSDestDirMac);
   
   def setUpMPSHook(self, dest):    
     proc = subprocess.Popen(["hdiutil", "attach", "-quiet", self.archive], stdin=subprocess.PIPE)
@@ -663,9 +665,11 @@ def getMPSInstaller():
     return MPSInstallerForMac();
   return None;
 
+def TEST_getMPSInstaller():
+  installer = getMPSInstaller();
+  return "MPS" in installer.getMPSEndPath("");
     
-    
-def TEST_INTERACTIVE_getMPSInstaller():
+def TEST_INTERACTIVE_INSTALL_MPS():
   dest = prepareDestDir();
   print "Testing MPS installer";
   installer = getMPSInstaller();
@@ -882,7 +886,8 @@ def RUN_TESTS():
   print "Ant Detection: ", TEST_checkAnt();
   print "CBMC Installer Init: ", TEST_getCBMCInstaller();
   print "CBMC Detection: ", TEST_checkCBMC();
-  print "MPS Url: ", TEST_getMPSUrl();
+  print "MPS URL: ", TEST_getMPSUrl();
+  print "MPS Installer Init: ", TEST_getMPSInstaller();
   
 RUN_TESTS();
 exit(1);
