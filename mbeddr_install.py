@@ -336,10 +336,11 @@ def checkAnt():
     ant = subprocess.check_output(["ant", "-version"], stderr=subprocess.STDOUT)
     return checkAntVersion(ant)
   except OSError:
-    return "No ant installed, please install Apache Ant(TM)\n"
+    return InstallAntMessage;
 
-def testAntCheck():
-  print "Ant: ", checkAnt();
+def TEST_checkAnt():
+  s =  checkAnt();
+  return s == True or InstallAntHintUbuntu in s;
   
 # Preparing a destination directory
     
@@ -861,14 +862,13 @@ def main():
   
   greetings(MPSDir, MbeddrDir, dest);
 
-  
-
 
 def RUN_TESTS():
   print "URL Parsing: ", TEST_getFileNameFromUrl();
   print "OS Detection: ", TEST_getOS();
   print "Git Detection: ", TEST_checkGit();
   print "Java Detection: ", TEST_checkJava();
+  print "Ant Detection: ", TEST_checkAnt();
   
 RUN_TESTS();
 exit(1);
