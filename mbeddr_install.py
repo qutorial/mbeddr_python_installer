@@ -315,9 +315,10 @@ def checkJava():
   except OSError:
     return InstallJavaMessage;
 
-def testJavaCheck():
-  print "Java: ", checkJava();
-   
+def TEST_checkJava():
+  s = checkJava();
+  return s == True or InstallJavaMessage in s;
+  
 # ANT
     
 def checkAntVersion(ant):
@@ -864,10 +865,10 @@ def main():
 
 
 def RUN_TESTS():
-  print "OS Detection: ", TEST_getOS();
   print "URL Parsing: ", TEST_getFileNameFromUrl();
+  print "OS Detection: ", TEST_getOS();
   print "Git Detection: ", TEST_checkGit();
-  
+  print "Java Detection: ", TEST_checkJava();
   
 RUN_TESTS();
 exit(1);
