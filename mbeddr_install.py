@@ -366,8 +366,6 @@ def prepareDestDir(complainExists = True):
   except OSError:
     return False;
     
-  
-  
   return destdir;
   
   
@@ -528,6 +526,14 @@ def getCBMCInstaller():
     return CBMCInstallerForMac();
   return None;
 
+def TEST_getCBMCInstaller():
+  installer = getCBMCInstaller();
+  return "Mellon" in installer.getCBMCLicense()
+  
+def TEST_checkCBMC():
+  installer = getCBMCInstaller();
+  s = installer.checkCBMC();
+  return s == True or "CBMC" in s;
     
 def installCBMC(dest):
   print "Detecting CBMC"
@@ -548,7 +554,7 @@ def installCBMC(dest):
       print cbmcInstaller.getCBMCCopyright();
     
     
-def testCBMCInstaller():
+def TEST_INTERACTIVE_installCBMC():
   dest = prepareDestDir();
   print "Testing CBMC installer";
   installCBMC(dest);
@@ -869,6 +875,8 @@ def RUN_TESTS():
   print "Git Detection: ", TEST_checkGit();
   print "Java Detection: ", TEST_checkJava();
   print "Ant Detection: ", TEST_checkAnt();
+  print "CBMC Installer Init: ", TEST_getCBMCInstaller();
+  print "CBMC Detection: ", TEST_checkCBMC();
   
 RUN_TESTS();
 exit(1);
