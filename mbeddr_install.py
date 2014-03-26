@@ -567,26 +567,31 @@ def TEST_INTERACTIVE_installCBMC():
 # ------------------ INSTALLING MPS ------------------
 
 
-def MPSFilename():
-  url="";
-  s = getOS();
+def getMPSFileName():
   if onLinux():
-    url+=MPSLin
+    return MPSMac
   if onMac():
-    url+=MPSMac
+    return MPSMac
   if onWindows():
-    url+=MPSWin
-  return url;
+    return MPSWin
+  return "";
 
+def getMPSUrl():
+  return MPSSourceUrl + getMPSFileName();
+  
+def TEST_getMPSUrl():
+  return getMPSFileName() in getFileNameFromUrl(getMPSUrl());
+  
 def downloadMPSOSDep(dest):
-  fName = MPSFilename();
-  url = MPSSourceUrl + fName; 
-  fName = os.path.join(dest, fName);  
+  url = getMPSUrl();
+  fName = os.path.join(dest, getMPSFileName());  
   if os.path.exists(fName):
+    #TODO Check this branch
     return fName;
   else:
     return downloadFile(url, dest);
-  
+
+
 
 class MPSInstallerBase:
   archive = None
@@ -877,6 +882,7 @@ def RUN_TESTS():
   print "Ant Detection: ", TEST_checkAnt();
   print "CBMC Installer Init: ", TEST_getCBMCInstaller();
   print "CBMC Detection: ", TEST_checkCBMC();
+  print "MPS Url: ", TEST_getMPSUrl();
   
 RUN_TESTS();
 exit(1);
