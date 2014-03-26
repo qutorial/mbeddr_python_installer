@@ -141,18 +141,49 @@ ReadMeURL = """https://github.com/qutorial/mbeddr_python_installer/blob/master/R
 ################### END OF CONFIGURATION ###################
 
 # Detecting OS
+
+LINUX32 = "Lin32"
+LINUX64 = "Lin64"
+MACOS = "Mac"
+WINDOWS = "Win"
     
 def getOS():
   s = platform.platform()
   if "Lin" in s:
     if platform.architecture()[0] == '64bit':
-      return "Lin64"
+      return LINUX64
     else:
-      return "Lin32";
+      return LINUX32;
   if "Darwin" in s:
-    return "Mac"
+    return MACOS
   if "Win" in s:
-    return "Win"
+    return WINDOWS
+
+def onLinux32():
+  return LINUX32 == getOS();
+    
+def onLinux64():
+  return LINUX64 == getOS();
+
+def onLinux():
+  return onLinux32() or onLinux64();
+  
+def onMac():
+  return MACOS == getOS();
+
+def onWindows():
+  return WINDOWS == getOS();
+    
+
+def TEST_getOS():
+  if onLinux() and not onMac() and not onWindows():
+    return True;
+  if not onLinux() and onMac() and not onWindows():
+    return True;
+  if not onLinux() and not onMac() and onWindows():
+    return True;
+  return False;
+
     
 # Downloading file with progress
 
@@ -161,9 +192,8 @@ def getFileNameFromUrl(url):
   path = parsed.path;
   return os.path.basename(path);
 
-def testGetFileNameFromUrl():
-  print getFileNameFromUrl(UserGuideURL);
-  print getFileNameFromUrl(MPSMac);
+def TEST_getFileNameFromUrl():
+  return getFileNameFromUrl(UserGuideURL) == "mbeddr-userguide.pdf"
   
 def downloadFile(url, destdir):
   file_name = getFileNameFromUrl(url);
@@ -217,7 +247,7 @@ def readFileName(promptMessage):
   return raw_input(promptMessage).strip()
 
 
-def testCompletion():
+def TEST_INTERACTIVE_readFileName():
   s = readFileName("File: ")
   print "Result: ", s
     
@@ -258,6 +288,8 @@ def checkGit():
   except OSError:
     return InstallGitMessage;
 
+def TEST_checkGit():
+  return checkGit() == True or checkGit() == InstallGitMessage;
     
 # JAVA 
 
@@ -270,7 +302,7 @@ def checkJavaVersion(java):
     if len(a) + len(b) > 0:
       return True;
   answer = "Java version is not recognized\n"+InstallJavaMessage;
-  if "Lin" in getOS():
+  if onLinux():
     answer = answer + InstallJavaHintUbuntu;
     
   return answer;
@@ -293,7 +325,7 @@ def checkAntVersion(ant):
     return True;
   
   answer = "Unrecognized ant version\n"
-  if "Lin" in getOS():
+  if onLinux():
     answer = answer + InstallAntHintUbuntu;
     
   return answer;
@@ -447,9 +479,9 @@ class CBMCInstallerForLinux(CBMCInstallerBase):
   def downloadCBMC(self, dest):
     fName = False
     url=""    
-    if "Lin32" in getOS():
+    if onLinux32():
       url = CBMC32BitLinuxUrl;
-    if "Lin64" in getOS():
+    if onLinux64:
       url = CBMC64BitLinuxUrl;    
     print "Downloading CBMC: " + url;
     try:
@@ -488,9 +520,9 @@ class CBMCInstallerForMac(CBMCInstallerBase):
     return True;
 
 def getCBMCInstaller():
-  if "Lin" in getOS():
+  if onLinux():
     return CBMCInstallerForLinux();
-  if "Mac" in getOS():
+  if onMac():
     return CBMCInstallerForMac();
   return None;
 
@@ -530,11 +562,11 @@ def testCBMCInstaller():
 def MPSFilename():
   url="";
   s = getOS();
-  if "Lin" in s:
+  if onLinux():
     url+=MPSLin
-  if "Mac" in s:
+  if onMac():
     url+=MPSMac
-  if "Win" in s:
+  if onWindows():
     url+=MPSWin
   return url;
 
@@ -612,15 +644,15 @@ class MPSInstallerForMac(MPSInstallerBase):
     
   
 def getMPSInstaller():
-  if "Lin" in getOS():
+  if onLinux():
     return MPSInstallerForLinux();
-  if "Mac" in getOS():
+  if onMac():
     return MPSInstallerForMac();
   return None;
 
     
     
-def testMPSInstaller():
+def TEST_INTERACTIVE_getMPSInstaller():
   dest = prepareDestDir();
   print "Testing MPS installer";
   installer = getMPSInstaller();
@@ -739,9 +771,9 @@ def greetingsMac(MPSDir, MbeddrDir, dest):
 
 
 def greetings(MPSDir, MbeddrDir, dest):
-  if "Lin" in getOS():
+  if onLinux():
     greetingsLinux(MPSDir, MbeddrDir, dest);
-  if "Mac" in getOS():
+  if onMac():
     greetingsMac(MPSDir, MbeddrDir, dest);
   
   print os.path.join(MbeddrDir, "code", "application"),""" folder.\n"""  
@@ -758,7 +790,7 @@ Please, let me know, if it does not work for you!"""
 # ---------- END OF :  FINAL GREETINGS ------------
 
   
-def main():
+def main():  
   print("Welcome!")
   print("You are about to install the last stable version of mbeddr.")
 
@@ -785,7 +817,6 @@ def main():
   if dest == False:
     print "Problem creating destination directory";
     return 1;
-  
   
   
   
@@ -828,5 +859,17 @@ def main():
   
   
   greetings(MPSDir, MbeddrDir, dest);
+
+  
+
+
+def RUN_TESTS():
+  print "OS Detection: ", TEST_getOS();
+  print "URL Parsing: ", TEST_getFileNameFromUrl();
+  print "Git Detection: ", TEST_checkGit();
+  
+  
+RUN_TESTS();
+exit(1);
   
 main();
