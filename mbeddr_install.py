@@ -889,7 +889,7 @@ def RUN_TESTS():
   print "MPS URL: ", TEST_getMPSUrl();
   print "MPS Installer Init: ", TEST_getMPSInstaller();
   
-RUN_TESTS();
-exit(1);
+#RUN_TESTS();
+#exit(1);
   
 main();
