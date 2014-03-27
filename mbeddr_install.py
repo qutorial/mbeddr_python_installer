@@ -822,7 +822,7 @@ def configureMPSWithMbeddr(MPSDir, MbeddrDir):
   writeMPSProperties(MPSDir, ConfigPath, SysPath);
   
   if onMac():
-    configureInfoPlist();
+    configureInfoPlist(MPSDir, ConfigPath, SysPath);
     
 def testConfigureMPSWithMbeddr():
   dest = prepareDestDir(False);
