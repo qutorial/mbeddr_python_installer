@@ -729,11 +729,13 @@ class MPSInstallerForMac(MPSInstallerBase):
 	print "Image not mounted, installation fails!"
 	exit(1);	      
     
+    
     self.mpsPath = self.getMPSEndPath(dest);
     print "Copying MPS...";
+    print "Please, do not eject the MPS drive..."
     shutil.copytree(MPSVolumesDir, self.mpsPath);
     print "Ready!"
-    print " * You can eject the MPS drive now!"    
+    print " * You could eject the MPS drive now!"    
     
   
 def getMPSInstaller():
