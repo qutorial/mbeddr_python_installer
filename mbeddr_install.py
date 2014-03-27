@@ -968,9 +968,9 @@ def main():
   print "Building mbeddr..."
   buildMbeddr(MbeddrDir);
   
-  #Second time, because first time fails shortly after the start,
-  print " * Please, notice: BUILD FAILED messages above are known, they do not represent an actual problem.\nBelow this line they should not appear though. It would be an indication of an error."
-  buildMbeddr(MbeddrDir);
+#  #Second time, because first time fails shortly after the start,
+#  print " * Please, notice: BUILD FAILED messages above are known, they do not represent an actual problem.\nBelow this line they should not appear though. It would be an indication of an error."
+#  buildMbeddr(MbeddrDir);
   
   print "Downloading the user guide..."
   downloadTheUserGuide(dest);
