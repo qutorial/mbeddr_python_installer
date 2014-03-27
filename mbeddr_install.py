@@ -690,7 +690,7 @@ def getTemplateForMPSProperties(MpsDir):
   return MPSVMOptions;
   
 def writeMPSProperties (MPSDir, ConfigPath, SysPath):
-  print "Write mps props is called with mpsdir ", MPSDir, " and  ConfigPath ", ConfigPath, " and SysPath ", SysPath;
+# print "Write mps props is called with mpsdir ", MPSDir, " and  ConfigPath ", ConfigPath, " and SysPath ", SysPath;
   opts = getTemplateForMPSProperties(MPSDir);
   opts = opts.replace("IdeaConfig", ConfigPath);
   opts = opts.replace("IdeaSystem", SysPath);
@@ -700,7 +700,7 @@ def writeMPSProperties (MPSDir, ConfigPath, SysPath):
   f.close();
   
 def configureMPSWithMbeddr(MPSDir, MbeddrDir):
-  print "configure is called with MPS dir ", MPSDir, " and MbeddrDir ", MbeddrDir;
+#  print "configure is called with MPS dir ", MPSDir, " and MbeddrDir ", MbeddrDir;
   ConfigPath = os.path.join(MPSDir, "IdeaConfig");
   if not os.path.exists(ConfigPath):
     os.makedirs(ConfigPath);
@@ -722,6 +722,9 @@ def configureMPSWithMbeddr(MPSDir, MbeddrDir):
   f. close();
   
   writeMPSProperties(MPSDir, ConfigPath, SysPath);
+  
+  if onMac():
+    configureInfoPlist();
     
 def testConfigureMPSWithMbeddr():
   dest = prepareDestDir(False);
