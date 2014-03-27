@@ -683,6 +683,11 @@ def TEST_INTERACTIVE_INSTALL_MPS():
 
 # ------------------ CONFIGURING MPS WITH MBEDDR ------------------
 
+
+def configureInfoPlist(MPSDir, ConfigPath, SysPath):
+  
+
+
 def getFileNameToWritePropertiesTo(MPSDir):
   return os.path.join(MPSDir, "bin", "mps.vmoptions");
     
