@@ -830,11 +830,7 @@ def testConfigureMPSWithMbeddr():
   mpsInstaller = getMPSInstaller();
   MPSDir = mpsInstaller.getMPSEndPath(dest);  
   configureMPSWithMbeddr(MPSDir, MbeddrDir);
-  
  
-testConfigureMPSWithMbeddr();
-exit(1);
-
 # ------------------ END CONFIGURING MPS WITH MBEDDR ------------------
 
     
@@ -976,6 +972,9 @@ def main():
   
   print "Downloading the user guide..."
   downloadTheUserGuide(dest);
+  
+  print "Downloading the README.txt..."
+  downloadTheReadMe(dest);
   
   
   greetings(MPSDir, MbeddrDir, dest);
