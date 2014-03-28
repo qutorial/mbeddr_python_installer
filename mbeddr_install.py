@@ -26,8 +26,8 @@ if sys.version_info < (2, 7):
 
 # MBEDDR CONFIGURATION
 MbeddrRepo = """https://github.com/mbeddr/mbeddr.core.git"""
-TheBranch = "fortissStable"
-#TheBranch = "master"
+#TheBranch = "fortissStable"
+TheBranch = "master"
 BuildProperties = """# MPS installation
 mps.home=MPSDir
 # Folder where MPS stores it's cache
