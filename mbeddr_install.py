@@ -26,8 +26,8 @@ if sys.version_info < (2, 7):
 
 # MBEDDR CONFIGURATION
 MbeddrRepo = """https://github.com/mbeddr/mbeddr.core.git"""
-TheBranch = "fortissStable"
-#TheBranch = "master"
+#TheBranch = "fortissStable"
+TheBranch = "master"
 BuildProperties = """# MPS installation
 mps.home=MPSDir
 # Folder where MPS stores it's cache
@@ -967,11 +967,6 @@ def main():
   
   print "Building mbeddr..."
   buildMbeddr(MbeddrDir);
-  
-  #Bug in the fortissStable branch, fixed on the master.
-  if TheBranch == "fortissStable":
-    print " * Please, notice: BUILD FAILED messages above are known, they do not represent an actual problem.\nBelow this line they should not appear though. It would be an indication of an error."
-    buildMbeddr(MbeddrDir);
   
   print "Downloading the user guide..."
   downloadTheUserGuide(dest);
