@@ -685,7 +685,7 @@ class MPSInstallerBase:
     return None   
     
   def setUpMPS(self, dest):
-    self.setUpMPSHook(dest);    
+    self.setUpMPSHook(dest); 
     self.removeArchive();
     
   def getMPSPath(self):
@@ -704,7 +704,7 @@ class MPSInstallerForLinux(MPSInstallerBase):
   def getMPSEndPath(self, dest):
     return os.path.join(dest, MPSDestDirLinux);
     
-  def setUpMPSHook(dest):
+  def setUpMPSHook(self, dest):
     MPSDir = self.getMPSEndPath(dest);
     if os.path.exists(MPSDir):
       print "Can not install MPS, the folder " + MPSDir + " already exists, please delete it first or specify a new one."
