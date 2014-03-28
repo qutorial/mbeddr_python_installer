@@ -649,7 +649,7 @@ def TEST_INTERACTIVE_installCBMC():
 
 def getMPSFileName():
   if onLinux():
-    return MPSMac
+    return MPSLin
   if onMac():
     return MPSMac
   if onWindows():
