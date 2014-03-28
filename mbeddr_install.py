@@ -54,8 +54,8 @@ MPSDestDirMac = "MPS31.app"
 MPSVMOptions="""-client
 -Xss1024k
 -ea
--Xmx2100m
--XX:MaxPermSize=2256m
+-Xmx2048m
+-XX:MaxPermSize=2048m
 -XX:NewSize=512m
 -XX:+HeapDumpOnOutOfMemoryError
 -Dfile.encoding=UTF-8
