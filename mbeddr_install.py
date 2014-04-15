@@ -11,14 +11,10 @@ import os.path
 from os.path import expanduser
 from urllib2 import urlparse
 import zipfile, tarfile
+
 #Autocompletion, input
 import readline, glob
 import rlcompleter
-if 'libedit' in readline.__doc__:
-    readline.parse_and_bind("bind ^I rl_complete")
-else:
-    readline.parse_and_bind("tab: complete")
-
 
 # Checking Python
 
@@ -324,9 +320,15 @@ def completeDirAware(text, state):
 	  
     return res
 
-complete = completeDirAware
 
 def readFileName(promptMessage):
+  if 'libedit' in readline.__doc__:
+    readline.parse_and_bind("bind ^I rl_complete")
+    complete = completeSimple
+  else:
+    readline.parse_and_bind("tab: complete")
+    complete = completeDirAware
+
   readline.set_completer_delims(' \t\n;')
   readline.set_completer(complete)  
   return raw_input(promptMessage).strip()
