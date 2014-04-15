@@ -13,6 +13,11 @@ from urllib2 import urlparse
 import zipfile, tarfile
 #Autocompletion, input
 import readline, glob
+import rlcompleter
+if 'libedit' in readline.__doc__:
+    readline.parse_and_bind("bind ^I rl_complete")
+else:
+    readline.parse_and_bind("tab: complete")
 
 
 # Checking Python
@@ -306,10 +311,7 @@ def downloadFile(url, destdir):
   
 # Autocomplete file names
 def completeSimple(text, state):
-    print "Text: ", text
-    print "State: ", state
     res = glob.glob(text+"*")+[None];
-    print "Res: ", res;
     return (res)[state];
 
 def completeDirAware(text, state):
@@ -325,8 +327,7 @@ def completeDirAware(text, state):
 complete = completeDirAware
 
 def readFileName(promptMessage):
-  readline.set_completer_delims(' \n;')
-  readline.parse_and_bind("tab: complete")
+  readline.set_completer_delims(' \t\n;')
   readline.set_completer(complete)  
   return raw_input(promptMessage).strip()
 
