@@ -40,7 +40,7 @@ def getMbeddrDestDir(dest):
 
 # MPS CONFIGURATION
 
-EAPNum = "27"  
+EAPNum = "30"  
 MPSSourceUrl = """http://download-ln.jetbrains.com/mps/31/"""
 MPSWin = """MPS-3.1-EAP1-"""+EAPNum+""".exe"""
 MPSMac = """MPS-3.1-EAP1-"""+EAPNum+"""-macos.dmg"""
