@@ -337,10 +337,7 @@ def readFileName(promptMessage):
 def TEST_INTERACTIVE_readFileName():
   s = readFileName("File: ")
   print "Result: ", s
-    
-TEST_INTERACTIVE_readFileName();
-exit(1);
-    
+  
 # Unarchiving Zips and Tars
 
 def unzip(zipzip, dest):
