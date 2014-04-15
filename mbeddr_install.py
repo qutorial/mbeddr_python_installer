@@ -321,7 +321,7 @@ def completeDirAware(text, state):
 complete = completeDirAware
 
 def readFileName(promptMessage):
-  readline.set_completer_delims(' \t\n;')
+  readline.set_completer_delims(' \n;')
   readline.parse_and_bind("tab: complete")
   readline.set_completer(complete)  
   return raw_input(promptMessage).strip()
@@ -330,6 +330,9 @@ def readFileName(promptMessage):
 def TEST_INTERACTIVE_readFileName():
   s = readFileName("File: ")
   print "Result: ", s
+    
+TEST_INTERACTIVE_readFileName();
+exit(1);
     
 # Unarchiving Zips and Tars
 
