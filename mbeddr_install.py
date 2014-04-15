@@ -6,7 +6,7 @@
 #bash command to run it on Mac
 #mi=`mktemp /tmp/mbeddr_install.py.XXXXX` && curl  https://raw.github.com/qutorial/mbeddr_python_installer/master/mbeddr_install.py -o $mi && python2.7 $mi; rm $mi;
 
-import sys, os, subprocess, urllib2, platform, time, shutil
+import sys, os, subprocess, urllib2, platform, time, shutil, string
 import os.path
 from os.path import expanduser
 from urllib2 import urlparse
@@ -714,7 +714,23 @@ class MPSInstallerForLinux(MPSInstallerBase):
     print "Renaming MPS folder"    
     os.rename(os.path.join(dest, MPSArcDir), MPSDir)
     self.mpsPath = MPSDir;
-    
+
+def ejectImageMac(imagePath):
+  lines = os.popen("hdiutil info").readlines()
+  shouldEject = False;
+  for line in lines:
+    if line.startswith("image-path"):
+      shouldEject = False;
+      path = line.split(":")[1].lstrip().rstrip()
+      if path == imagePath:
+	shouldEject = True;
+    elif line.startswith("/dev/") and shouldEject is True:
+      os.popen("hdiutil eject %s" % line.split()[0])
+      shouldEject = False;
+    elif line.startswith("###"):
+      shouldEject = False;
+      
+   
 class MPSInstallerForMac(MPSInstallerBase):
   def getMPSEndPath(self, dest):
     return os.path.join(dest, MPSDestDirMac);
@@ -735,7 +751,8 @@ class MPSInstallerForMac(MPSInstallerBase):
     print "Please, do not eject the MPS drive..."
     shutil.copytree(MPSVolumesDir, self.mpsPath);
     print "Ready!"
-    print " * You could eject the MPS drive now!"    
+    print "Ejecting the MPS image now..."    
+    ejectImageMac(self.archive);
     
   
 def getMPSInstaller():
