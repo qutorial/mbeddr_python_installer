@@ -306,7 +306,11 @@ def downloadFile(url, destdir):
   
 # Autocomplete file names
 def completeSimple(text, state):
-    return (glob.glob(text+'*')+[None])[state]
+    print "Text: ", text
+    print "State: ", state
+    res = glob.glob(text+"*")+[None];
+    print "Res: ", res;
+    return (res)[state];
 
 def completeDirAware(text, state):
     res = completeSimple(text, state);
