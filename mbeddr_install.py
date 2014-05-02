@@ -42,11 +42,11 @@ def getMbeddrDestDir(dest):
 # MPS CONFIGURATION
 
 EAPNum = "31"  
-MPSSourceUrl = """http://download-ln.jetbrains.com/mps/31/"""
-MPSWin = """MPS-3.1-EAP1-"""+EAPNum+""".exe"""
-MPSMac = """MPS-3.1-EAP1-"""+EAPNum+"""-macos.dmg"""
-MPSLin = """MPS-3.1-EAP1-"""+EAPNum+""".tar.gz"""
-MPSZip = """MPS-3.1-EAP1-"""+EAPNum+""".zip"""
+MPSSourceUrl = """http://download.jetbrains.com/mps/31/"""
+MPSWin = """MPS-3.1-EAP1.exe"""
+MPSMac = """MPS-3.1-EAP1-macos.dmg"""
+MPSLin = """MPS-3.1-EAP1.tar.gz"""
+MPSZip = """MPS-3.1-EAP1.zip"""
 MPSArcDir = """MPS 3.1 EAP"""
 MPSVolumesDir = """/Volumes/MPS 3.1 EAP/MPS 3.1 EAP.app"""
 MPSDestDirLinux = "MPS31"
