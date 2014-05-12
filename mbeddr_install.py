@@ -27,8 +27,8 @@ if sys.version_info < (2, 7):
 
 # MBEDDR CONFIGURATION
 MbeddrRepo = """https://github.com/mbeddr/mbeddr.core.git"""
-#TheBranch = "fortissStable"
-TheBranch = "master"
+TheBranch = "fortissStable"
+#TheBranch = "master"
 BuildProperties = """# MPS installation
 mps.home=MPSDir
 # Folder where MPS stores it's cache
@@ -189,6 +189,9 @@ InstallJavaHintUbuntu = """\nOn Ubuntu this might work:
 sudo add-apt-repository ppa:webupd8team/java
 sudo apt-get update
 sudo apt-get install oracle-java7-installer
+
+* On Ubuntu 14.04 the last command requires sometimes several runs.
+
 """
 
 # ANT CONFIGURATION
@@ -373,7 +376,10 @@ def checkGit():
     git = subprocess.check_output(["git", "--version"], stderr=subprocess.STDOUT)
     return checkGitVersion(git)
   except OSError:
-    return InstallGitMessage;
+    answer = InstallGitMessage;
+    if onLinux():
+      answer += InstallGitHintUbuntu;
+    return answer;
 
 def TEST_checkGit():
   return checkGit() == True or checkGit() == InstallGitMessage;
@@ -400,7 +406,10 @@ def checkJava():
     java = subprocess.check_output(["java", "-version"], stderr=subprocess.STDOUT)
     return checkJavaVersion(java)
   except OSError:
-    return InstallJavaMessage;
+    answer = InstallJavaMessage;
+    if onLinux():
+      answer += InstallJavaHintUbuntu;
+    return answer;
 
 def TEST_checkJava():
   s = checkJava();
@@ -411,7 +420,7 @@ def TEST_checkJava():
 def checkAntVersion(ant):
   if "Apache Ant" in ant:
     return True;
-  
+    
   answer = "Unrecognized ant version\n"
   if onLinux():
     answer = answer + InstallAntHintUbuntu;
@@ -423,7 +432,10 @@ def checkAnt():
     ant = subprocess.check_output(["ant", "-version"], stderr=subprocess.STDOUT)
     return checkAntVersion(ant)
   except OSError:
-    return InstallAntMessage;
+    answer = InstallAntMessage;
+    if onLinux():
+      answer += InstallAntHintUbuntu
+    return answer;
 
 def TEST_checkAnt():
   s =  checkAnt();
