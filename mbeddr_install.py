@@ -1004,11 +1004,21 @@ def main():
   print "Building mbeddr..."
   buildMbeddr(MbeddrDir);
   
-  print "Downloading the user guide..."
-  downloadTheUserGuide(dest);
   
-  print "Downloading the README.txt..."
-  downloadTheReadMe(dest);
+  try:
+    print "Downloading the user guide..."
+    downloadTheUserGuide(dest);
+  except:
+    print "Can not download the user guide."
+  
+  try:
+    print "Downloading the README.txt..."
+    downloadTheReadMe(dest);
+  except:
+    print "Can not download the README.txt."
+  
+  
+  except OSError:
   
   
   greetings(MPSDir, MbeddrDir, dest);
