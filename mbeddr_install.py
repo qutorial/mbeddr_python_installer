@@ -760,7 +760,7 @@ class MPSInstallerForMac(MPSInstallerBase):
     
     if not os.path.exists(MPSVolumesDir):
       print "Waiting for the image to mount..."
-      time.sleep(10);
+      time.sleep(5);
       if not os.path.exists(MPSVolumesDir):
 	print "Image not mounted, installation fails!"
 	exit(1);	      
