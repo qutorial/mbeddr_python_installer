@@ -48,7 +48,7 @@ MPSMac = """MPS-3.1-EAP1-macos.dmg"""
 MPSLin = """MPS-3.1-EAP1.tar.gz"""
 MPSZip = """MPS-3.1-EAP1.zip"""
 MPSArcDir = """MPS 3.1"""
-MPSVolumesDir = """/Volumes/MPS 3.1 EAP/MPS 3.1 EAP.app"""
+MPSVolumesDir = """/Volumes/MPS 3.1/MPS 3.1.app"""
 MPSDestDirLinux = "MPS31"
 MPSDestDirMac = "MPS31.app"
 
@@ -757,9 +757,10 @@ class MPSInstallerForMac(MPSInstallerBase):
   def setUpMPSHook(self, dest):    
     proc = subprocess.Popen(["hdiutil", "attach", "-quiet", self.archive], stdin=subprocess.PIPE)
     proc.wait();
+    
     if not os.path.exists(MPSVolumesDir):
       print "Waiting for the image to mount..."
-      time.sleep(5);
+      time.sleep(10);
       if not os.path.exists(MPSVolumesDir):
 	print "Image not mounted, installation fails!"
 	exit(1);	      
