@@ -940,6 +940,14 @@ def greetings(MPSDir, MbeddrDir, dest):
   print """This installer for mbeddr advanced users has been built by molotnikov (at) fortiss (dot) org.\n
 Please, let me know, if it does not work for you!"""
 
+
+def printErrorMessage():
+  print """The installation went wrong, unfortunately.\n
+This installer is created by Zaur Molotnikov ( molotnikov at fortiss dot org ).\n
+Please, write an email on this address, if you experience troubles using the installer or mbeddr.\n
+Please, include in your letter a detailed description, what exactly you have been doing before facing\n
+difficulties, what did not work for you? Which environment did you have, in particular, which operating system?\n
+Please, include the error messages appearing above on the console.\n"""
   
 # ---------- END OF :  FINAL GREETINGS ------------
 
@@ -1016,11 +1024,7 @@ def main():
     downloadTheReadMe(dest);
   except:
     print "Can not download the README.txt."
-  
-  
-  except OSError:
-  
-  
+    
   greetings(MPSDir, MbeddrDir, dest);
 
 
@@ -1037,5 +1041,13 @@ def RUN_TESTS():
   
 #RUN_TESTS();
 #exit(1);
+
+try:
+  main();
+except:
+  print "Exception:";
+  print sys.exc_info();
+  print "\n";  
+  printErrorMessage();
   
-main();
+  
