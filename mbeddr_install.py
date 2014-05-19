@@ -52,7 +52,7 @@ MPSVolumesDir = """/Volumes/MPS 3.1/MPS 3.1.app"""
 MPSDestDirLinux = "MPS31"
 MPSDestDirMac = "MPS31.app"
 
-MPSVMOptions="""-client
+MPSVMOptionsPriv="""-client
 -Xss1024k
 -ea
 -Xmx2048m
@@ -65,6 +65,12 @@ MPSVMOptions="""-client
 -Didea.config.path=IdeaConfig
 -Didea.system.path=IdeaSystem"""
 #-Didea.plugins.path=IdeaPlugins"""
+
+def getTemplateForMPSProperties():
+  if onLinux32():
+    return MPSVMOptionsPriv.replace("-XX:MaxPermSize=2048m", "-XX:MaxPermSize=512m");
+  else:
+    return MPSVMOptionsPriv;
 
 MPSLibraryManager = """<?xml version="1.0" encoding="UTF-8"?>
 <application>
@@ -830,8 +836,6 @@ def configureInfoPlist(MPSDir, ConfigPath, SysPath):
 def getFileNameToWritePropertiesTo(MPSDir):
   return os.path.join(MPSDir, "bin", "mps.vmoptions");
     
-def getTemplateForMPSProperties():
-  return MPSVMOptions;
   
 def writeMPSProperties (MPSDir, ConfigPath, SysPath):
 # print "Write mps props is called with mpsdir ", MPSDir, " and  ConfigPath ", ConfigPath, " and SysPath ", SysPath;
