@@ -586,7 +586,7 @@ class CBMCInstallerForLinux(CBMCInstallerBase):
     url=""    
     if onLinux32():
       url = CBMC32BitLinuxUrl;
-    if onLinux64:
+    if onLinux64():
       url = CBMC64BitLinuxUrl;    
     print "Downloading CBMC: " + url;
     try:
@@ -663,7 +663,7 @@ def TEST_INTERACTIVE_installCBMC():
   dest = prepareDestDir();
   print "Testing CBMC installer";
   installCBMC(dest);
-  
+
 # ------------------ END INSTALLING CBMC ------------------
     
 
