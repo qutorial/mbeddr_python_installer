@@ -907,6 +907,8 @@ def cloneMbeddr(dest, MbeddrDir):
   print "Checking out " + TheBranch + " branch..."  
   os.system("git --git-dir="+ os.path.join(MbeddrDir, ".git") + " reset --hard");
   os.system("git --git-dir="+ os.path.join(MbeddrDir, ".git") + " checkout " + TheBranch);
+  print "Updating plug-ins from S. Lisson ..."
+  os.system("git --git-dir="+ os.path.join(MbeddrDir, ".git") + " submodule update --init --recursive");
     
   
 
