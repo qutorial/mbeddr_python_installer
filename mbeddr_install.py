@@ -41,14 +41,13 @@ def getMbeddrDestDir(dest):
 
 # MPS CONFIGURATION
 
-EAPNum = "31"  
-MPSSourceUrl = """http://download.jetbrains.com/mps/31/"""
-MPSWin = """MPS-3.1-EAP1.exe"""
-MPSMac = """MPS-3.1-EAP1-macos.dmg"""
-MPSLin = """MPS-3.1-EAP1.tar.gz"""
-MPSZip = """MPS-3.1-EAP1.zip"""
-MPSArcDir = """MPS 3.1"""
-MPSVolumesDir = """/Volumes/MPS 3.1/MPS 3.1.app"""
+
+MPSMac = """http://download.jetbrains.com/mps/31/MPS-3.1-EAP4-135.638-macos.dmg"""
+MPSWin = """http://download.jetbrains.com/mps/31/MPS-3.1-EAP4-135.638.exe"""
+MPSLin = """http://download.jetbrains.com/mps/31/MPS-3.1-EAP4-135.638.tar.gz"""
+MPSZip = """http://download.jetbrains.com/mps/31/MPS-3.1-EAP4-135.638.zip"""
+MPSArcDir="MPS" #This is just a part of it
+MPSVolumesDir = """/Volumes/""" #MPSVolumesDir = """/Volumes/MPS 3.1/MPS 3.1.app"""
 MPSDestDirLinux = "MPS31"
 MPSDestDirMac = "MPS31.app"
 
@@ -211,8 +210,7 @@ sudo apt-get install ant
 
 
 # GIT CONFIGURATION
-InstallGitMessage= """Please, install Git.\n 
-
+InstallGitMessage= """Please, install Git.
 http://git-scm.com/downloads"""
 
 InstallGitHintUbuntu = """\nOn Ubuntu this might work:
@@ -458,7 +456,9 @@ def prepareDestDir(complainExists = True):
   
   if (destdir is None) or (len(destdir) == 0):    
     destdir = home;
- 
+  
+  destdir=os.path.abspath(destdir);
+  
   print("Selecting: " + destdir)
   
   try:    
@@ -672,7 +672,9 @@ def TEST_INTERACTIVE_installCBMC():
 # ------------------ INSTALLING MPS ------------------
 
 
-def getMPSFileName():
+
+
+def getMPSUrl():
   if onLinux():
     return MPSLin
   if onMac():
@@ -681,9 +683,9 @@ def getMPSFileName():
     return MPSWin
   return "";
 
-def getMPSUrl():
-  return MPSSourceUrl + getMPSFileName();
-  
+def getMPSFileName():
+  return getFileNameFromUrl(getMPSUrl());
+
 def TEST_getMPSUrl():
   return getMPSFileName() in getFileNameFromUrl(getMPSUrl());
   
@@ -737,7 +739,10 @@ class MPSInstallerForLinux(MPSInstallerBase):
     print "Extracting..."
     unarchive(self.archive, dest);        
     print "Renaming MPS folder"    
-    os.rename(os.path.join(dest, MPSArcDir), MPSDir)
+    MPSArcDirLocal=MPSArcDir;
+    dirs = [ f for f in os.listdir(dest) if os.path.isdir(os.path.join(dest, f)) and MPSArcDirLocal in f ];
+    MPSArcDirLocal = dirs[0];
+    os.rename(os.path.join(dest, MPSArcDirLocal), MPSDir)
     self.mpsPath = MPSDir;
 
 def ejectImageMac(imagePath):
@@ -755,6 +760,10 @@ def ejectImageMac(imagePath):
     elif line.startswith("###"):
       shouldEject = False;
       
+      
+def failNoImage():
+  print "Image not mounted, installation fails!"
+  exit(1);
    
 class MPSInstallerForMac(MPSInstallerBase):
   def getMPSEndPath(self, dest):
@@ -764,13 +773,26 @@ class MPSInstallerForMac(MPSInstallerBase):
     proc = subprocess.Popen(["hdiutil", "attach", "-quiet", self.archive], stdin=subprocess.PIPE)
     proc.wait();
     
-    if not os.path.exists(MPSVolumesDir):
-      print "Waiting for the image to mount..."
-      time.sleep(5);
-      if not os.path.exists(MPSVolumesDir):
-	print "Image not mounted, installation fails!"
-	exit(1);	      
+    print "Waiting for the image to mount..."
+    time.sleep(5);
     
+    
+    
+    dirs = [ f for f in os.listdir(MPSVolumesDir) if "MPS" in f ]
+    if len(dirs) == 0:
+      failNoImage();
+      
+    
+    MPSVolumesDir = os.path.join(MPSVolumesDir, dirs[0]);
+        
+    dirs = [ f for f in os.listdir(MPSVolumesDir) if "MPS" in f ]
+    if len(dirs) == 0:
+      failNoImage();
+      
+    MPSVolumesDir = os.path.join(MPSVolumesDir, dirs[0]);
+    
+    if not os.path.exists(MPSVolumesDir):
+      failNoImage();
     
     self.mpsPath = self.getMPSEndPath(dest);
     print "Copying MPS...";
@@ -942,17 +964,25 @@ def greetings(MPSDir, MbeddrDir, dest):
   
   print "\nWelcome to mbeddr. C the difference C the future.\n";
   print "-----------------------------------------------------------\n"
-  print """This installer for mbeddr advanced users has been built by molotnikov (at) fortiss (dot) org.\n
-Please, let me know, if it does not work for you!"""
+  print """This installer for mbeddr advanced users has been built by molotnikov (at) fortiss (dot) org.
+  
+If the installer did not work for you, please, let us know. 
+https://github.com/qutorial/mbeddr_python_installer
+"""
 
 
 def printErrorMessage():
-  print """The installation went wrong, unfortunately.\n
-This installer is created by Zaur Molotnikov ( molotnikov at fortiss dot org ).\n
-Please, write an email on this address, if you experience troubles using the installer or mbeddr.\n
-Please, include in your letter a detailed description, what exactly you have been doing before facing\n
-difficulties, what did not work for you? Which environment did you have, in particular, which operating system?\n
-Please, include the error messages appearing above on the console.\n"""
+  print """The installation went wrong, unfortunately.
+
+Please, report an issue on the installer's GitHub page:
+https://github.com/qutorial/mbeddr_python_installer
+
+Please, include in your letter a detailed description, what exactly you have been doing before facing
+difficulties, what did not work for you? Which environment did you have, in particular, which operating system?
+Please, include the error messages appearing above on the console.
+
+This installer is created by Zaur Molotnikov ( molotnikov at fortiss dot org ).
+Please, write an email on this address, if you experience troubles using the installer or mbeddr."""
   
 # ---------- END OF :  FINAL GREETINGS ------------
 
