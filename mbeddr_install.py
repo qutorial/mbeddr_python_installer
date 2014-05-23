@@ -219,7 +219,7 @@ sudo apt-get install git
 
 
 # USER GUIDE CONFIGURATION
-UserGuideURL = """https://github.com/qutorial/mbeddr_python_installer/blob/master/mbeddr-userguide.pdf?raw=true"""
+UserGuideURL = """https://github.com/qutorial/mbeddr_python_installer/blob/master/UserGuide.pdf?raw=true"""
 
 # README CONFIGURATION
 ReadMeURL = """https://github.com/qutorial/mbeddr_python_installer/blob/master/README.txt?raw=true"""
