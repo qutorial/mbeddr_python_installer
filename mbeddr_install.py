@@ -903,14 +903,7 @@ def cloneMbeddr(dest, MbeddrDir):
   if not os.path.exists(MbeddrDir):
       os.makedirs(MbeddrDir);
   os.chdir(MbeddrDir);
-  os.system("git clone " + MbeddrRepo+ " .");
-  print "Checking out " + TheBranch + " branch..."  
-  os.system("git --git-dir="+ os.path.join(MbeddrDir, ".git") + " reset --hard");
-  os.system("git --git-dir="+ os.path.join(MbeddrDir, ".git") + " checkout " + TheBranch);
-  print "Updating plug-ins from S. Lisson ..."
-  os.system("git --git-dir="+ os.path.join(MbeddrDir, ".git") + " submodule update --init --recursive");
-    
-  
+  os.system("git clone --recursive -b " + TheBranch + " " + MbeddrRepo+ " .");  
 
 def configureMbeddr(MPSDir, MbeddrDir):
   BuildPropsPath = os.path.join(MbeddrDir, "code", "languages", "build.properties");
