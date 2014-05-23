@@ -777,27 +777,28 @@ class MPSInstallerForMac(MPSInstallerBase):
     time.sleep(5);
     
     
+    MPSVolumesDirLocal = MPSVolumesDir;
     
-    dirs = [ f for f in os.listdir(MPSVolumesDir) if "MPS" in f ]
+    dirs = [ f for f in os.listdir(MPSVolumesDirLocal) if "MPS" in f ]
     if len(dirs) == 0:
       failNoImage();
       
     
-    MPSVolumesDir = os.path.join(MPSVolumesDir, dirs[0]);
+    MPSVolumesDirLocal = os.path.join(MPSVolumesDirLocal, dirs[0]);
         
-    dirs = [ f for f in os.listdir(MPSVolumesDir) if "MPS" in f ]
+    dirs = [ f for f in os.listdir(MPSVolumesDirLocal) if "MPS" in f ]
     if len(dirs) == 0:
       failNoImage();
       
-    MPSVolumesDir = os.path.join(MPSVolumesDir, dirs[0]);
+    MPSVolumesDirLocal = os.path.join(MPSVolumesDirLocal, dirs[0]);
     
-    if not os.path.exists(MPSVolumesDir):
+    if not os.path.exists(MPSVolumesDirLocal):
       failNoImage();
     
     self.mpsPath = self.getMPSEndPath(dest);
     print "Copying MPS...";
     print "Please, do not eject the MPS drive..."
-    shutil.copytree(MPSVolumesDir, self.mpsPath);
+    shutil.copytree(MPSVolumesDirLocal, self.mpsPath);
     print "Ready!"
     print "Ejecting the MPS image now..."    
     ejectImageMac(self.archive);
