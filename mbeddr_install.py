@@ -6,7 +6,7 @@
 #bash command to run it on Mac
 #mi=`mktemp /tmp/mbeddr_install.py.XXXXX` && curl  https://raw.github.com/qutorial/mbeddr_python_installer/master/mbeddr_install.py -o $mi && python2.7 $mi; rm $mi;
 
-import sys, os, subprocess, urllib2, platform, time, shutil, string
+import sys, os, subprocess, urllib2, platform, time, shutil, string, traceback
 import os.path
 from os.path import expanduser
 from urllib2 import urlparse
@@ -1080,9 +1080,10 @@ def RUN_TESTS():
 try:
   main();
 except:
-  print "Exception:";
-  print sys.exc_info();
-  print "\n";  
+  print "\n\nException:";
+  exc_type, exc_value, exc_traceback = sys.exc_info()
+  traceback.print_exception(exc_type, exc_value, exc_traceback)
+  print "\n\n"
   printErrorMessage();
   
   
