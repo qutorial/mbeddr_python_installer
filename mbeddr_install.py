@@ -27,7 +27,7 @@ if sys.version_info < (2, 7):
 
 # MBEDDR CONFIGURATION
 MbeddrRepo = """https://github.com/mbeddr/mbeddr.core.git"""
-#TheBranch = "fortissStable"
+#TheBranch = "fortiss_stable"
 TheBranch = "master"
 BuildProperties = """# MPS installation
 mps.home=MPSDir
@@ -922,8 +922,13 @@ def buildMbeddr(MbeddrDir):
 # ---------- DOWNLOADING USER GUIDE ------------
 
 def downloadTheUserGuide(dest):
-  downloadFile(UserGuideURL, dest);
+  try:
+    downloadFile(UserGuideURL, dest);
+  except:
+    print "Can not download the user guide."
+  
 
+    
 # ---------- END OF : DOWNLOADING USER GUIDE ------------
 
 
@@ -931,7 +936,10 @@ def downloadTheUserGuide(dest):
 # ---------- DOWNLOADING README ------------
 
 def downloadTheReadMe(dest):
-  downloadFile(ReadMeURL, dest);
+  try:
+    downloadFile(ReadMeURL, dest);
+  except:
+    print "Can not download the README.txt."
 
 # ---------- END OF : DOWNLOADING README ------------
 
@@ -1014,17 +1022,20 @@ def main():
   
   
   #Installing CBMC
+  print "Installing CBMC"
   installCBMC(dest);
     
   
   
   #Installing MPS
+  print "Installing MPS..."
   mpsInstaller = getMPSInstaller();
   mpsInstaller.downloadMPS(dest);  
   mpsInstaller.setUpMPS(dest);
   MPSDir = mpsInstaller.getMPSPath();
   
     
+  print "Installing mbeddr"
   MbeddrDir = getMbeddrDestDir(dest);
   if os.path.exists(MbeddrDir):
     print "Can not install mbeddr, the folder " + MbeddrDir + " already exists, please delete it first or specify a new one.\n"
@@ -1043,18 +1054,11 @@ def main():
   print "Building mbeddr..."
   buildMbeddr(MbeddrDir);
   
-  
-  try:
-    print "Downloading the user guide..."
-    downloadTheUserGuide(dest);
-  except:
-    print "Can not download the user guide."
-  
-  try:
-    print "Downloading the README.txt..."
-    downloadTheReadMe(dest);
-  except:
-    print "Can not download the README.txt."
+  print "Downloading the user guide..."
+  downloadTheUserGuide(dest);
+ 
+  print "Downloading the README.txt..."
+  downloadTheReadMe(dest);
     
   greetings(MPSDir, MbeddrDir, dest);
 
