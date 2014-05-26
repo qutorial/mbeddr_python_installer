@@ -27,7 +27,7 @@ if sys.version_info < (2, 7):
 
 # MBEDDR CONFIGURATION
 MbeddrRepo = """https://github.com/mbeddr/mbeddr.core.git"""
-#TheBranch = "fortiss_stable"
+TheBranch = "fortiss_stable"
 #TheBranch = "master"
 BuildProperties = """# MPS installation
 mps.home=MPSDir
