@@ -195,9 +195,11 @@ sudo add-apt-repository ppa:webupd8team/java
 sudo apt-get update
 sudo apt-get install oracle-java7-installer
 
-* On Ubuntu 14.04 the last command requires sometimes several runs.
+ * On Ubuntu 14.04 the last command requires sometimes several runs.
 
 """
+
+OpenJdkHint = """ ** Please, note that Oracle Java (instead of IcedTea/OpenJDK) is recommended to run MPS!\n"""
 
 # ANT CONFIGURATION
 InstallAntMessage= """Please, install Apache Ant(TM).\n 
@@ -400,8 +402,11 @@ def checkJavaVersion(java):
       return True;
   answer = "Java version is not recognized\n"+InstallJavaMessage;
   if onLinux():
-    answer = answer + InstallJavaHintUbuntu;
-    
+    answer = answer + InstallJavaHintUbuntu;    
+    a = [s for s in vals if "IcedTea" in s]
+    a += [s for s in vals if "OpenJDK" in s]
+    if len(a) > 0:
+      answer = answer + OpenJdkHint;    
   return answer;
   
   
