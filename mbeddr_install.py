@@ -52,25 +52,41 @@ MPSVolumesDir = """/Volumes/""" #MPSVolumesDir = """/Volumes/MPS 3.1/MPS 3.1.app
 MPSDestDirLinux = "MPS31"
 MPSDestDirMac = "MPS31.app"
 
-MPSVMOptionsPriv="""-client
+MPSVMOptions32Priv="""-client
+-Xss1024k
+-ea
+-Xmx950m
+-XX:MaxPermSize=256m
+-XX:NewSize=256m
+-XX:+HeapDumpOnOutOfMemoryError
+-Xverify:none
+-Dfile.encoding=UTF-8
+-Dapple.awt.graphics.UseQuartz=true
+-Didea.paths.selector=MPS31
+-Didea.config.path=IdeaConfig
+-Didea.system.path=IdeaSystem"""
+#-Didea.plugins.path=IdeaPlugins"""
+
+MPSVMOptions64Priv="""-client
 -Xss1024k
 -ea
 -Xmx2048m
--XX:MaxPermSize=2048m
--XX:NewSize=512m
+-XX:MaxPermSize=350m
+-XX:NewSize=256m
 -XX:+HeapDumpOnOutOfMemoryError
+-Xverify:none
 -Dfile.encoding=UTF-8
 -Dapple.awt.graphics.UseQuartz=true
--Didea.paths.selector=MPS30
+-Didea.paths.selector=MPS31
 -Didea.config.path=IdeaConfig
 -Didea.system.path=IdeaSystem"""
 #-Didea.plugins.path=IdeaPlugins"""
 
 def getTemplateForMPSProperties():
   if onLinux32():
-    return MPSVMOptionsPriv.replace("-XX:MaxPermSize=2048m", "-XX:MaxPermSize=512m");
+    return MPSVMOptions32Priv;
   else:
-    return MPSVMOptionsPriv;
+    return MPSVMOptions64Priv;
 
 MPSLibraryManager = """<?xml version="1.0" encoding="UTF-8"?>
 <application>
