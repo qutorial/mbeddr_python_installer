@@ -11,6 +11,7 @@ import os.path
 from os.path import expanduser
 
 from urllib.request import urlopen
+from urllib.request import urlretrieve
 from urllib.parse import urlparse
 
 import zipfile, tarfile
@@ -335,32 +336,27 @@ def getFileNameFromUrl(url):
 def TEST_getFileNameFromUrl():
   return getFileNameFromUrl(UserGuideURL) == "mbeddr-userguide.pdf"
   
+  
+def downloadProgressHook(blocknum, blocksize, totalsize):
+    readsofar = blocknum * blocksize
+    if totalsize > 0:
+        percent = readsofar * 1e2 / totalsize
+        s = "\r%5.1f%% %*d / %d" % (
+            percent, len(str(totalsize)), readsofar, totalsize)
+        sys.stderr.write(s)
+        if readsofar >= totalsize: # near the end
+            sys.stderr.write("\n")
+    else: # total size is unknown
+        sys.stderr.write("read %d\n" % (readsofar,))
+
+
+        urlretrieve(url, 'downloaded_file.py', reporthook)
+
+
 def downloadFile(url, destdir):
   file_name = getFileNameFromUrl(url);
-  u = urlopen(url)
   resName = os.path.join(destdir, file_name)
-  f = open(resName, 'wb')
-  meta = u.info()
-  file_size = int(meta.getheaders("Content-Length")[0])
-  log ( "Downloading: %s Bytes: %s" % (file_name, file_size) );
-
-  file_size_dl = 0
-  block_sz = 8192
-  while True:
-      buffer = u.read(block_sz)
-      if not buffer:
-        break
-
-      file_size_dl += len(buffer)
-      f.write(buffer)
-      status = r"%10d  [%3.2f%%]" % (file_size_dl, file_size_dl * 100. / file_size)
-      status = status + chr(8)*(len(status)+1)
-      print ( status ,end="",flush=True );
-
-  f.close()
-  
-  print ( "\n" );
-  
+  urlretrieve(url, resName, downloadProgressHook);
   return resName
   
   
