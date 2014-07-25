@@ -341,7 +341,7 @@ def downloadProgressHook(blocknum, blocksize, totalsize):
     readsofar = blocknum * blocksize
     if totalsize > 0:
         percent = readsofar * 1e2 / totalsize
-        s = "\r%5.1f%% %*d / %d" % (
+        s = "\rProgress: %5.1f%% %*d bytes / %d bytes" % (
             percent, len(str(totalsize)), readsofar, totalsize)
         sys.stderr.write(s)
         if readsofar >= totalsize: # near the end
@@ -349,13 +349,10 @@ def downloadProgressHook(blocknum, blocksize, totalsize):
     else: # total size is unknown
         sys.stderr.write("read %d\n" % (readsofar,))
 
-
-        urlretrieve(url, 'downloaded_file.py', reporthook)
-
-
 def downloadFile(url, destdir):
   file_name = getFileNameFromUrl(url);
   resName = os.path.join(destdir, file_name)
+  log ( "Downloading from " + url + " : " );
   urlretrieve(url, resName, downloadProgressHook);
   return resName
   
