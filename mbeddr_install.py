@@ -16,11 +16,14 @@ import zipfile, tarfile
 import readline, glob
 import rlcompleter
 
+
+log = print;
+
 # Checking Python
 
-if sys.version_info < (2, 7):
-    print "Your Python version is old. Please, install Python 2.7."
-    print "http://www.python.org/download/"
+if sys.version_info < (3, 0):
+    log ( "Your Python version is not supported. Please, install Python 2.7." );
+    log ( "http://www.python.org/download/" );
     exit(1);
 
 ################### -- CONFIGURATION -- ###################
@@ -336,24 +339,24 @@ def downloadFile(url, destdir):
   f = open(resName, 'wb')
   meta = u.info()
   file_size = int(meta.getheaders("Content-Length")[0])
-  print "Downloading: %s Bytes: %s" % (file_name, file_size)
+  log ( "Downloading: %s Bytes: %s" % (file_name, file_size) );
 
   file_size_dl = 0
   block_sz = 8192
   while True:
       buffer = u.read(block_sz)
       if not buffer:
-	  break
+        break
 
       file_size_dl += len(buffer)
       f.write(buffer)
       status = r"%10d  [%3.2f%%]" % (file_size_dl, file_size_dl * 100. / file_size)
       status = status + chr(8)*(len(status)+1)
-      print status,
+      print ( status ,end="",flush=True );
 
   f.close()
   
-  print "\n"
+  print ( "\n" );
   
   return resName
   
@@ -368,8 +371,8 @@ def completeDirAware(text, state):
     
     if os.path.exists(res):
       if os.path.isdir(res):
-	if not res.endswith(os.sep):
-	  res = res + os.sep;
+        if not res.endswith(os.sep):
+          res = res + os.sep;
 	  
     return res
 
@@ -389,7 +392,7 @@ def readFileName(promptMessage):
 
 def TEST_INTERACTIVE_readFileName():
   s = readFileName("File: ")
-  print "Result: ", s
+  log ( "Result: " + s )
   
 # Unarchiving Zips and Tars
 
@@ -397,7 +400,7 @@ def unzip(zipzip, dest):
   zfile = zipfile.ZipFile(zipzip)
   for name in zfile.namelist():
     (dirname, filename) = os.path.split(name)
-    print "Decompressing " + filename + " on " + dirname
+    log ( "Decompressing " + filename + " on " + dirname )
     if not os.path.exists(dirname):
       os.makedirs(dirname)
     zfile.extract(name, os.path.join(dest,dirname))
@@ -508,13 +511,13 @@ def prepareDestDir(complainExists = True):
   
   destdir=os.path.abspath(destdir);
   
-  print("Selecting: " + destdir)
+  log ( "Selecting: " + destdir )
   
   try:    
     if os.path.exists(destdir):
       if complainExists == True:
-	print "This directory already exists, please, use another one."
-	return False;
+        log ( "This directory already exists, please, use another one." )
+        return False;
     else:
       os.makedirs(destdir)
   except OSError:
@@ -605,9 +608,9 @@ DAMAGE.\n"""
     
   
   def installCBMC(self, dest):
-    print self.getCBMCLicense();
-    print self.getCBMCIntro();
-    print "Above is the CBMC license, do you accept it [y/n]?"
+    log ( self.getCBMCLicense() );
+    log ( self.getCBMCIntro() );
+    log ( "Above is the CBMC license, do you accept it [y/n]?" )
     accept = str(raw_input()).strip();
     if "y" != accept:
       return False;
@@ -625,7 +628,7 @@ DAMAGE.\n"""
     return True;
       
   def downloadCBMC(self, dest):
-    print "Not implemented in CBMC Installer Base"
+    log ( "Not implemented in CBMC Installer Base" )
     return False
         
     
@@ -637,7 +640,7 @@ class CBMCInstallerForLinux(CBMCInstallerBase):
       url = CBMC32BitLinuxUrl;
     if onLinux64():
       url = CBMC64BitLinuxUrl;    
-    print "Downloading CBMC: " + url;
+    log ( "Downloading CBMC: " + url );
     try:
       fName = downloadFile(url, dest);
     except Exception:      
@@ -649,18 +652,18 @@ class CBMCInstallerForLinux(CBMCInstallerBase):
     
   def setUpCBMC(self, dest, fname):
     unarchive(fname, dest);
-    print "\nTo finish the CBMC installation, you might be asked for the root/administrator password.\n"
-    print "Password: "
+    log ( "\nTo finish the CBMC installation, you might be asked for the root/administrator password.\n" )
+    log ( "Password: " )
     proc = subprocess.Popen(["sudo","-p", "", "ln", "-s", "--force", os.path.join(dest, "cbmc"), self.getCBMCInstallPath()], stdin=subprocess.PIPE)
     proc.wait()
-    print "Finished installing"
+    log ( "Finished installing" )
     return True;
     
 class CBMCInstallerForMac(CBMCInstallerBase):
   def downloadCBMC(self, dest):
     fName = False
     url = CBMCMacUrl;
-    print "Downloading CBMC: " + url;
+    log ( "Downloading CBMC: " + url )
     try:
       fName = downloadFile(url, dest);
     except Exception:      
@@ -668,9 +671,9 @@ class CBMCInstallerForMac(CBMCInstallerBase):
     return fName;
     
   def setUpCBMC(self, dest, fname):
-    print "\nPlease, proceed installing CBMC..."
+    log ( "\nPlease, proceed installing CBMC..." )
     proc = subprocess.Popen(["open", fname], stdin=subprocess.PIPE)    
-    print "Continuing installation...\n"
+    log ( "Continuing installation...\n" )
     return True;
 
 def getCBMCInstaller():
@@ -690,27 +693,27 @@ def TEST_checkCBMC():
   return s == True or "CBMC" in s;
     
 def installCBMC(dest):
-  print "Detecting CBMC"
+  log ( "Detecting CBMC" )
   cbmcInstaller = getCBMCInstaller();
   if cbmcInstaller == None:
-    print "Problem configurring CBMC, analyses might not work!"
+    log ( "Problem configurring CBMC, analyses might not work!" )
   else:    
     j = cbmcInstaller.checkCBMC()
     if j != True:
-      print j
+      log ( j )
       if cbmcInstaller.installCBMC(dest) != True:
-	print "Failed to install CBMC!\n"
+	log ( "Failed to install CBMC!\n" )
 	exit(1);
       else:
-	print "CBMC installed!\n"
+	log (  "CBMC installed!\n" );
     else:
-      print """You have CBMC already installed."""
-      print cbmcInstaller.getCBMCCopyright();
+      log (  """You have CBMC already installed.""" );
+      log (  cbmcInstaller.getCBMCCopyright() );
     
     
 def TEST_INTERACTIVE_installCBMC():
   dest = prepareDestDir();
-  print "Testing CBMC installer";
+  log (  "Testing CBMC installer" );
   installCBMC(dest);
 
 # ------------------ END INSTALLING CBMC ------------------
@@ -742,7 +745,7 @@ def downloadMPSOSDep(dest):
   url = getMPSUrl();
   fName = os.path.join(dest, getMPSFileName());  
   if os.path.exists(fName):
-    print "\nAn archive with MPS has already been downloaded to: " + fName + "\nDelete it manually, if the installation fails to use it!"
+    log (  "\nAn archive with MPS has already been downloaded to: " + fName + "\nDelete it manually, if the installation fails to use it!" );
     return fName;
   else:
     return downloadFile(url, dest);
@@ -757,7 +760,7 @@ class MPSInstallerBase:
     return self.archive;
     
   def setUpMPSHook(self, dest):
-    print "Not implemented for this platform in MPSInstallerBase"
+    log (  "Not implemented for this platform in MPSInstallerBase" );
     return None   
     
   def setUpMPS(self, dest):
@@ -768,11 +771,11 @@ class MPSInstallerBase:
     return self.mpsPath;
     
   def getMPSEndPath(self, dest):
-    print "Not implemented for this platform in MPSInstallerBase";
+    log (  "Not implemented for this platform in MPSInstallerBase" );
     return None
   
   def removeArchive(self):
-    print "Deleting downloaded MPS archive"
+    log (  "Deleting downloaded MPS archive" );
     os.remove(self.archive);  
     
     
@@ -783,11 +786,11 @@ class MPSInstallerForLinux(MPSInstallerBase):
   def setUpMPSHook(self, dest):
     MPSDir = self.getMPSEndPath(dest);
     if os.path.exists(MPSDir):
-      print "Can not install MPS, the folder " + MPSDir + " already exists, please delete it first or specify a new one."
+      log (  "Can not install MPS, the folder " + MPSDir + " already exists, please delete it first or specify a new one." );
       return False;    
-    print "Extracting..."
+    log (  "Extracting..." );
     unarchive(self.archive, dest);        
-    print "Renaming MPS folder"    
+    log (  "Renaming MPS folder"     );
     MPSArcDirLocal=MPSArcDir;
     dirs = [ f for f in os.listdir(dest) if os.path.isdir(os.path.join(dest, f)) and MPSArcDirLocal in f ];
     MPSArcDirLocal = dirs[0];
@@ -811,7 +814,7 @@ def ejectImageMac(imagePath):
       
       
 def failNoImage():
-  print "Image not mounted, installation fails!"
+  log (  "Image not mounted, installation fails!" );
   exit(1);
    
 class MPSInstallerForMac(MPSInstallerBase):
@@ -822,7 +825,7 @@ class MPSInstallerForMac(MPSInstallerBase):
     proc = subprocess.Popen(["hdiutil", "attach", "-quiet", self.archive], stdin=subprocess.PIPE)
     proc.wait();
     
-    print "Waiting for the image to mount..."
+    log (  "Waiting for the image to mount..." );
     time.sleep(5);
     
     
@@ -845,11 +848,11 @@ class MPSInstallerForMac(MPSInstallerBase):
       failNoImage();
     
     self.mpsPath = self.getMPSEndPath(dest);
-    print "Copying MPS...";
-    print "Please, do not eject the MPS drive..."
+    log (  "Copying MPS..." );
+    log (  "Please, do not eject the MPS drive..." );
     shutil.copytree(MPSVolumesDirLocal, self.mpsPath);
-    print "Ready!"
-    print "Ejecting the MPS image now..."    
+    log (  "Ready!" );
+    log (  "Ejecting the MPS image now..."     );
     ejectImageMac(self.archive);
     
   
@@ -866,11 +869,11 @@ def TEST_getMPSInstaller():
     
 def TEST_INTERACTIVE_INSTALL_MPS():
   dest = prepareDestDir();
-  print "Testing MPS installer";
+  log (  "Testing MPS installer" );
   installer = getMPSInstaller();
   installer.downloadMPS(dest);  
   installer.setUpMPS(dest);
-  print "MPS Installed to: " + installer.getMPSPath();
+  log (  "MPS Installed to: " + installer.getMPSPath() );
   
      
 # ------------------ END INSTALLING MPS ------------------
@@ -974,7 +977,7 @@ def downloadTheUserGuide(dest):
   try:
     downloadFile(UserGuideURL, dest);
   except:
-    print "Can not download the user guide."
+    log (  "Can not download the user guide." );
   
 
     
@@ -988,7 +991,7 @@ def downloadTheReadMe(dest):
   try:
     downloadFile(ReadMeURL, dest);
   except:
-    print "Can not download the README.txt."
+    log (  "Can not download the README.txt." );
 
 # ---------- END OF : DOWNLOADING README ------------
 
@@ -998,10 +1001,10 @@ def downloadTheReadMe(dest):
   
   
 def greetingsLinux(MPSDir, MbeddrDir, dest):
-  print """\nTo start working: Run\n"""+os.path.join(MPSDir, "mps.sh")+"""\nand go through the tutorial project from:"""
+  log (  """\nTo start working: Run\n"""+os.path.join(MPSDir, "mps.sh")+"""\nand go through the tutorial project from:""" );
 
 def greetingsMac(MPSDir, MbeddrDir, dest):
-  print "\nTo start working: Run MPS (located in " + dest + ") and go through the tutorial project from:"
+  log (  "\nTo start working: Run MPS (located in " + dest + ") and go through the tutorial project from:" );
 
 
 def greetings(MPSDir, MbeddrDir, dest):
@@ -1010,14 +1013,14 @@ def greetings(MPSDir, MbeddrDir, dest):
   if onMac():
     greetingsMac(MPSDir, MbeddrDir, dest);
   
-  print os.path.join(MbeddrDir, "code", "application"),""" folder.\n"""  
-  print """\nVisit mbeddr.com to learn what's new!\n"""  
-  print """ * A user guide PDF has been downloaded to the destination folder!"""
-  print """ * See the README.txt file for the further instructions and basic troubleshooting.""" 
+  log (  os.path.join(MbeddrDir, "code", "application"),""" folder.\n"""   );
+  log (  """\nVisit mbeddr.com to learn what's new!\n"""   );
+  log (  """ * A user guide PDF has been downloaded to the destination folder!""" );
+  log (  """ * See the README.txt file for the further instructions and basic troubleshooting."""  );
   
-  print "\nWelcome to mbeddr. C the difference C the future.\n";
-  print "-----------------------------------------------------------\n"
-  print """This installer for mbeddr advanced users has been built by molotnikov (at) fortiss (dot) org.
+  log (  "\nWelcome to mbeddr. C the difference C the future.\n" );
+  log (  "-----------------------------------------------------------\n" );
+  log (  """This installer for mbeddr advanced users has been built by molotnikov (at) fortiss (dot) org. );
   
 If the installer did not work for you, please, let us know. 
 https://github.com/qutorial/mbeddr_python_installer
@@ -1025,7 +1028,7 @@ https://github.com/qutorial/mbeddr_python_installer
 
 
 def printErrorMessage():
-  print """The installation went wrong, unfortunately.
+  log (  """The installation went wrong, unfortunately. );
 
 Please, report an issue on the installer's GitHub page:
 https://github.com/qutorial/mbeddr_python_installer
@@ -1041,87 +1044,87 @@ Please, write an email on this address, if you experience troubles using the ins
 
   
 def main():  
-  print("Welcome!")
-  print("You are about to install the last stable version of mbeddr.")
+  log ( "Welcome!" );
+  log ( "You are about to install the last stable version of mbeddr." );
 
-  print "Detecting Git"  
+  log (  "Detecting Git"   );
   j = checkGit()
   if j != True:
-    print j;
+    log (  j );
     return 1; 
   
-  print "Detecting Java"  
+  log (  "Detecting Java"   );
   j = checkJava()
   if j != True:
-    print j;
+    log (  j );
     return 1;  
   
-  print "Detecting Ant"
+  log (  "Detecting Ant" );
   j = checkAnt()
   if j != True:
-    print j;
+    log (  j );
     return 1;  
   
-  print "Preparing destination directory";  
+  log (  "Preparing destination directory"   );
   dest = prepareDestDir();
   if dest == False:
-    print "Problem creating destination directory";
+    log (  "Problem creating destination directory" );
     return 1;
   
   
   
   #Installing CBMC
-  print "Installing CBMC"
+  log (  "Installing CBMC" );
   installCBMC(dest);
     
   
   
   #Installing MPS
-  print "Installing MPS..."
+  log (  "Installing MPS..." );
   mpsInstaller = getMPSInstaller();
   mpsInstaller.downloadMPS(dest);  
   mpsInstaller.setUpMPS(dest);
   MPSDir = mpsInstaller.getMPSPath();
   
     
-  print "Installing mbeddr"
+  log (  "Installing mbeddr" );
   MbeddrDir = getMbeddrDestDir(dest);
   if os.path.exists(MbeddrDir):
-    print "Can not install mbeddr, the folder " + MbeddrDir + " already exists, please delete it first or specify a new one.\n"
-    print "Don't forget to save your changes if made to mbeddr!"
+    log (  "Can not install mbeddr, the folder " + MbeddrDir + " already exists, please delete it first or specify a new one.\n" );
+    log (  "Don't forget to save your changes if made to mbeddr!" );
     exit(1);
     
-  print "Cloning mbeddr..."
+  log (  "Cloning mbeddr..." );
   cloneMbeddr(dest, MbeddrDir);
   
-  print "Setting up MPS to work with mbeddr..."
+  log (  "Setting up MPS to work with mbeddr..." );
   configureMPSWithMbeddr(MPSDir, MbeddrDir);
   
-  print "Setting up mbeddr..."
+  log (  "Setting up mbeddr..." );
   configureMbeddr(MPSDir, MbeddrDir);
   
-  print "Building mbeddr..."
+  log (  "Building mbeddr..." );
   buildMbeddr(MbeddrDir);
   
-  print "Downloading the user guide..."
+  log (  "Downloading the user guide..." );
   downloadTheUserGuide(dest);
  
-  print "Downloading the README.txt..."
+  log (  "Downloading the README.txt..." );
   downloadTheReadMe(dest);
     
   greetings(MPSDir, MbeddrDir, dest);
 
 
 def RUN_TESTS():
-  print "URL Parsing: ", TEST_getFileNameFromUrl();
-  print "OS Detection: ", TEST_getOS();
-  print "Git Detection: ", TEST_checkGit();
-  print "Java Detection: ", TEST_checkJava();
-  print "Ant Detection: ", TEST_checkAnt();
-  print "CBMC Installer Init: ", TEST_getCBMCInstaller();
-  print "CBMC Detection: ", TEST_checkCBMC();
-  print "MPS URL: ", TEST_getMPSUrl();
-  print "MPS Installer Init: ", TEST_getMPSInstaller();
+  log (  "URL Parsing: ", TEST_getFileNameFromUrl() );
+  log (  "OS Detection: ", TEST_getOS() );
+  log (  "Git Detection: ", TEST_checkGit() );
+  log (  "Java Detection: ", TEST_checkJava() );
+  log (  "Ant Detection: ", TEST_checkAnt() );
+  log (  "CBMC Installer Init: ", TEST_getCBMCInstaller() );
+  log (  "CBMC Detection: ", TEST_checkCBMC() );
+  log (  "MPS URL: ", TEST_getMPSUrl() );
+  log (  "MPS Installer Init: ", TEST_getMPSInstaller() );
   
 #RUN_TESTS();
 #exit(1);
@@ -1129,10 +1132,10 @@ def RUN_TESTS():
 try:
   main();
 except:
-  print "\n\nException:";
+  log (  "\n\nException:" );
   exc_type, exc_value, exc_traceback = sys.exc_info()
   traceback.print_exception(exc_type, exc_value, exc_traceback)
-  print "\n\n"
-  printErrorMessage();
+  log (  "\n\n" );
+  printErrorMessage()
   
   
