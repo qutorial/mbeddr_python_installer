@@ -1,0 +1,26 @@
+To run the installer, please, follow these steps: 
+
+Download and install Python 2.7 (and not 3.x!) from:
+https://www.python.org/download/
+- Pythong installs normally to C:\Pyton27\python.exe
+
+Install Cygwin from:
+http://cygwin.com/install.html
+Cygwin online installation procedure usually takes some time to finish.
+
+
+
+
+
+Downloading git for Windows:
+http://www.git-scm.com/download/win
+
+
+The python script is located at 
+https://raw.githubusercontent.com/qutorial/mbeddr_python_installer/master/mbeddr_install.py
+
+
+
+Java is Downloadable from
+
+http://www.oracle.com/technetwork/java/javase/downloads/index.html
