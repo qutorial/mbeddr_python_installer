@@ -6,10 +6,13 @@
 #bash command to run it on Mac
 #mi=`mktemp /tmp/mbeddr_install.py.XXXXX` && curl  https://raw.github.com/qutorial/mbeddr_python_installer/master/mbeddr_install.py -o $mi && python2.7 $mi; rm $mi;
 
-import sys, os, subprocess, urllib2, platform, time, shutil, string, traceback
+import sys, os, subprocess, platform, time, shutil, string, traceback
 import os.path
 from os.path import expanduser
-from urllib2 import urlparse
+
+from urllib.request import urlopen
+from urllib.parse import urlparse
+
 import zipfile, tarfile
 
 #Autocompletion, input
@@ -234,7 +237,7 @@ CBMCInstallDir = "/usr/bin"
 
 
 # JAVA CONFIGURATION
-InstallJavaMessage= """Please, install a Java (R, TM) from Oracle. 
+InstallJavaMessage= """Please, install a Java from Oracle. 
 http://www.oracle.com/technetwork/java/javase/downloads/index.html"""
 
 InstallJavaHintUbuntu = """\nOn Ubuntu this might work:
@@ -325,7 +328,7 @@ def TEST_getOS():
 # Downloading file with progress
 
 def getFileNameFromUrl(url):
-  parsed = urlparse.urlsplit(url);
+  parsed = urlparse(url);
   path = parsed.path;
   return os.path.basename(path);
 
@@ -334,7 +337,7 @@ def TEST_getFileNameFromUrl():
   
 def downloadFile(url, destdir):
   file_name = getFileNameFromUrl(url);
-  u = urllib2.urlopen(url)
+  u = urlopen(url)
   resName = os.path.join(destdir, file_name)
   f = open(resName, 'wb')
   meta = u.info()
@@ -387,7 +390,7 @@ def readFileName(promptMessage):
 
   readline.set_completer_delims(' \t\n;')
   readline.set_completer(complete)  
-  return raw_input(promptMessage).strip()
+  return input(promptMessage).strip()
 
 
 def TEST_INTERACTIVE_readFileName():
@@ -416,6 +419,11 @@ def unarchive(a, dest):
     untgz(a, dest);
 
     
+# Get command output as a string
+def getOutput(args):
+  return str ( subprocess.check_output(args, stderr=subprocess.STDOUT) );
+
+    
 # GIT 
 
 def checkGitVersion(git):
@@ -426,7 +434,7 @@ def checkGitVersion(git):
    
 def checkGit():  
   try:
-    git = subprocess.check_output(["git", "--version"], stderr=subprocess.STDOUT)
+    git = getOutput(["git", "--version"]);
     return checkGitVersion(git)
   except OSError:
     answer = InstallGitMessage;
@@ -447,7 +455,7 @@ def checkJavaVersion(java):
   if len(c) > 0:
     if len(a) + len(b) > 0:
       return True;
-  answer = "Java version is not recognized\n"+InstallJavaMessage;
+  answer = "Java version is not recognized\n" + java + "\n" +InstallJavaMessage;
   if onLinux():
     answer = answer + InstallJavaHintUbuntu;    
     a = [s for s in vals if "IcedTea" in s]
@@ -459,7 +467,7 @@ def checkJavaVersion(java):
   
 def checkJava():  
   try:
-    java = subprocess.check_output(["java", "-version"], stderr=subprocess.STDOUT)
+    java = getOutput(["java", "-version"]);
     return checkJavaVersion(java)
   except OSError:
     answer = InstallJavaMessage;
@@ -485,7 +493,7 @@ def checkAntVersion(ant):
   
 def checkAnt():
   try:
-    ant = subprocess.check_output(["ant", "-version"], stderr=subprocess.STDOUT)
+    ant = getOutput(["ant", "-version"]);
     return checkAntVersion(ant)
   except OSError:
     answer = InstallAntMessage;
@@ -541,7 +549,7 @@ class CBMCInstallerBase:
        
   def checkCBMC(self):
     try:
-      cbmc = subprocess.check_output(["cbmc", "--version"], stderr=subprocess.STDOUT)
+      cbmc = getOutput(["cbmc", "--version"]);
       return self.checkCBMCVersion(cbmc)
     except OSError:
       return "No CBMC C Prover installed\n"
@@ -596,13 +604,7 @@ DAMAGE.\n"""
 
   def getCBMCLicense(self):
     try:
-      return urllib2.urlopen("http://www.cprover.org/cbmc/LICENSE").read();
-    except urllib2.HTTPError, e:
-      return self.getCBMCFallbackLicense()
-    except urllib2.URLError, e:
-      return self.getCBMCFallbackLicense()
-    except httplib.HTTPException, e:
-      return self.getCBMCFallbackLicense()
+      return urlopen("http://www.cprover.org/cbmc/LICENSE").read();
     except Exception:
       return self.getCBMCFallbackLicense()
     
@@ -1020,15 +1022,15 @@ def greetings(MPSDir, MbeddrDir, dest):
   
   log (  "\nWelcome to mbeddr. C the difference C the future.\n" );
   log (  "-----------------------------------------------------------\n" );
-  log (  """This installer for mbeddr advanced users has been built by molotnikov (at) fortiss (dot) org. );
+  log (  """This installer for mbeddr advanced users has been built by molotnikov (at) fortiss (dot) org.
   
 If the installer did not work for you, please, let us know. 
 https://github.com/qutorial/mbeddr_python_installer
-"""
+""" );
 
 
 def printErrorMessage():
-  log (  """The installation went wrong, unfortunately. );
+  log (  """The installation went wrong, unfortunately.
 
 Please, report an issue on the installer's GitHub page:
 https://github.com/qutorial/mbeddr_python_installer
@@ -1038,7 +1040,7 @@ difficulties, what did not work for you? Which environment did you have, in part
 Please, include the error messages appearing above on the console.
 
 This installer is created by Zaur Molotnikov ( molotnikov at fortiss dot org ).
-Please, write an email on this address, if you experience troubles using the installer or mbeddr."""
+Please, write an email on this address, if you experience troubles using the installer or mbeddr.""" );
   
 # ---------- END OF :  FINAL GREETINGS ------------
 
