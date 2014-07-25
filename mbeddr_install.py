@@ -209,7 +209,7 @@ MPSInfoPlist="""<!DOCTYPE plist PUBLIC '-//Apple Computer//DTD PLIST 1.0//EN' 'h
         <key>apple.laf.useScreenMenuBar</key>
         <string>true</string>
         <key>com.apple.mrj.application.live-resize</key>
-        <string>false</string>         	
+        <string>false</string>
         <key>idea.system.path</key>
         <string>IdeaSystem</string>
         <key>idea.config.path</key>
@@ -373,7 +373,7 @@ def completeDirAware(text, state):
       if os.path.isdir(res):
         if not res.endswith(os.sep):
           res = res + os.sep;
-	  
+
     return res
 
 
@@ -702,10 +702,10 @@ def installCBMC(dest):
     if j != True:
       log ( j )
       if cbmcInstaller.installCBMC(dest) != True:
-	log ( "Failed to install CBMC!\n" )
-	exit(1);
+        log ( "Failed to install CBMC!\n" )
+        exit(1);
       else:
-	log (  "CBMC installed!\n" );
+        log (  "CBMC installed!\n" );
     else:
       log (  """You have CBMC already installed.""" );
       log (  cbmcInstaller.getCBMCCopyright() );
@@ -805,7 +805,7 @@ def ejectImageMac(imagePath):
       shouldEject = False;
       path = line.split(":")[1].lstrip().rstrip()
       if path == imagePath:
-	shouldEject = True;
+        shouldEject = True;
     elif line.startswith("/dev/") and shouldEject is True:
       os.popen("hdiutil eject %s" % line.split()[0])
       shouldEject = False;
@@ -914,7 +914,7 @@ def getFileNameToWritePropertiesTo(MPSDir):
   
 def writeMPSProperties (MPSDir, ConfigPath, SysPath):
 # print "Write mps props is called with mpsdir ", MPSDir, " and  ConfigPath ", ConfigPath, " and SysPath ", SysPath;
-  optsPath = getFileNameToWritePropertiesTo(MPSDir)	
+  optsPath = getFileNameToWritePropertiesTo(MPSDir)
   optsContent = replaceConfigAndSystemPaths(getTemplateForMPSProperties(), ConfigPath, SysPath);
   rewriteFile(optsPath, optsContent);
   
