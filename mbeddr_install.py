@@ -343,18 +343,21 @@ def formatProgressStr(totalsize, readsofar):
   
   s = "\rProgress: %5.1f%% %*d bytes / %d bytes"  
   
-  if totalsize > 2*1024*1024:
+  ts = totalsize;
+  rsf = readsofar;
+  
+  if ts > 2*1024*1024:
     s = "\rProgress: %5.1f%% %*d MB / %d MB"
-    totalsize = totalsize / 1024*1024
-    readsofar = readsofar / 1024*1024
+    ts = ts / 1024*1024
+    rsf = rsf / 1024*1024
   else:
-    if totalsize > 100*1024:
+    if ts > 100*1024:
       s = "\rProgress: %5.1f%% %*d KB / %d KB"
-      totalsize = totalsize / 1024
-      readsofar = readsofar / 1024
+      ts = ts / 1024
+      rsf = rsf / 1024
   
     
-  s = s % (percent, len(str(totalsize)), readsofar, totalsize)
+  s = s % (percent, len(str(ts)), rsf, ts)
   
   return s;
   
