@@ -336,13 +336,34 @@ def getFileNameFromUrl(url):
 def TEST_getFileNameFromUrl():
   return getFileNameFromUrl(UserGuideURL) == "UserGuide.pdf"
   
+
+def formatProgressStr(totalsize, readsofar):
+  
+  percent = readsofar * 1e2 / totalsize
+  
+  s = "\rProgress: %5.1f%% %*d bytes / %d bytes"  
+  
+  if totalsize > 2*1024*1024:
+    s = "\rProgress: %5.1f%% %*d MB / %d MB"
+    totalsize = totalsize / 1024*1024
+    readsofar = readsofar / 1024*1024
+  else:
+    if totalsize > 100*1024:
+      s = "\rProgress: %5.1f%% %*d KB / %d KB"
+      totalsize = totalsize / 1024
+      readsofar = readsofar / 1024
+  
+    
+  s = s % (percent, len(str(totalsize)), readsofar, totalsize)
+  
+  return s;
+  
+  
   
 def downloadProgressHook(blocknum, blocksize, totalsize):
     readsofar = blocknum * blocksize
     if totalsize > 0:
-        percent = readsofar * 1e2 / totalsize
-        s = "\rProgress: %5.1f%% %*d bytes / %d bytes" % (
-            percent, len(str(totalsize)), readsofar, totalsize)
+        s = formatProgressStr(totalsize, readsofar);
         sys.stderr.write(s)
         if readsofar >= totalsize: # near the end
             sys.stderr.write("\n")
