@@ -923,7 +923,7 @@ class MPSInstallerForWin(MPSInstallerBase):
 	exit (1);
       
       try:
-        fp = open(self.archive)
+        fp = open(self.archive, "w")
       except IOError as e:
         if e.errno == errno.EBUSY:
           continue;
