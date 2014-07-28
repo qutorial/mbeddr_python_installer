@@ -17,12 +17,24 @@ Python: python3  (version 3 is important).
 By clicking on the Skip value in the New column, and selecting the 
 version to be installed. More packages can be selected when required by you.
 
-Cygwin online installation procedure usually takes some time to finish.
+If you have not picked some of the required packages before proceeding,
+wait until the Cygwin installation finishes, and then run it again, 
+selecting the missing packages.
 
-C) Upon finishing "Cygwin Terminal" will be insalled, and the following steps are 
-to be performed from it.
+C) Upon finishing "Cygwin Terminal" will be insalled. 
+It is accessible from the Windows Start menu:
+Start - Programms - Cygwin - Cygwin Terminal.
+
 
 II. Install Java and Ant.
+
+A) MPS works best with Oracle Java. 
+JDK 7 is required (not JRE, not JDK 8):
+http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html
+Select the matching to your operating system JDK and install it.
+
+
+
 
 
 III. Start the installation.
