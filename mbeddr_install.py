@@ -960,10 +960,20 @@ def configureMbeddr(MPSDir, MbeddrDir):
  "MbeddrDir", MbeddrDir));
   f.close();
 
-def buildMbeddr(MbeddrDir):
+
+def buildMbeddrUnix(MbeddrDir):
   BuildPath = os.path.join(MbeddrDir, "code", "languages");
   os.chdir(BuildPath);
   os.system(os.path.join(BuildPath, "buildLanguages.sh"));
+
+def buildMbeddrWin(MbeddrDir):
+  log ( "Building mbeddr on Windows is not implemented yet" );
+
+def buildMbeddr(MbeddrDir):
+  if onLinux() or onMac():
+    buildMbeddrUnix(MbeddrDir);
+  else:
+    buildMbeddrWin(MbeddrDir);
   
   
 # ---------- DOWNLOADING USER GUIDE ------------
@@ -1097,16 +1107,16 @@ def main():
   
   log (  "Setting up mbeddr..." );
   configureMbeddr(MPSDir, MbeddrDir);
-  
-  log (  "Building mbeddr..." );
-  buildMbeddr(MbeddrDir);
-  
+     
   log (  "Downloading the user guide..." );
   downloadTheUserGuide(dest);
  
   log (  "Downloading the README.txt..." );
   downloadTheReadMe(dest);
-    
+  
+  log (  "Building mbeddr..." );
+  buildMbeddr(MbeddrDir);
+  
   greetings(MPSDir, MbeddrDir, dest);
 
 
@@ -1121,8 +1131,8 @@ def RUN_TESTS():
   log (  "MPS URL: ", TEST_getMPSUrl() );
   log (  "MPS Installer Init: ", TEST_getMPSInstaller() );
   
-#RUN_TESTS();
-#exit(1);
+RUN_TESTS();
+exit(1);
 
 try:
   main();
