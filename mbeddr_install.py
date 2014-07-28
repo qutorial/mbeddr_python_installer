@@ -862,6 +862,7 @@ class MPSInstallerForWin(MPSInstallerBase):
     return MPSDestDirWin;
     
   def setUpMPSHook(self, dest):
+    os.system("chmod +x " + self.archive);
     os.system(self.archive);
     self.mpsPath = self.getMPSEndPath();
   
