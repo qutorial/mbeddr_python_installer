@@ -334,7 +334,7 @@ def getFileNameFromUrl(url):
   return os.path.basename(path);
 
 def TEST_getFileNameFromUrl():
-  return getFileNameFromUrl(UserGuideURL) == "mbeddr-userguide.pdf"
+  return getFileNameFromUrl(UserGuideURL) == "UserGuide.pdf"
   
   
 def downloadProgressHook(blocknum, blocksize, totalsize):
