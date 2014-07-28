@@ -58,6 +58,8 @@ MPSVolumesDir = """/Volumes/""" #MPSVolumesDir = """/Volumes/MPS 3.1/MPS 3.1.app
 MPSDestDirLinux = "MPS31"
 MPSDestDirWin = """C:\Program Files (x86)\JetBrains\MPS 3.1"""
 MPSDestDirMac = "MPS31.app"
+CygwinDocsAndSettings = """/cygdrive/c/Documents and Settings/"""
+WindowsMPSDesktopLinkName = """JetBrains MPS 3.1.lnk""";
 
 IdeaPropertiesPriv="""#---------------------------------------------------------------------
 # Uncomment this option if you want to customize path to MPS config folder
@@ -893,7 +895,48 @@ class MPSInstallerForWin(MPSInstallerBase):
     comm = "explorer.exe " + getFileNameFromUrl(self.archive);
     os.system( comm );    
     os.chdir(currdir);        
+    
     self.mpsPath = self.getMPSEndPath();
+    
+    linkPath = os.path.join(CygwinDocsAndSettings, getOutput("whoami"), "Desktop", WindowsMPSDesktopLinkName);
+    
+    i = 0;
+    
+    log ( "Waiting untill MPS is installed..." );
+    while not os.path.exists(linkPath):
+      i = i + 1;
+      time.sleep(5);
+      if i > 60 :
+        log ( "Can not detect MPS installed" );
+        exit (1);
+    
+    i = 0;
+    
+    while true:
+      fp = None
+      
+      i = i + 1;
+      time.sleep(5);
+      
+      if i > 5:
+	log ( "Can not finish the installation of MPS..." );
+	exit (1);
+      
+      try:
+        fp = open(self.archive)
+      except IOError as e:
+        if e.errno == errno.EBUSY:
+          continue;
+      
+      fp.close();
+      break;
+     
+      
+      
+        
+    
+    
+    
     
   
 def getMPSInstaller():
