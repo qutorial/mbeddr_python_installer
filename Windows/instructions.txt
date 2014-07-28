@@ -11,6 +11,7 @@ B) Select the following packages:
 Devel: gcc-core (or cygwin64-gcc-core for 64bit systems)
 Devel: gdb
 Devel: git
+Devel: make
 Web: wget
 Python: python3  (version 3 is important).
 
@@ -26,12 +27,28 @@ It is accessible from the Windows Start menu:
 Start - Programms - Cygwin - Cygwin Terminal.
 
 
+
+
+
 II. Install Java and Ant.
+
 
 A) MPS works best with Oracle Java. 
 JDK 7 is required (not JRE, not JDK 8):
 http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html
 Select the matching to your operating system JDK and install it.
+
+B) Install Apache Ant
+Get the zip archive from http://ant.apache.org/ and unpack it in a folder like C:/ant/ . 
+Remember the name of the folder.
+
+
+
+III. Installing CBMC.
+
+
+
+
 
 
 

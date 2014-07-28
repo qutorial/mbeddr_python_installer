@@ -680,7 +680,7 @@ def getCBMCInstaller():
 
 def TEST_getCBMCInstaller():
   installer = getCBMCInstaller();
-  return "Mellon" in installer.getCBMCLicense()
+  return "Mellon" in str ( installer.getCBMCLicense() )
   
 def TEST_checkCBMC():
   installer = getCBMCInstaller();
