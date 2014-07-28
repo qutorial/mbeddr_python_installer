@@ -890,12 +890,12 @@ class MPSInstallerForWin(MPSInstallerBase):
     os.system("chmod +x " + self.archive);
     
     currdir = os.getcwd();
-    os.chdir(dest);
-    comm = "explorer.exe " + getFileNameFromUrl(self.archive);
-    os.chdir(currdir);
     
-    log ( comm );
-    os.system( comm );
+    os.chdir(dest);
+      log ( comm );
+      os.system( comm );    
+    os.chdir(currdir);    
+    
     self.mpsPath = self.getMPSEndPath();
   
 def getMPSInstaller():
