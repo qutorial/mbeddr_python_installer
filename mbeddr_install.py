@@ -52,11 +52,11 @@ def getMbeddrDestDir(dest):
 MPSMac = """http://download.jetbrains.com/mps/31/MPS-3.1-macos.dmg"""
 MPSLin = """http://download.jetbrains.com/mps/31/MPS-3.1.tar.gz"""
 MPSZip = """http://download.jetbrains.com/mps/31/MPS-3.1.1.zip"""
-MPSWin = MPSZip
+MPSWin = """http://download.jetbrains.com/mps/31/MPS-3.1.1.exe"""
 MPSArcDir="MPS" #This is just a part of it
 MPSVolumesDir = """/Volumes/""" #MPSVolumesDir = """/Volumes/MPS 3.1/MPS 3.1.app"""
 MPSDestDirLinux = "MPS31"
-MPSDestDirWin = MPSDestDirLinux
+MPSDestDirWin = """C:\Program Files (x86)\JetBrains\MPS 3.1"""
 MPSDestDirMac = "MPS31.app"
 
 IdeaPropertiesPriv="""#---------------------------------------------------------------------
@@ -858,8 +858,12 @@ class MPSInstallerForMac(MPSInstallerBase):
     ejectImageMac(self.archive);
     
 class MPSInstallerForWin(MPSInstallerBase):
-  def getMPSDir(self):
+  def getMPSEndPath(self):
     return MPSDestDirWin;
+    
+  def setUpMPSHook(self, dest):
+    os.system(self.archive);
+    self.mpsPath = self.getMPSEndPath();
   
 def getMPSInstaller():
   if onLinux():
