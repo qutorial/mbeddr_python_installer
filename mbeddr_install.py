@@ -1143,8 +1143,8 @@ def RUN_TESTS():
   log (  "MPS URL: ", TEST_getMPSUrl() );
   log (  "MPS Installer Init: ", TEST_getMPSInstaller() );
   
-RUN_TESTS();
-exit(1);
+#RUN_TESTS();
+#exit(1);
 
 try:
   main();
