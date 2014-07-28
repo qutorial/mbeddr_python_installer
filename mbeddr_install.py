@@ -671,12 +671,20 @@ class CBMCInstallerForMac(CBMCInstallerBase):
     log ( "Continuing installation...\n" )
     return True;
 
+#This is a stub
+class CBMCInstallerForWin(CBMCInstallerBase):
+  def downloadCBMC(self, dest):
+    return "";
+  def setUpCBMC(seld, dest, fname):
+    return True;
+    
 def getCBMCInstaller():
   if onLinux():
     return CBMCInstallerForLinux();
   if onMac():
     return CBMCInstallerForMac();
-  return None;
+  if onWindows():
+    return CBMCInstallerForWin();
 
 def TEST_getCBMCInstaller():
   installer = getCBMCInstaller();
