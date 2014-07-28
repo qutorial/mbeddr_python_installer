@@ -892,8 +892,8 @@ class MPSInstallerForWin(MPSInstallerBase):
     currdir = os.getcwd();
     
     os.chdir(dest);
-      log ( comm );
-      os.system( comm );    
+    log ( comm );
+    os.system( comm );    
     os.chdir(currdir);    
     
     self.mpsPath = self.getMPSEndPath();
