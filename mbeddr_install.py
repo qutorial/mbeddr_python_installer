@@ -51,12 +51,12 @@ def getMbeddrDestDir(dest):
 
 MPSMac = """http://download.jetbrains.com/mps/31/MPS-3.1-macos.dmg"""
 MPSLin = """http://download.jetbrains.com/mps/31/MPS-3.1.tar.gz"""
-#Not supported yet
-# MPSWin = """http://download.jetbrains.com/mps/31/MPS-3.1-RC3-135.944.exe"""
-# MPSZip = """http://download.jetbrains.com/mps/31/MPS-3.1-RC3-135.944.zip"""
+MPSZip = """http://download.jetbrains.com/mps/31/MPS-3.1.1.zip"""
+MPSWin = MPSZip
 MPSArcDir="MPS" #This is just a part of it
 MPSVolumesDir = """/Volumes/""" #MPSVolumesDir = """/Volumes/MPS 3.1/MPS 3.1.app"""
 MPSDestDirLinux = "MPS31"
+MPSDestDirWin = MPSDestDirLinux
 MPSDestDirMac = "MPS31.app"
 
 IdeaPropertiesPriv="""#---------------------------------------------------------------------
@@ -183,7 +183,7 @@ MPSInfoPlist="""<!DOCTYPE plist PUBLIC '-//Apple Computer//DTD PLIST 1.0//EN' 'h
         </array>
         <key>CFBundleTypeIconFile</key>
         <string>mps.icns</string>
-        <key>CFBundleTypeName</key>
+        <key>CFBundleTypeName</key>#Not supported yet
         <string>JetBrains MPS Project</string>
         <key>CFBundleTypeRole</key>
         <string>Editor</string>
@@ -763,30 +763,6 @@ class MPSInstallerBase:
     return self.archive;
     
   def setUpMPSHook(self, dest):
-    log (  "Not implemented for this platform in MPSInstallerBase" );
-    return None   
-    
-  def setUpMPS(self, dest):
-    self.setUpMPSHook(dest); 
-    self.removeArchive();
-    
-  def getMPSPath(self):
-    return self.mpsPath;
-    
-  def getMPSEndPath(self, dest):
-    log (  "Not implemented for this platform in MPSInstallerBase" );
-    return None
-  
-  def removeArchive(self):
-    log (  "Deleting downloaded MPS archive" );
-    os.remove(self.archive);  
-    
-    
-class MPSInstallerForLinux(MPSInstallerBase):    
-  def getMPSEndPath(self, dest):
-    return os.path.join(dest, MPSDestDirLinux);
-    
-  def setUpMPSHook(self, dest):
     MPSDir = self.getMPSEndPath(dest);
     if os.path.exists(MPSDir):
       log (  "Can not install MPS, the folder " + MPSDir + " already exists, please delete it first or specify a new one." );
@@ -800,6 +776,29 @@ class MPSInstallerForLinux(MPSInstallerBase):
     os.rename(os.path.join(dest, MPSArcDirLocal), MPSDir)
     self.mpsPath = MPSDir;
 
+    
+  def setUpMPS(self, dest):
+    self.setUpMPSHook(dest); 
+    self.removeArchive();
+    
+  def getMPSPath(self):
+    return self.mpsPath;
+    
+  def getMPSEndPath(self, dest):
+    return os.path.join(dest, self.getMPSDir());
+  
+  def removeArchive(self):
+    log (  "Deleting downloaded MPS archive" );
+    os.remove(self.archive);  
+    
+  def getMPSDir(self):
+    log ( "Not implemented for this platform in MPSInstallerBase" );
+    return None;
+    
+class MPSInstallerForLinux(MPSInstallerBase):    
+  def getMPSDir(self):
+    return MPSDestDirLinux;    
+    
 def ejectImageMac(imagePath):
   lines = os.popen("hdiutil info").readlines()
   shouldEject = False;
@@ -821,8 +820,8 @@ def failNoImage():
   exit(1);
    
 class MPSInstallerForMac(MPSInstallerBase):
-  def getMPSEndPath(self, dest):
-    return os.path.join(dest, MPSDestDirMac);
+  def getMPSDir(self):
+    return MPSDestDirMac;
   
   def setUpMPSHook(self, dest):    
     proc = subprocess.Popen(["hdiutil", "attach", "-quiet", self.archive], stdin=subprocess.PIPE)
@@ -858,12 +857,17 @@ class MPSInstallerForMac(MPSInstallerBase):
     log (  "Ejecting the MPS image now..."     );
     ejectImageMac(self.archive);
     
+class MPSInstallerForWin(MPSInstallerBase):
+  def getMPSDir(self):
+    return MPSDestDirWin;
   
 def getMPSInstaller():
   if onLinux():
     return MPSInstallerForLinux();
   if onMac():
     return MPSInstallerForMac();
+  if onWindows():
+    return MPSInstallerForWin();
   return None;
 
 def TEST_getMPSInstaller():
