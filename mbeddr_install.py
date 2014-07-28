@@ -919,8 +919,8 @@ class MPSInstallerForWin(MPSInstallerBase):
       time.sleep(5);
       
       if i > 5:
-	log ( "Can not finish the installation of MPS..." );
-	exit (1);
+        log ( "Can not finish the installation of MPS..." );
+        exit (1);
       
       try:
         fp = open(self.archive, "w")
