@@ -894,6 +894,7 @@ class MPSInstallerForWin(MPSInstallerBase):
     os.system( comm );    
     os.chdir(currdir);        
     self.mpsPath = self.getMPSEndPath();
+    
   
 def getMPSInstaller():
   if onLinux():
