@@ -886,8 +886,8 @@ class MPSInstallerForWin(MPSInstallerBase):
     return MPSDestDirWin;
     
   def setUpMPSHook(self, dest):
-    log ( "Running the installer" );
-    os.system("explorer " + self.archive);
+    log ( "Running the installer..." );
+    os.system("explorer.exe " + self.archive);
     exit(1);
     self.mpsPath = self.getMPSEndPath();
   
