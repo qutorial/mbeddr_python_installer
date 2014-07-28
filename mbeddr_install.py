@@ -862,8 +862,11 @@ class MPSInstallerForWin(MPSInstallerBase):
     return MPSDestDirWin;
     
   def setUpMPSHook(self, dest):
+    log ( "Making the the MPS installer executable" );
     os.system("chmod +x " + self.archive);
+    log ( "Running the installer" );
     os.system(self.archive);
+    exit(1);
     self.mpsPath = self.getMPSEndPath();
   
 def getMPSInstaller():
