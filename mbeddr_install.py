@@ -339,7 +339,7 @@ def TEST_getFileNameFromUrl():
 
 def formatProgressStr(totalsize, readsofar):
   
-  percent = readsofar * 1e2 / totalsize
+  percent = readsofar * 100 / totalsize
   
   s = "\rProgress: %5.1f%% %*d bytes / %d bytes"  
   
@@ -348,8 +348,8 @@ def formatProgressStr(totalsize, readsofar):
   
   if ts > 2*1024*1024:
     s = "\rProgress: %5.1f%% %*d MB / %d MB"
-    ts = ts / 1024*1024
-    rsf = rsf / 1024*1024
+    ts = ts / (1024*1024)
+    rsf = rsf / (1024*1024)
   else:
     if ts > 100*1024:
       s = "\rProgress: %5.1f%% %*d KB / %d KB"
