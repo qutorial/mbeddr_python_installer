@@ -341,6 +341,7 @@ CBMCInstallDirMac = "/usr/bin"
 CBMCWinFileName = """cbmc-""" + CBMCVersion + "-" + CBMCSubVersion + """-win.zip"""
 CBMCWinUrl = """http://www.cprover.org/cbmc/download/""" + CBMCWinFileName;
 CBMCInstallDirWin = "cbmc-"+CBMCVersion+"-"+CBMCSubVersion;
+CBMCEndPathWin = os.path.join("/cygdrive/c/", CBMCInstallDirWin);
 
 # JAVA CONFIGURATION
 InstallJavaMessage= """Please, install a Java from Oracle. 
@@ -770,6 +771,17 @@ def prepareDestDir(complainExists = True):
   
 # ------------------ INSTALLING CBMC ------------------
 
+
+def locateAndExecuteCBMC():
+  if onWindows():
+    if os.path.exists(CBMCEndPathWin):
+      cbmcExe = os.path.join(CBMCEndPathWin, "cbmc.exe");
+      if os.path.exists(cbmcExe):
+        return getOutput(cbmcExe);  
+  
+  #if stuff above did not work for windows - last attempt and solution for Unix
+  return getOutput(["cbmc", "--version"]);
+  
 class CBMCInstallerBase:
   
   def getCBMCVersion(self):
@@ -783,7 +795,7 @@ class CBMCInstallerBase:
        
   def checkCBMC(self):
     try:
-      cbmc = getOutput(["cbmc", "--version"]);
+      cbmc = 
       return self.checkCBMCVersion(cbmc)
     except OSError:
       return "No CBMC C Prover installed\n"
@@ -933,8 +945,11 @@ class CBMCInstallerForWin(CBMCInstallerBase):
     os.makedirs(res);    
     unarchive(fname, res);
     
-    targetPath = os.path.join("/cygdrive/c/", CBMCInstallDirWin);
+    targetPath = CBMCEndPathWin;
     
+    if os.path.exists(targetPath):
+      os.system("rm -rf " + targetPath);
+      
     os.system("mv " + res + " " + targetPath);
     
     global MPS_BAT_WITH_ENV    
