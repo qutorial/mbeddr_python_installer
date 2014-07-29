@@ -742,7 +742,11 @@ DAMAGE.\n"""
     
   
   def installCBMC(self, dest):
-    log ( self.getCBMCLicense() );
+    
+    strs = [s.strip() for s in self.getCBMCLicense().splitlines()]    
+    for s in strs:
+      log ( s );
+      
     log ( self.getCBMCIntro() );
     log ( "Above is the CBMC license, do you accept it [y/n]?" )
     accept = str(input()).strip();
@@ -1213,13 +1217,8 @@ def configureMbeddr(MPSDir, MbeddrDir):
 def buildMbeddr(MbeddrDir):
   BuildPath = os.path.join(MbeddrDir, "code", "languages");
   os.chdir(BuildPath);
-  
   scriptname = "buildLanguages.sh";  
-  if onWindows():
-    scriptname = "buildLanguages.bat";
-  
-  scriptname = os.path.join(BuildPath, scriptname);
-  
+  scriptname = os.path.join(BuildPath, scriptname);  
   os.system(scriptname);
   
 
