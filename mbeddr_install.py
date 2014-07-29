@@ -532,7 +532,8 @@ def checkJavaVersion(java):
   return answer;
 
 
-JDKWINDOWS = ""
+JDKWINDOWS = None
+
 def locateAndExecuteJavaWindows():
     
   log ( "Note: In Cygwin a path like /cygdrive/c/ stands for C:\ in Windows " );
@@ -541,11 +542,13 @@ def locateAndExecuteJavaWindows():
   javaexe = os.path.join(jdkpath, "bin", "java.exe")
   
   if os.path.exists( javaexe ):
-    return getOutput([javaexe, "-version"])
-    global JDKWINDOWS;
-    JDKWINDOWS = jdkpath;
-    debug ( "Setting JAVA_HOME to " + JDKWINDOWS );    
+    global JDKWINDOWS
+    JDKWINDOWS = jdkpath
+    debug ( "Setting JAVA_HOME to " + JDKWINDOWS )
     os.putenv("JAVA_HOME", JDKWINDOWS);
+    
+    return getOutput([javaexe, "-version"])
+    
     
   else:
     log ( "No JDK located at " + jdkpath );
@@ -599,8 +602,13 @@ def locateAndExecuteAntWindows():
     env ['JAVA_HOME'] = JDKWINDOWS;
     debug ( "JDK Windows is " + JDKWINDOWS );
     debug ( "Testing env first" + getOutput("env", env=env) );
-    return getOutput([antexe, "-version"], env=env)
+    
+    global ANTWINDOWS
+    
     ANTWINDOWS = antpath   
+    
+    return getOutput([antexe, "-version"], env=env)
+    
     
   else:
     log ( "No Apache Ant located at " + antpath );
