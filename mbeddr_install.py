@@ -1302,8 +1302,8 @@ def configureMPSWithMbeddr(MPSDir, MbeddrDir):
     configureInfoPlist(MPSDir, ConfigPath, SysPath);
   
   if onWindows():
-    debug ( "Configurring mps.bat on Windows" );
-    rewriteFile(os.path.join(MPSDir, MPSBatName), MPS_BAT_WITH_ENV);
+    debug ( "Configurring mps.bat on Windows" );    
+    #rewriteFile(os.path.join(MPSDir, MPSBatName), MPS_BAT_WITH_ENV);
     
 def testConfigureMPSWithMbeddr():
   dest = prepareDestDir(False);
