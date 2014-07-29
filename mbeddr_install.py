@@ -538,7 +538,7 @@ def locateAndExecuteJavaWindows():
   javaexe = os.path.join(jdkpath, "bin", "java.exe")
   
   if os.path.exists( javaexe ):
-    return getOutput(javaexe + " -version")
+    return getOutput([javaexe, " -version"])
     JDKWINDOWS = jdkpath
     
   else:
