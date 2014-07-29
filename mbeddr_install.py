@@ -944,9 +944,8 @@ class MPSInstallerForWin(MPSInstallerBase):
       
       try:
         fp = open(self.archive, "w")
-      except IOError as e:
-        if e.errno == errno.EBUSY:
-          continue;
+      except IOError as e:        
+        continue;
       
       fp.close();
       break;
