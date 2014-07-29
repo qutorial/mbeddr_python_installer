@@ -794,10 +794,13 @@ class CBMCInstallerBase:
       return "Unrecognized CBMC C Prover version\n"
        
   def checkCBMC(self):
-    try:      
-      cbmc = locateAndExecuteCBMC();
-      debug ( "Locate returns " + cbmc );
-      return self.checkCBMCVersion(cbmc)
+    cbmc = locateAndExecuteCBMC();
+    debug ( "Locate returns " + cbmc );
+    return self.checkCBMCVersion(cbmc)
+    
+    
+    #try:      
+     # 
     #except OSError:      
      # return "No CBMC C Prover installed\n"
 
