@@ -469,11 +469,14 @@ def unarchive(a, dest):
 
     
 # Get command output as a string
-def getOutput(args):
+def getOutput(args, env = None):
   command = args;
   if isinstance(args, str):
-    command = args.split();    
-  return subprocess.check_output(command, stderr=subprocess.STDOUT).decode('ascii').strip();
+    command = args.split();      
+  try:
+    return subprocess.check_output(command, stderr=subprocess.STDOUT, env = env).decode('ascii').strip();
+  except CalledProcessError as e:
+    return e.output;
 
   
   
@@ -591,8 +594,10 @@ def locateAndExecuteAntWindows():
   antexe = os.path.join(antpath, "bin", "ant")
   
   if os.path.exists( antexe ):
-    debug ( "Testing env first" + getOutput("env") );
-    return getOutput([antexe, "-version"])
+    env = os.environ;
+    env['JAVA_HOME']=JDKWINDOWS;
+    debug ( "Testing env first" + getOutput("env", env=env) );
+    return getOutput([antexe, "-version"], env=env)
     ANTWINDOWS = antpath   
     
   else:
