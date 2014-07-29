@@ -24,7 +24,7 @@ import rlcompleter
 
 log = print;
 
-DEBUG = False
+DEBUG = True
 
 def debug(strr):
   if DEBUG:
