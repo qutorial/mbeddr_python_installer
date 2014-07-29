@@ -912,7 +912,7 @@ class MPSInstallerForMac(MPSInstallerBase):
     ejectImageMac(self.archive);
     
 class MPSInstallerForWin(MPSInstallerBase):
-  def getMPSEndPath(self):
+  def getMPSEndPath(self, dest):
     return MPSDestDirWin;
     
   def setUpMPSHook(self, dest):
@@ -1092,6 +1092,7 @@ def testConfigureMPSWithMbeddr():
   
   configureMPSWithMbeddr(MPSDir, MbeddrDir);
   
+
 testConfigureMPSWithMbeddr();
 exit (1);
  
