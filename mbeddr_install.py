@@ -442,8 +442,7 @@ def unarchive(a, dest):
 # Get command output as a string
 def getOutput(args):
   return subprocess.check_output(args, stderr=subprocess.STDOUT).decode('ascii').strip();
-
-    
+ 
 # GIT 
 
 def checkGitVersion(git):
@@ -982,7 +981,23 @@ def TEST_INTERACTIVE_INSTALL_MPS():
 # ------------------ END INSTALLING MPS ------------------
 
 
-# ------------------ CONFIGURING MPS WITH MBEDDR ------------------
+  
+
+# ------------------ CONFIGURRING MPS WITH MBEDDR ------------------
+
+# Windows Cygwin path conversions
+
+def cygwinPathToWin(p):
+  return getOutput("cygpath -w " + p);
+
+def convertPathToNative(p):
+  if onWindows():
+    return cygwinPathToWin(p);
+  else:
+    return p;
+    
+log ( convertPathToNative("/home/Zaur/") );
+exit (1);
 
 
 # MAC PART
@@ -1020,7 +1035,7 @@ def writeMPSProperties (MPSDir, ConfigPath, SysPath):
   optsPath = getFileNameToWritePropertiesTo(MPSDir)
   optsContent = replaceConfigAndSystemPaths(getTemplateForMPSProperties(), ConfigPath, SysPath);
   rewriteFile(optsPath, optsContent);
-  
+
   
 def configureMPSWithMbeddr(MPSDir, MbeddrDir):
 #  print "configure is called with MPS dir ", MPSDir, " and MbeddrDir ", MbeddrDir;
@@ -1183,14 +1198,12 @@ def main():
   if dest == False:
     log (  "Problem creating destination directory" );
     return 1;
-  
-  
+    
   
   #Installing CBMC
   log (  "Installing CBMC" );
   installCBMC(dest);
-    
-  
+      
   
   #Installing MPS
   log (  "Installing MPS..." );
