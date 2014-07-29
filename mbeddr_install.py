@@ -24,7 +24,7 @@ import rlcompleter
 
 log = print;
 
-DEBUG = True
+DEBUG = False
 
 def debug(strr):
   if DEBUG:
@@ -63,13 +63,17 @@ MPSLin = """http://download.jetbrains.com/mps/31/MPS-3.1.tar.gz"""
 MPSZip = """http://download.jetbrains.com/mps/31/MPS-3.1.1.zip"""
 MPSWin = """http://download.jetbrains.com/mps/31/MPS-3.1.1.exe"""
 MPSArcDir="MPS" #This is just a part of it
-MPSVolumesDir = """/Volumes/""" #MPSVolumesDir = """/Volumes/MPS 3.1/MPS 3.1.app"""
+
 MPSDestDirLinux = "MPS31"
+
 MPSDestDirWin = MPSDestDirLinux
 MPSDestDirWinDefault = """/cygdrive/c/Program Files (x86)/JetBrains/MPS 3.1"""
-MPSDestDirMac = "MPS31.app"
+WindowsUsualJavaLocation = """/cygdrive/c/Program Files/Java/jdk1.7.0_65"""
 CygwinDocsAndSettings = """/cygdrive/c/Documents and Settings/"""
 WindowsMPSDesktopLinkName = """JetBrains MPS 3.1.lnk""";
+
+MPSVolumesDir = """/Volumes/""" #MPSVolumesDir = """/Volumes/MPS 3.1/MPS 3.1.app"""
+MPSDestDirMac = "MPS31.app"
 
 IdeaPropertiesPriv="""#---------------------------------------------------------------------
 # Uncomment this option if you want to customize path to MPS config folder
@@ -421,11 +425,25 @@ def readFileName(promptMessage):
   readline.set_completer(complete)  
   return input(promptMessage).strip()
 
-
+def inputFileName(message, defres = None):
+  
+  res = defres;
+  try:
+    res = readFileName(message + " [" + defres + "]: ")
+  except EOFError:
+    res = None
+  
+  if (res is None) or (len(res) == 0):    
+    res = defres;
+  
+  res = os.path.abspath(res);
+  
+  return res;
+  
 def TEST_INTERACTIVE_readFileName():
   s = readFileName("File: ")
   log ( "Result: " + s )
-  
+    
 # Unarchiving Zips and Tars
 
 def unzip(zipzip, dest):
@@ -499,7 +517,7 @@ def checkJavaVersion(java):
   if len(c) > 0:
     if len(a) + len(b) > 0:
       return True;
-  answer = "Java version is not recognized\n" + java + "\n" +InstallJavaMessage;
+  answer = "No supported Java version detected\n" + InstallJavaMessage;
   if onLinux():
     answer = answer + InstallJavaHintUbuntu;    
     a = [s for s in vals if "IcedTea" in s]
@@ -507,11 +525,33 @@ def checkJavaVersion(java):
     if len(a) > 0:
       answer = answer + OpenJdkHint;    
   return answer;
+
+JDKWINDOWS = ""
+
+def locateAndExecuteJavaWindows():
+    
+  log ( "Note: In Cygwin a path like /cygdrive/c/ stands for C:\ in Windows " );
+  jdkpath = inputFileName("Please, point to Oracle JDK folder", WindowsUsualJavaLocation);
   
+  javaexe = os.path.join(jdkpath, "bin", "java.exe")
+  
+  if os.path.exists( javaexe )
+    return getOutput(javaexe + " -version")
+    JDKWINDOWS = jdkpath
+    
+  else:
+    log ( "No JDK located at " + jdkpath );
+    return "";
+  
+def locateAndExecuteJava():
+  if onWindows():
+    return locateAndExecuteJavaWindows();
+  else:
+    return getOutput(["java", "-version"]);
   
 def checkJava():  
   try:
-    java = getOutput(["java", "-version"]);
+    java = locateAndExecuteJava()
     return checkJavaVersion(java)
   except OSError:
     answer = InstallJavaMessage;
@@ -556,15 +596,8 @@ def getUserHomeDirectory():
 
 def prepareDestDir(complainExists = True):
   home = os.path.join(getUserHomeDirectory(), "mbeddr")
-  try:
-    destdir = readFileName("Where would you like to install it["+home+"]: ")
-  except EOFError:
-    destdir = None
   
-  if (destdir is None) or (len(destdir) == 0):    
-    destdir = home;
-  
-  destdir=os.path.abspath(destdir);
+  destdir = inputFileName("Where would you like to install mbeddr", home);  
   
   log ( "Selecting: " + destdir )
   

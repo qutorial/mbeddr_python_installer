@@ -14,6 +14,8 @@ Devel: git
 Devel: make
 Web: wget
 Python: python3  (version 3 is important).
+Text: gettext
+
 
 By clicking on the Skip value in the New column, and selecting the 
 version to be installed. More packages can be selected when required by you.
@@ -55,6 +57,12 @@ Remember the name of the folder.
 
 
 III. Installing CBMC.
+
+
+--- TODO 
+1) Increase MaxPermSize
+2) Change Java in mps.bat
+3) Generate set_env.bat
 
 
 
