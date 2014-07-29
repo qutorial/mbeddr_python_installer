@@ -1045,7 +1045,7 @@ def writeIdeaProperties (MPSDir, ConfigPath, SysPath):
   
   optsContent = "";
   if onWindows():
-    optsContent = replaceConfigAndSystemPaths(getTemplateForMPSProperties(), "\"../IdeaConfig\"", "\"../IdeasSystem\"");
+    optsContent = replaceConfigAndSystemPaths(getTemplateForMPSProperties(), "\"../IdeaConfig\"", "\"../IdeaSystem\"");
   else:
     optsContent = replaceConfigAndSystemPaths(getTemplateForMPSProperties(), ConfigPath, SysPath);
   
@@ -1107,12 +1107,22 @@ def cloneMbeddr(dest, MbeddrDir):
   os.chdir(MbeddrDir);
   os.system("git clone --recursive -b " + TheBranch + " " + MbeddrRepo+ " .");  
 
-def configureMbeddr(MPSDir, MbeddrDir):
+  
+#Path to Native with Forward Slashes
+def p2nfs(p):
+  return convertPathToNative(p).replace("\\", "/");
+  
+
+def getBuildProperties(MPSDir, MbeddrDir):  
+  caches = os.path.join(MPSDir, "CachesMbeddr");  
+  if onWindows():
+    return BuildProperties.replace("MPSDir", p2nfs(MPSDir)).replace("MPSCaches", p2nfs(caches)).replace("MbeddrDir", p2nfs(MbeddrDir));
+  else:
+    return BuildProperties.replace("MPSDir", MPSDir).replace("MPSCaches", caches).replace("MbeddrDir", MbeddrDir)
+  
+def configureMbeddr(MPSDir, MbeddrDir):    
   BuildPropsPath = os.path.join(MbeddrDir, "code", "languages", "build.properties");
-  f = open(BuildPropsPath, 'w');
-  f.write(BuildProperties.replace("MPSDir", convertPathToNative(MPSDir)).replace("MPSCaches", convertPathToNative(os.path.join(MPSDir, "CachesMbeddr"))).replace(
- "MbeddrDir", convertPathToNative(MbeddrDir)));
-  f.close();
+  rewriteFile(BuildPropsPath, getBuildProperties(MPSDir, MbeddrDir))
 
 
 def buildMbeddrUnix(MbeddrDir):
