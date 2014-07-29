@@ -798,8 +798,8 @@ class CBMCInstallerBase:
       cbmc = locateAndExecuteCBMC();
       debug ( "Locate returns " + cbmc );
       return self.checkCBMCVersion(cbmc)
-    except OSError:
-      return "No CBMC C Prover installed\n"
+    #except OSError:      
+     # return "No CBMC C Prover installed\n"
 
   def getCBMCIntro(self):
     return "mbeddr verification heavily relies on CBMC C Prover, which is copyrighted:\n"
