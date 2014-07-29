@@ -425,9 +425,8 @@ def readFileName(promptMessage):
   readline.set_completer(complete)  
   return input(promptMessage).strip()
 
-def inputFileName(message, defres = None):
-  
-  res = defres;
+def inputFileName(message, defres):  
+  res = None;
   try:
     res = readFileName(message + " [" + defres + "]: ")
   except EOFError:
