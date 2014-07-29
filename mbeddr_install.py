@@ -479,7 +479,7 @@ def getOutput(args):
     command = args.split();      
   try:
     return subprocess.check_output(command, stderr=subprocess.STDOUT).decode('ascii').strip();
-  except CalledProcessError as e:
+  except subprocess.CalledProcessError as e:
     return e.output;
 
   
