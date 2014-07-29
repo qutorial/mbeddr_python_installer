@@ -777,6 +777,7 @@ def locateAndExecuteCBMC():
     if os.path.exists(CBMCEndPathWin):
       cbmcExe = os.path.join(CBMCEndPathWin, "cbmc.exe");
       if os.path.exists(cbmcExe):
+	os.system("chmod +x " + cbmcExe);
         return getOutput([cbmcExe, "--version"]);  
   
   #if stuff above did not work for windows - last attempt and solution for Unix
@@ -794,15 +795,13 @@ class CBMCInstallerBase:
       return "Unrecognized CBMC C Prover version\n"
        
   def checkCBMC(self):
-    cbmc = locateAndExecuteCBMC();
-    debug ( "Locate returns " + cbmc );
-    return self.checkCBMCVersion(cbmc)
+    try:
+      cbmc = locateAndExecuteCBMC();
+      debug ( "Locate returns " + cbmc );
+      return self.checkCBMCVersion(cbmc)
+    except OSError:      
+      return "No CBMC C Prover installed\n"
     
-    
-    #try:      
-     # 
-    #except OSError:      
-     # return "No CBMC C Prover installed\n"
 
   def getCBMCIntro(self):
     return "mbeddr verification heavily relies on CBMC C Prover, which is copyrighted:\n"
