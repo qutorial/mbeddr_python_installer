@@ -998,16 +998,12 @@ def convertPathToNative(p):
     return cygwinPathToWin(p);
   else:
     return p;
-    
-log ( convertPathToNative("/home/Zaur/") );
-exit (1);
-
 
 # MAC PART
 def replaceConfigAndSystemPaths(template, ConfigPath, SysPath):
   opts = template;
-  opts = opts.replace("IdeaConfig", ConfigPath);
-  opts = opts.replace("IdeaSystem", SysPath);
+  opts = opts.replace("IdeaConfig", convertPathToNative(ConfigPath));
+  opts = opts.replace("IdeaSystem", convertPathToNative(SysPath));
   return opts;
 
 def getFileNameToWriteInfoPlistTo(MPSDir):
@@ -1056,7 +1052,7 @@ def configureMPSWithMbeddr(MPSDir, MbeddrDir):
   
   rewriteFile(os.path.join(OptionsPath, "libraryManager.xml"), MPSLibraryManager);
   
-  rewriteFile(os.path.join(OptionsPath, "path.macros.xml"), MPSPathMacros.replace("MbeddrDir", MbeddrDir));
+  rewriteFile(os.path.join(OptionsPath, "path.macros.xml"), MPSPathMacros.replace("MbeddrDir", convertPathToNative(MbeddrDir)));
   
   writeMPSProperties(MPSDir, ConfigPath, SysPath);
   
@@ -1082,8 +1078,8 @@ def cloneMbeddr(dest, MbeddrDir):
 def configureMbeddr(MPSDir, MbeddrDir):
   BuildPropsPath = os.path.join(MbeddrDir, "code", "languages", "build.properties");
   f = open(BuildPropsPath, 'w');
-  f.write(BuildProperties.replace("MPSDir", MPSDir).replace("MPSCaches", os.path.join(MPSDir, "CachesMbeddr")).replace(
- "MbeddrDir", MbeddrDir));
+  f.write(BuildProperties.replace("MPSDir", convertPathToNative(MPSDir)).replace("MPSCaches", convertPathToNative(os.path.join(MPSDir, "CachesMbeddr"))).replace(
+ "MbeddrDir", convertPathToNative(MbeddrDir)));
   f.close();
 
 
