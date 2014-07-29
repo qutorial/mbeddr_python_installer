@@ -65,7 +65,8 @@ MPSWin = """http://download.jetbrains.com/mps/31/MPS-3.1.1.exe"""
 MPSArcDir="MPS" #This is just a part of it
 MPSVolumesDir = """/Volumes/""" #MPSVolumesDir = """/Volumes/MPS 3.1/MPS 3.1.app"""
 MPSDestDirLinux = "MPS31"
-MPSDestDirWin = """/cygdrive/c/Program Files (x86)/JetBrains/MPS 3.1"""
+MPSDestDirWin = MPSDestDirLinux
+MPSDestDirWinDefault = """/cygdrive/c/Program Files (x86)/JetBrains/MPS 3.1"""
 MPSDestDirMac = "MPS31.app"
 CygwinDocsAndSettings = """/cygdrive/c/Documents and Settings/"""
 WindowsMPSDesktopLinkName = """JetBrains MPS 3.1.lnk""";
@@ -453,7 +454,20 @@ def getOutput(args):
   if isinstance(args, str):
     command = args.split();    
   return subprocess.check_output(command, stderr=subprocess.STDOUT).decode('ascii').strip();
- 
+
+  
+  
+# Windows Cygwin path conversions
+def cygwinPathToWin(p):
+  return getOutput(["cygpath", "-w", p]);
+
+def convertPathToNative(p):
+  if onWindows():
+    return cygwinPathToWin(p);
+  else:
+    return p;
+
+    
 # GIT 
 
 def checkGitVersion(git):
@@ -646,7 +660,7 @@ DAMAGE.\n"""
     log ( self.getCBMCLicense() );
     log ( self.getCBMCIntro() );
     log ( "Above is the CBMC license, do you accept it [y/n]?" )
-    accept = str(raw_input()).strip();
+    accept = str(input()).strip();
     if "y" != accept:
       return False;
     
@@ -912,11 +926,17 @@ class MPSInstallerForMac(MPSInstallerBase):
     ejectImageMac(self.archive);
     
 class MPSInstallerForWin(MPSInstallerBase):
-  def getMPSEndPath(self, dest):
+  def getMPSDir(self):
     return MPSDestDirWin;
     
   def setUpMPSHook(self, dest):
     log ( "Running the installer..." );
+    
+    log ( "IMPORTANT!" );
+    log ( "Please, specify this directory in MPS Installer: " + convertPathToNative(self.getMPSEndPath())); 
+    log ( "Press Enter key to continue" );
+    input();    
+    
     os.system("chmod +x " + self.archive);    
     currdir = os.getcwd();    
     os.chdir(os.path.dirname(self.archive));    
@@ -994,17 +1014,6 @@ def TEST_INTERACTIVE_INSTALL_MPS():
   
 
 # ------------------ CONFIGURRING MPS WITH MBEDDR ------------------
-
-# Windows Cygwin path conversions
-
-def cygwinPathToWin(p):
-  return getOutput(["cygpath", "-w", p]);
-
-def convertPathToNative(p):
-  if onWindows():
-    return cygwinPathToWin(p);
-  else:
-    return p;
 
 # MAC PART
 def replaceConfigAndSystemPaths(template, ConfigPath, SysPath):
@@ -1092,10 +1101,6 @@ def testConfigureMPSWithMbeddr():
   
   configureMPSWithMbeddr(MPSDir, MbeddrDir);
   
-
-testConfigureMPSWithMbeddr();
-exit (1);
- 
 # ------------------ END CONFIGURING MPS WITH MBEDDR ------------------
 
     
