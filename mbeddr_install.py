@@ -988,7 +988,7 @@ def TEST_INTERACTIVE_INSTALL_MPS():
 # Windows Cygwin path conversions
 
 def cygwinPathToWin(p):
-  return getOutput("cygpath -w " + p);
+  return getOutput(["cygpath", "-w", p]);
 
 def convertPathToNative(p):
   if onWindows():
