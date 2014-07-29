@@ -69,6 +69,7 @@ MPSDestDirLinux = "MPS31"
 MPSDestDirWin = MPSDestDirLinux
 MPSDestDirWinDefault = """/cygdrive/c/Program Files (x86)/JetBrains/MPS 3.1"""
 WindowsUsualJavaLocation = """/cygdrive/c/Program Files/Java/jdk1.7.0_65"""
+WindowsUsualAntLocation = """/cygdrive/c/apache-ant"""
 CygwinDocsAndSettings = """/cygdrive/c/Documents and Settings/"""
 WindowsMPSDesktopLinkName = """JetBrains MPS 3.1.lnk""";
 
@@ -539,6 +540,7 @@ def locateAndExecuteJavaWindows():
   if os.path.exists( javaexe ):
     return getOutput([javaexe, "-version"])
     JDKWINDOWS = jdkpath
+    os.environ['JAVA_HOME'] = JDKWINDOWS;
     
   else:
     log ( "No JDK located at " + jdkpath );
@@ -576,9 +578,40 @@ def checkAntVersion(ant):
     
   return answer;
   
+def installAntWindows():
+  
+  
+
+ANTWINDOWS = ""
+
+def locateAndExecuteAntWindows():
+    
+  log ( "Note: In Cygwin a path like /cygdrive/c/ stands for C:\ in Windows " );
+  antpath = inputFileName("Please, point to Apache Ant folder, or type i to install it now", WindowsUsualAntLocation);
+  
+  if antpath == "i":
+    antpath = installAntWindows();
+  
+  
+  antexe = os.path.join(antpath, "bin", "ant")
+  
+  if os.path.exists( antexe ):
+    return getOutput([antexe, "-version"])
+    ANTWINDOWS = antpath   
+    
+  else:
+    log ( "No Apache Ant located at " + antpath );
+    return "";
+  
+def locateAndExecuteAnt():
+  if onWindows():
+    return locateAndExecuteAntWindows();
+  else:
+    return getOutput(["ant", "-version"]);
+    
 def checkAnt():
   try:
-    ant = getOutput(["ant", "-version"]);
+    ant = locateAndExecuteAnt()
     return checkAntVersion(ant)
   except OSError:
     answer = InstallAntMessage;
