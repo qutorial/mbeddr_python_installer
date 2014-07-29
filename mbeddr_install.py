@@ -1489,7 +1489,7 @@ def main():
   downloadTheReadMe(dest);
   
   log (  "Building mbeddr..." );
-  buildMbeddr(MbeddrDir);
+#  buildMbeddr(MbeddrDir);
   
   greetings(MPSDir, MbeddrDir, dest);
 
