@@ -598,6 +598,7 @@ def locateAndExecuteAntWindows():
     env = os.environ;
     global JDKWINDOWS
     env ['JAVA_HOME'] = JDKWINDOWS;
+    debug ( "JDK Windows is " + JDKWINDOWS );
     debug ( "Testing env first" + getOutput("env", env=env) );
     return getOutput([antexe, "-version"], env=env)
     ANTWINDOWS = antpath   
