@@ -540,7 +540,7 @@ def locateAndExecuteJavaWindows():
   if os.path.exists( javaexe ):
     return getOutput([javaexe, "-version"])
     JDKWINDOWS = jdkpath
-    os.environ['JAVA_HOME'] = JDKWINDOWS;
+    os.putenv("JAVA_HOME", JDKWINDOWS);
     
   else:
     log ( "No JDK located at " + jdkpath );
