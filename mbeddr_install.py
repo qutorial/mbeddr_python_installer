@@ -1,3 +1,4 @@
+#!python3
 # THE WAY TO RUN THE NEWEST SCRIPT VERSION
 
 #bash command to run it on Linux
@@ -525,9 +526,12 @@ def TEST_checkAnt():
   return s == True or InstallAntHintUbuntu in s;
   
 # Preparing a destination directory
-    
+
+def getUserHomeDirectory():
+  return expanduser("~");
+
 def prepareDestDir(complainExists = True):
-  home = os.path.join(expanduser("~"), "mbeddr")
+  home = os.path.join(getUserHomeDirectory(), "mbeddr")
   try:
     destdir = readFileName("Where would you like to install it["+home+"]: ")
   except EOFError:
@@ -701,7 +705,7 @@ class CBMCInstallerForMac(CBMCInstallerBase):
 class CBMCInstallerForWin(CBMCInstallerBase):
   def downloadCBMC(self, dest):
     return "";
-  def setUpCBMC(seld, dest, fname):
+  def setUpCBMC(self, dest, fname):
     return True;
     
 def getCBMCInstaller():
@@ -769,10 +773,20 @@ def getMPSFileName():
 
 def TEST_getMPSUrl():
   return getMPSFileName() in getFileNameFromUrl(getMPSUrl());
-  
+
+def getMPSArchiveInUserHome():
+  return os.path.join(getUserHomeDirectory(), getMPSFileName());
+
 def downloadMPSOSDep(dest):
   url = getMPSUrl();
-  fName = os.path.join(dest, getMPSFileName());  
+  
+  #Cached installation
+  fName = getMPSArchiveInUserHome();
+  if os.path.exists(fName):
+    log (  "\nUsing cached archive with MPS: " + fName + "\nDelete it manually, if the installation fails to use it!" );
+    return fName;
+  
+  fName = os.path.join(dest, getMPSFileName());    
   if os.path.exists(fName):
     log (  "\nAn archive with MPS has already been downloaded to: " + fName + "\nDelete it manually, if the installation fails to use it!" );
     return fName;
@@ -814,7 +828,11 @@ class MPSInstallerBase:
     return os.path.join(dest, self.getMPSDir());
   
   def removeArchive(self):
-    log (  "Deleting downloaded MPS archive" );
+    if self.archive == getMPSArchiveInUserHome():
+      log ( "Skipping removal of the archive from the home folder" );
+      return;
+    
+    log (  "Deleting downloaded MPS archive..." );
     os.remove(self.archive);  
     
   def getMPSDir(self):
