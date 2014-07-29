@@ -76,6 +76,13 @@ WindowsMPSDesktopLinkName = """JetBrains MPS 3.1.lnk""";
 MPSVolumesDir = """/Volumes/""" #MPSVolumesDir = """/Volumes/MPS 3.1/MPS 3.1.app"""
 MPSDestDirMac = "MPS31.app"
 
+WindowsSetEnvBat = """@echo off
+
+set PATH=%PATH%;ANTBIN;JAVABIN;CBMCBIN
+set ANT_HOME=ANTHOME
+set JAVA_HOME=JAVAHOME"""
+
+
 IdeaPropertiesPriv="""#---------------------------------------------------------------------
 # Uncomment this option if you want to customize path to MPS config folder
 #---------------------------------------------------------------------
@@ -552,7 +559,12 @@ def locateAndExecuteJavaWindows():
     
     debug ( "Setting JAVA_HOME to " + JDKWINDOWS )
     os.environ['JAVA_HOME'] = JDKWINDOWS;
-    addToPath(os.path.join(JDKWINDOWS, "bin"));
+    pathToJavaBin = os.path.join(JDKWINDOWS, "bin");
+    addToPath(pathToJavaBin);
+    
+    global WindowsSetEnvBat    
+    WindowsSetEnvBat = WindowsSetEnvBat.replace("JAVABIN", convertPathToNative(pathToJavaBin));
+    WindowsSetEnvBat = WindowsSetEnvBat.replace("JAVAHOME", convertPathToNative(JDKWINDOWS));
     
     return getOutput([javaexe, "-version"])    
     
@@ -611,10 +623,15 @@ def locateAndExecuteAntWindows():
     
     debug ( "Setting ANT_HOME to " + ANTWINDOWS )
     os.environ['ANT_HOME'] = ANTWINDOWS;
-    addToPath(os.path.join(ANTWINDOWS, "bin"));
+    pathToAntBin = os.path.join(ANTWINDOWS, "bin");
+    addToPath(pathToAntBin);
     
     global ANTWINDOWSEXE
     ANTWINDOWSEXE = antexe
+    
+    global WindowsSetEnvBat    
+    WindowsSetEnvBat = WindowsSetEnvBat.replace("ANTBIN", convertPathToNative(pathToAntBin));
+    WindowsSetEnvBat = WindowsSetEnvBat.replace("ANTHOME", convertPathToNative(ANTWINDOWS));
     
     return getOutput(["ant", "-version"])
     
@@ -736,7 +753,7 @@ DAMAGE.\n"""
 
   def getCBMCLicense(self):
     try:
-      return urlopen("http://www.cprover.org/cbmc/LICENSE").read();
+      return urlopen("http://www.cprover.org/cbmc/LICENSE").read().decode("utf-8").strip();
     except Exception:
       return self.getCBMCFallbackLicense()
     
