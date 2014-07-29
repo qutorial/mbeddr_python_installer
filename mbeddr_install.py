@@ -1224,7 +1224,6 @@ def RUN_TESTS():
 #RUN_TESTS();
 #exit(1);
 
-exit(1);
 try:
   main();
 except:
