@@ -531,7 +531,9 @@ def checkJavaVersion(java):
       answer = answer + OpenJdkHint;    
   return answer;
 
+
 JDKWINDOWS = ""
+
 
 def locateAndExecuteJavaWindows():
     
@@ -542,7 +544,7 @@ def locateAndExecuteJavaWindows():
   
   if os.path.exists( javaexe ):
     return getOutput([javaexe, "-version"])
-    JDKWINDOWS = jdkpath
+    global JDKWINDOWS = jdkpath
     debug ( "Setting JAVA_HOME to " + JDKWINDOWS );    
     os.putenv("JAVA_HOME", JDKWINDOWS);
     
@@ -595,7 +597,7 @@ def locateAndExecuteAntWindows():
   
   if os.path.exists( antexe ):
     env = os.environ;
-    env['JAVA_HOME']=JDKWINDOWS;
+    env['JAVA_HOME']= global JDKWINDOWS;
     debug ( "Testing env first" + getOutput("env", env=env) );
     return getOutput([antexe, "-version"], env=env)
     ANTWINDOWS = antpath   
