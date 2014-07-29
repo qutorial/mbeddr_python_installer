@@ -65,7 +65,7 @@ MPSWin = """http://download.jetbrains.com/mps/31/MPS-3.1.1.exe"""
 MPSArcDir="MPS" #This is just a part of it
 MPSVolumesDir = """/Volumes/""" #MPSVolumesDir = """/Volumes/MPS 3.1/MPS 3.1.app"""
 MPSDestDirLinux = "MPS31"
-MPSDestDirWin = """C:\Program Files (x86)\JetBrains\MPS 3.1"""
+MPSDestDirWin = """/cygdrive/c/Program Files (x86)/JetBrains/MPS 3.1"""
 MPSDestDirMac = "MPS31.app"
 CygwinDocsAndSettings = """/cygdrive/c/Documents and Settings/"""
 WindowsMPSDesktopLinkName = """JetBrains MPS 3.1.lnk""";
