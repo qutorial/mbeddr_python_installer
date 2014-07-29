@@ -41,6 +41,10 @@ if sys.version_info < (3, 0):
 
 ################### -- CONFIGURATION -- ###################
 
+# ANT CONFIGURATION
+
+AntWindowsUrl = """http://artfiles.org/apache.org//ant/binaries/apache-ant-1.9.4-bin.zip"""
+
 # MBEDDR CONFIGURATION
 MbeddrRepo = """https://github.com/mbeddr/mbeddr.core.git"""
 #TheBranch = "fortiss_stable"
@@ -578,20 +582,14 @@ def checkAntVersion(ant):
     
   return answer;
   
-def installAntWindows():
-    return ""
-  
+
 
 ANTWINDOWS = ""
 
 def locateAndExecuteAntWindows():
     
   log ( "Note: In Cygwin a path like /cygdrive/c/ stands for C:\ in Windows " );
-  antpath = inputFileName("Please, point to Apache Ant folder, or type i to install it now", WindowsUsualAntLocation);
-  
-  if antpath == "i":
-    antpath = installAntWindows();
-  
+  antpath = inputFileName("Please, point to Apache Ant folder", WindowsUsualAntLocation);
   
   antexe = os.path.join(antpath, "bin", "ant")
   
