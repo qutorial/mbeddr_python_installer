@@ -342,6 +342,10 @@ def TEST_getOS():
     return True;
   return False;
 
+# Adding to Path
+
+def addToPath(d):
+  os.environ['PATH'] = os.environ['PATH'] + os.pathsep + d;
     
 # Downloading file with progress
 
@@ -469,12 +473,12 @@ def unarchive(a, dest):
 
     
 # Get command output as a string
-def getOutput(args, env = None):
+def getOutput(args):
   command = args;
   if isinstance(args, str):
     command = args.split();      
   try:
-    return subprocess.check_output(command, stderr=subprocess.STDOUT, env = env).decode('ascii').strip();
+    return subprocess.check_output(command, stderr=subprocess.STDOUT).decode('ascii').strip();
   except CalledProcessError as e:
     return e.output;
 
@@ -542,13 +546,15 @@ def locateAndExecuteJavaWindows():
   javaexe = os.path.join(jdkpath, "bin", "java.exe")
   
   if os.path.exists( javaexe ):
+    
     global JDKWINDOWS
     JDKWINDOWS = jdkpath
+    
     debug ( "Setting JAVA_HOME to " + JDKWINDOWS )
-    os.putenv("JAVA_HOME", JDKWINDOWS);
+    os.environ['JAVA_HOME'] = JDKWINDOWS;
+    addToPath(os.path.join(JDKWINDOWS, "bin"));
     
-    return getOutput([javaexe, "-version"])
-    
+    return getOutput([javaexe, "-version"])    
     
   else:
     log ( "No JDK located at " + jdkpath );
@@ -588,7 +594,8 @@ def checkAntVersion(ant):
   
 
 
-ANTWINDOWS = ""
+ANTWINDOWS = None
+ANTWINDOWSEXE = None
 
 def locateAndExecuteAntWindows():
     
@@ -598,16 +605,18 @@ def locateAndExecuteAntWindows():
   antexe = os.path.join(antpath, "bin", "ant")
   
   if os.path.exists( antexe ):
-    env = os.environ;
-    env ['JAVA_HOME'] = JDKWINDOWS;
-    debug ( "JDK Windows is " + JDKWINDOWS );
-    debug ( "Testing env first" + getOutput("env", env=env) );
     
-    global ANTWINDOWS
-    
+    global ANTWINDOWS    
     ANTWINDOWS = antpath   
     
-    return getOutput([antexe, "-version"], env=env)
+    debug ( "Setting ANT_HOME to " + ANTWINDOWS )
+    os.environ['ANT_HOME'] = ANTWINDOWS;
+    addToPath(os.path.join(ANTWINDOWS, "bin"));
+    
+    global ANTWINDOWSEXE
+    ANTWINDOWSEXE = antexe
+    
+    return getOutput(["ant", "-version"])
     
     
   else:
@@ -1201,19 +1210,19 @@ def configureMbeddr(MPSDir, MbeddrDir):
   rewriteFile(BuildPropsPath, getBuildProperties(MPSDir, MbeddrDir))
 
 
-def buildMbeddrUnix(MbeddrDir):
+def buildMbeddr(MbeddrDir):
   BuildPath = os.path.join(MbeddrDir, "code", "languages");
   os.chdir(BuildPath);
-  os.system(os.path.join(BuildPath, "buildLanguages.sh"));
+  
+  scriptname = "buildLanguages.sh";  
+  if onWindows():
+    scriptname = "buildLanguages.bat";
+  
+  scriptname = os.path.join(BuildPath, scriptname);
+  
+  os.system(scriptname);
+  
 
-def buildMbeddrWin(MbeddrDir):
-  log ( "Building mbeddr on Windows is not implemented yet" );
-
-def buildMbeddr(MbeddrDir):
-  if onLinux() or onMac():
-    buildMbeddrUnix(MbeddrDir);
-  else:
-    buildMbeddrWin(MbeddrDir);
   
   
 # ---------- DOWNLOADING USER GUIDE ------------
