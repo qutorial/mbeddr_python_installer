@@ -51,7 +51,7 @@ http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.h
 Select the matching to your operating system JDK and install it.
 
 B) Install Apache Ant
-Get the zip archive from http://ant.apache.org/ and unpack it in a folder like C:/ant/ . 
+Get the zip archive from http://ant.apache.org/ and unpack it in a folder like C:\apache-ant-1.9.4\ . 
 Remember the name of the folder.
 
 

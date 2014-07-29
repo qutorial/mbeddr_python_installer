@@ -69,7 +69,7 @@ MPSDestDirLinux = "MPS31"
 MPSDestDirWin = MPSDestDirLinux
 MPSDestDirWinDefault = """/cygdrive/c/Program Files (x86)/JetBrains/MPS 3.1"""
 WindowsUsualJavaLocation = """/cygdrive/c/Program Files/Java/jdk1.7.0_65"""
-WindowsUsualAntLocation = """/cygdrive/c/apache-ant"""
+WindowsUsualAntLocation = """/cygdrive/c/apache-ant-1.9.4"""
 CygwinDocsAndSettings = """/cygdrive/c/Documents and Settings/"""
 WindowsMPSDesktopLinkName = """JetBrains MPS 3.1.lnk""";
 
