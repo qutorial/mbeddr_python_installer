@@ -24,6 +24,14 @@ import rlcompleter
 
 log = print;
 
+DEBUG = True
+
+def debug(strr):
+  if DEBUG:
+    strs = [s.strip() for s in strr.splitlines()]
+    for s in strs:
+      print("D: " + s);
+
 # Checking Python
 
 if sys.version_info < (3, 0):
@@ -925,7 +933,7 @@ class MPSInstallerForWin(MPSInstallerBase):
     log ( "Waiting untill MPS is installed..." );
     while not os.path.exists(linkPath):
       i = i + 1;
-      time.sleep(3);
+      time.sleep(5);
       if i > 60 :
         log ( "Can not detect MPS installed" );
         exit (1);
@@ -1020,18 +1028,23 @@ def rewriteFile(path, content):
 def configureInfoPlist(MPSDir, ConfigPath, SysPath):
   infoPlistPath = getFileNameToWriteInfoPlistTo(MPSDir);
   infoPlistContent = replaceConfigAndSystemPaths(getTemplateForMPSInfoPlist(), ConfigPath, SysPath);
+  
+  debug ( "Writing Info Plist to " + infoPlistPath + " :\n " + infoPlistContent );
+  
   rewriteFile(infoPlistPath, infoPlistContent);
 
 # END OF MAC PART
 
-def getFileNameToWritePropertiesTo(MPSDir):
+def getIdeaPropertiesFile(MPSDir):
   return os.path.join(MPSDir, "bin", "idea.properties");
     
   
-def writeMPSProperties (MPSDir, ConfigPath, SysPath):
-# print "Write mps props is called with mpsdir ", MPSDir, " and  ConfigPath ", ConfigPath, " and SysPath ", SysPath;
-  optsPath = getFileNameToWritePropertiesTo(MPSDir)
+def writeIdeaProperties (MPSDir, ConfigPath, SysPath):  
+  optsPath = getIdeaPropertiesFile(MPSDir)
   optsContent = replaceConfigAndSystemPaths(getTemplateForMPSProperties(), ConfigPath, SysPath);
+  
+  debug ( "Writing Idea Properties to " + optsPath + " :\n " + optsContent );
+  
   rewriteFile(optsPath, optsContent);
 
   
@@ -1040,30 +1053,47 @@ def configureMPSWithMbeddr(MPSDir, MbeddrDir):
   ConfigPath = os.path.join(MPSDir, "IdeaConfig");
   if not os.path.exists(ConfigPath):
     os.makedirs(ConfigPath);
-      
+
+  debug ( "Idea Configuration will be in " + ConfigPath );
+  
   SysPath = os.path.join(MPSDir, "IdeaSystem");    
   if not os.path.exists(SysPath):
     os.makedirs(SysPath);
   
+  debug ( "Idea System will be in " + SysPath );
+  
   OptionsPath = os.path.join(ConfigPath, "options");
   if not os.path.exists(OptionsPath):
     os.makedirs(OptionsPath);
+ 
+  debug ( "Options will be in " + OptionsPath );
   
   rewriteFile(os.path.join(OptionsPath, "libraryManager.xml"), MPSLibraryManager);
   
-  rewriteFile(os.path.join(OptionsPath, "path.macros.xml"), MPSPathMacros.replace("MbeddrDir", convertPathToNative(MbeddrDir)));
+  thePathMacros = MPSPathMacros.replace("MbeddrDir", convertPathToNative(MbeddrDir));
   
-  writeMPSProperties(MPSDir, ConfigPath, SysPath);
+  debug ( " Path macros to be written : " + thePathMacros );
+  
+  rewriteFile(os.path.join(OptionsPath, "path.macros.xml"), thePathMacros);
+  
+  writeIdeaProperties(MPSDir, ConfigPath, SysPath);
   
   if onMac():
+    debug ( "Configurring Info.Plist on Mac");
     configureInfoPlist(MPSDir, ConfigPath, SysPath);
     
 def testConfigureMPSWithMbeddr():
   dest = prepareDestDir(False);
   MbeddrDir = getMbeddrDestDir(dest);
   mpsInstaller = getMPSInstaller();
-  MPSDir = mpsInstaller.getMPSEndPath(dest);  
+  MPSDir = mpsInstaller.getMPSEndPath(dest);
+  
+  log ( "Testing MPS Configuration with " + MPSDir + " and " + MbeddrDir );
+  
   configureMPSWithMbeddr(MPSDir, MbeddrDir);
+  
+testConfigureMPSWithMbeddr();
+exit (1);
  
 # ------------------ END CONFIGURING MPS WITH MBEDDR ------------------
 
