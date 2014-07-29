@@ -944,7 +944,7 @@ class MPSInstallerForWin(MPSInstallerBase):
     os.system( comm );    
     os.chdir(currdir);        
     
-    self.mpsPath = self.getMPSEndPath();
+    self.mpsPath = self.getMPSEndPath(dest);
     
     linkPath = os.path.join(CygwinDocsAndSettings, getOutput("whoami"), "Desktop", WindowsMPSDesktopLinkName);
     
