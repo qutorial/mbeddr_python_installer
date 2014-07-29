@@ -542,8 +542,8 @@ def locateAndExecuteJavaWindows():
   
   if os.path.exists( javaexe ):
     return getOutput([javaexe, "-version"])
-    global JDKWINDOWS 
-    JDKWINDOWS = jdkpath
+    global JDKWINDOWS;
+    JDKWINDOWS = jdkpath;
     debug ( "Setting JAVA_HOME to " + JDKWINDOWS );    
     os.putenv("JAVA_HOME", JDKWINDOWS);
     
