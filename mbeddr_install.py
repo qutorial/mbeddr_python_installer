@@ -544,10 +544,11 @@ def unzip(zipzip, dest):
   zfile = zipfile.ZipFile(zipzip)
   for name in zfile.namelist():
     (dirname, filename) = os.path.split(name)
-    log ( "Decompressing " + filename + " on " + dirname )
+    dirname = os.path.join(dest, dirname);
+    log ( "Decompressing " + filename + " to " + dirname )    
     if not os.path.exists(dirname):
       os.makedirs(dirname)
-    zfile.extract(name, os.path.join(dest,dirname))
+    zfile.extract(name, dirname)
 
 def untgz(arc, dest):
   tfile = tarfile.open(arc, 'r:gz');
