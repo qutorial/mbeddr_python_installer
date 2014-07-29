@@ -36,6 +36,9 @@ mi=`mktemp` && wget --no-cache -nv https://github.com/qutorial/mbeddr_python_ins
 
 and follow the instructions - the installer is interactive!
 
+MPS installer will start, copy there the path where MPS has to be installed. After the installer 
+finishes, a warning appears, that it was not installed "right". This warning is to be ignored.
+
 
 II. Install Java and Ant.
 

@@ -977,15 +977,7 @@ class MPSInstallerForWin(MPSInstallerBase):
       
       fp.close();
       break;
-     
-      
-      
-        
-    
-    
-    
-    
-  
+           
 def getMPSInstaller():
   if onLinux():
     return MPSInstallerForLinux();
@@ -1018,8 +1010,8 @@ def TEST_INTERACTIVE_INSTALL_MPS():
 # MAC PART
 def replaceConfigAndSystemPaths(template, ConfigPath, SysPath):
   opts = template;
-  opts = opts.replace("IdeaConfig", convertPathToNative(ConfigPath));
-  opts = opts.replace("IdeaSystem", convertPathToNative(SysPath));
+  opts = opts.replace("IdeaConfig", ConfigPath);
+  opts = opts.replace("IdeaSystem", SysPath);
   return opts;
 
 def getFileNameToWriteInfoPlistTo(MPSDir):
