@@ -533,8 +533,6 @@ def checkJavaVersion(java):
 
 
 JDKWINDOWS = ""
-
-
 def locateAndExecuteJavaWindows():
     
   log ( "Note: In Cygwin a path like /cygdrive/c/ stands for C:\ in Windows " );
@@ -544,7 +542,8 @@ def locateAndExecuteJavaWindows():
   
   if os.path.exists( javaexe ):
     return getOutput([javaexe, "-version"])
-    global JDKWINDOWS = jdkpath
+    global JDKWINDOWS 
+    JDKWINDOWS = jdkpath
     debug ( "Setting JAVA_HOME to " + JDKWINDOWS );    
     os.putenv("JAVA_HOME", JDKWINDOWS);
     
@@ -597,7 +596,8 @@ def locateAndExecuteAntWindows():
   
   if os.path.exists( antexe ):
     env = os.environ;
-    env['JAVA_HOME']= global JDKWINDOWS;
+    global JDKWINDOWS
+    env ['JAVA_HOME'] = JDKWINDOWS;
     debug ( "Testing env first" + getOutput("env", env=env) );
     return getOutput([antexe, "-version"], env=env)
     ANTWINDOWS = antpath   
