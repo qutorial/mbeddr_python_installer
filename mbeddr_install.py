@@ -441,7 +441,10 @@ def unarchive(a, dest):
     
 # Get command output as a string
 def getOutput(args):
-  return subprocess.check_output(args, stderr=subprocess.STDOUT).decode('ascii').strip();
+  command = args;
+  if isinstance(args, basestring):
+    command = args.split();    
+  return subprocess.check_output(command, stderr=subprocess.STDOUT).decode('ascii').strip();
  
 # GIT 
 
