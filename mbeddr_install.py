@@ -933,7 +933,7 @@ class MPSInstallerForWin(MPSInstallerBase):
     log ( "Running the installer..." );
     
     log ( "IMPORTANT!" );
-    log ( "Please, specify this directory in MPS Installer: " + convertPathToNative(self.getMPSEndPath())); 
+    log ( "Please, specify this directory in MPS Installer: " + convertPathToNative(self.getMPSEndPath(dest))); 
     log ( "Press Enter key to continue" );
     input();    
     
