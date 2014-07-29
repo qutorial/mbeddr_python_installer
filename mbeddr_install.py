@@ -41,10 +41,6 @@ if sys.version_info < (3, 0):
 
 ################### -- CONFIGURATION -- ###################
 
-# ANT CONFIGURATION
-
-AntWindowsUrl = """http://artfiles.org/apache.org//ant/binaries/apache-ant-1.9.4-bin.zip"""
-
 # MBEDDR CONFIGURATION
 MbeddrRepo = """https://github.com/mbeddr/mbeddr.core.git"""
 #TheBranch = "fortiss_stable"
@@ -594,6 +590,7 @@ def locateAndExecuteAntWindows():
   antexe = os.path.join(antpath, "bin", "ant")
   
   if os.path.exists( antexe ):
+    debug ( "Testing env first" + getOutput("env") );
     return getOutput([antexe, "-version"])
     ANTWINDOWS = antpath   
     
