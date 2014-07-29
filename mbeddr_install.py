@@ -399,7 +399,7 @@ def downloadFile(url, destdir):
   
 # Autocomplete file names
 def completeSimple(text, state):
-    res = glob.glob(text+"*")+[None];
+    res = glob.glob(text.replace(" ", "\ ")+"*")+[None];
     return (res)[state];
 
 def completeDirAware(text, state):
