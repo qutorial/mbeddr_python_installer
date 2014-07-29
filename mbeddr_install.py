@@ -948,7 +948,8 @@ class CBMCInstallerForWin(CBMCInstallerBase):
     targetPath = CBMCEndPathWin;
     
     if os.path.exists(targetPath):
-      os.system("rm -rf " + targetPath);
+      log ( "CBMC was installed before but does not work. Remove manually " + targetPath + " and start over, please." );
+      return False;
       
     os.system("mv " + res + " " + targetPath);
     
