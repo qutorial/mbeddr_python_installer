@@ -1224,11 +1224,6 @@ def RUN_TESTS():
 #RUN_TESTS();
 #exit(1);
 
-
-s = getOutput("whoami");
-log ( "Who am I: " );
-log ( s );
-
 exit(1);
 try:
   main();
