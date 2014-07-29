@@ -442,7 +442,7 @@ def unarchive(a, dest):
 # Get command output as a string
 def getOutput(args):
   command = args;
-  if isinstance(args, basestring):
+  if isinstance(args, str):
     command = args.split();    
   return subprocess.check_output(command, stderr=subprocess.STDOUT).decode('ascii').strip();
  
