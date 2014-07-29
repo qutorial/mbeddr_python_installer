@@ -1050,7 +1050,12 @@ def getIdeaPropertiesFile(MPSDir):
   
 def writeIdeaProperties (MPSDir, ConfigPath, SysPath):  
   optsPath = getIdeaPropertiesFile(MPSDir)
-  optsContent = replaceConfigAndSystemPaths(getTemplateForMPSProperties(), ConfigPath, SysPath);
+  
+  optsContent = "";
+  if onWindows():
+    optsContent = replaceConfigAndSystemPaths(getTemplateForMPSProperties(), "\"../IdeaConfig\"", "\"../IdeasSystem\"");
+  else:
+    optsContent = replaceConfigAndSystemPaths(getTemplateForMPSProperties(), ConfigPath, SysPath);
   
   debug ( "Writing Idea Properties to " + optsPath + " :\n " + optsContent );
   

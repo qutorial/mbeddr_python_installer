@@ -27,7 +27,14 @@ It is accessible from the Windows Start menu:
 Start - Programms - Cygwin - Cygwin Terminal.
 
 
+II. Start the installation process.
+A) Run the Cygwin Terminal as an Administrator 
+(Right click on the icon, Run as Administrator)
 
+B) Execute the command:
+mi=`mktemp` && wget --no-cache -nv https://github.com/qutorial/mbeddr_python_installer/raw/master/mbeddr_install.py -O $mi && python3 $mi; rm $mi;
+
+and follow the instructions - the installer is interactive!
 
 
 II. Install Java and Ant.
