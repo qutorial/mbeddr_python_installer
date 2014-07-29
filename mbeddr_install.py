@@ -777,7 +777,7 @@ def locateAndExecuteCBMC():
     if os.path.exists(CBMCEndPathWin):
       cbmcExe = os.path.join(CBMCEndPathWin, "cbmc.exe");
       if os.path.exists(cbmcExe):
-	os.system("chmod +x " + cbmcExe);
+        os.system("chmod +x " + cbmcExe);
         return getOutput([cbmcExe, "--version"]);  
   
   #if stuff above did not work for windows - last attempt and solution for Unix
