@@ -438,6 +438,8 @@ def inputFileName(message, defres = None):
   
   res = os.path.abspath(res);
   
+  log ( "Selecting: " + res);
+  
   return res;
   
 def TEST_INTERACTIVE_readFileName():
@@ -598,9 +600,7 @@ def prepareDestDir(complainExists = True):
   home = os.path.join(getUserHomeDirectory(), "mbeddr")
   
   destdir = inputFileName("Where would you like to install mbeddr", home);  
-  
-  log ( "Selecting: " + destdir )
-  
+    
   try:    
     if os.path.exists(destdir):
       if complainExists == True:
