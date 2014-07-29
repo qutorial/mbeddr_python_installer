@@ -579,7 +579,7 @@ def checkAntVersion(ant):
   return answer;
   
 def installAntWindows():
-  
+    return ""
   
 
 ANTWINDOWS = ""
