@@ -911,7 +911,7 @@ class MPSInstallerForWin(MPSInstallerBase):
     log ( "Running the installer..." );
     os.system("chmod +x " + self.archive);    
     currdir = os.getcwd();    
-    os.chdir(dest);    
+    os.chdir(os.path.dirname(self.archive));    
     comm = "explorer.exe " + getFileNameFromUrl(self.archive);
     os.system( comm );    
     os.chdir(currdir);        
