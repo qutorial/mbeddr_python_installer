@@ -769,10 +769,11 @@ def replaceCbmcbinInBat(targetPath):
 
 def locateAndExecuteCBMC():
   if onWindows():
+    global CBMCEndPathWin
     if os.path.exists(CBMCEndPathWin):
       cbmcExe = os.path.join(CBMCEndPathWin, "cbmc.exe");
-      if os.path.exists(cbmcExe):
-	global CBMCEndPathWin
+      if os.path.exists(cbmcExe):        
+        debug ( "Located Existing CBMC at: " +CBMCEndPathWin
         makeAllExesExecutable(CBMCEndPathWin);
         replaceCbmcbinInBat(CBMCEndPathWin);
         return getOutput([cbmcExe, "--version"]);  
