@@ -74,6 +74,7 @@ WindowsUsualJavaLocation = """/cygdrive/c/Program Files/Java/jdk1.7.0_65"""
 WindowsUsualAntLocation = """/cygdrive/c/apache-ant-1.9.4"""
 CygwinDocsAndSettings = """/cygdrive/c/Documents and Settings/"""
 WindowsMPSDesktopLinkName = """JetBrains MPS 3.1.lnk""";
+WindowsMbeddrDesktopLinkName = """mbeddr.lnk""";
 MPSBatName = """mps.bat"""
 
 MPSVolumesDir = """/Volumes/""" #MPSVolumesDir = """/Volumes/MPS 3.1/MPS 3.1.app"""
@@ -1167,6 +1168,7 @@ class MPSInstallerForWin(MPSInstallerBase):
     self.mpsPath = self.getMPSEndPath(dest);
     
     linkPath = os.path.join(CygwinDocsAndSettings, getOutput("whoami"), "Desktop", WindowsMPSDesktopLinkName);
+    mbeddrLinkPath = os.path.join(CygwinDocsAndSettings, getOutput("whoami"), "Desktop", WindowsMbeddrDesktopLinkName);
     
     i = 0;
     
@@ -1177,6 +1179,8 @@ class MPSInstallerForWin(MPSInstallerBase):
       if i > 60 :
         log ( "Can not detect MPS installed" );
         exit (1);
+    
+    os.system("mv " + linkPath + " " + mbeddrLinkPath);
     
     i = 0;
     
