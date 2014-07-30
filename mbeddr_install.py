@@ -41,79 +41,34 @@ def getMbeddrDestDir(dest):
 
 # MPS CONFIGURATION
 
-
 MPSMac = """http://download.jetbrains.com/mps/31/MPS-3.1-macos.dmg"""
 MPSLin = """http://download.jetbrains.com/mps/31/MPS-3.1.tar.gz"""
-#Not supported yet
-# MPSWin = """http://download.jetbrains.com/mps/31/MPS-3.1-RC3-135.944.exe"""
-# MPSZip = """http://download.jetbrains.com/mps/31/MPS-3.1-RC3-135.944.zip"""
+MPSZip = """http://download.jetbrains.com/mps/31/MPS-3.1.1.zip"""
+MPSWin = """http://download.jetbrains.com/mps/31/MPS-3.1.1.exe"""
 MPSArcDir="MPS" #This is just a part of it
 MPSVolumesDir = """/Volumes/""" #MPSVolumesDir = """/Volumes/MPS 3.1/MPS 3.1.app"""
 MPSDestDirLinux = "MPS31"
 MPSDestDirMac = "MPS31.app"
 
-IdeaPropertiesPriv="""#---------------------------------------------------------------------
-# Uncomment this option if you want to customize path to MPS config folder
-#---------------------------------------------------------------------
-idea.config.path=IdeaConfig
-
-#---------------------------------------------------------------------
-# Uncomment this option if you want to customize path to MPS system folder
-#---------------------------------------------------------------------
-idea.system.path=IdeaSystem
-
-#---------------------------------------------------------------------
-# Uncomment this option if you want to customize path to user installed plugins folder
-#---------------------------------------------------------------------
-# idea.plugins.path=${user.home}/.MPS30/config/plugins
-
-#---------------------------------------------------------------------
-# Uncomment this option if you want to customize path to MPS logs folder. Make sure you're using forward slashes
-#---------------------------------------------------------------------
-# idea.log.path=${user.home}/.MPS30/system/log
-
-
-#---------------------------------------------------------------------
-# Maximum file size (kilobytes) MPS should provide intellisense for.
-# The larger file is the slower its editor works and higher overall system memory requirements are
-# if intellisense is enabled. Remove this property or set to very large number if you need
-# intellisense for any files available regardless their size.
-#---------------------------------------------------------------------
-idea.max.intellisense.filesize=2500
-
-# MPS copies library jars to prevent their locking. If copying is not desirable, specify "true"
-idea.jars.nocopy=false
-
-# Configure if a special launcher should be used when running processes from within MPS. Using Launcher enables "soft exit" and "thread dump" features
-idea.no.launcher=false
-
-# The VM option value to be used start the JVM in debug mode. Some environments define it in a different way (-XXdebug in Oracle VM)
-idea.xdebug.key=-Xdebug
-
-#-----------------------------------------------------------------------
-# This option controls console cyclic buffer: keeps the console output size not higher than the specified buffer size (Kb). Older lines are deleted.
-# In order to disable cycle buffer use idea.cycle.buffer.size=disabled
-idea.cycle.buffer.size=1024
-
-#----------------------------------------------------------------------
-# Disabling this property may lead to visual glitches like blinking and fail to repaint
-# on certain display adapter cards.
-#----------------------------------------------------------------------
-sun.java2d.noddraw=true
-
-#----------------------------------------------------------------------
-# Removing this property may lead to editor performance degradation under Windows.
-#----------------------------------------------------------------------
-sun.java2d.d3d=false
-
-#----------------------------------------------------------------------
-# Removing this property may lead to editor performance degradation under X-Windows.
-#----------------------------------------------------------------------
-sun.java2d.pmoffscreen=false
-"""
+MPSVMOptionsPriv="""-client
+-Xss1024k
+-ea
+-Xmx2048m
+-XX:MaxPermSize=2048m
+-XX:NewSize=512m
+-XX:+HeapDumpOnOutOfMemoryError
+-Dfile.encoding=UTF-8
+-Dapple.awt.graphics.UseQuartz=true
+-Didea.paths.selector=MPS30
+-Didea.config.path=IdeaConfig
+-Didea.system.path=IdeaSystem"""
+#-Didea.plugins.path=IdeaPlugins"""
 
 def getTemplateForMPSProperties():
-  return IdeaPropertiesPriv;
+  if onLinux32():
+    return MPSVMOptionsPriv.replace("-XX:MaxPermSize=2048m", "-XX:MaxPermSize=512m");
+  else:
+    return MPSVMOptionsPriv;
 
 MPSLibraryManager = """<?xml version="1.0" encoding="UTF-8"?>
 <application>
@@ -906,7 +861,7 @@ def configureInfoPlist(MPSDir, ConfigPath, SysPath):
 # END OF MAC PART
 
 def getFileNameToWritePropertiesTo(MPSDir):
-  return os.path.join(MPSDir, "bin", "idea.properties");
+  return os.path.join(MPSDir, "bin", "mps.vmoptions");
     
   
 def writeMPSProperties (MPSDir, ConfigPath, SysPath):
