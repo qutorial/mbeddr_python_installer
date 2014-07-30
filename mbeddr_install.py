@@ -24,7 +24,7 @@ import rlcompleter
 
 log = print;
 
-DEBUG = True
+DEBUG = False
 
 def debug(strr):
   if DEBUG:
@@ -1433,8 +1433,7 @@ Please, write an email on this address, if you experience troubles using the ins
 
   
 def main():  
-  log ( "Welcome!" );
-  log ( "You are about to install the last stable version of mbeddr." );
+  log ( "Welcome to mbeddr installation from source code!" );
 
   log (  "Detecting Git"   );
   j = checkGit()
@@ -1497,7 +1496,7 @@ def main():
   downloadTheReadMe(dest);
   
   log (  "Building mbeddr..." );
-#  buildMbeddr(MbeddrDir);
+  buildMbeddr(MbeddrDir);
   
   greetings(MPSDir, MbeddrDir, dest);
 
