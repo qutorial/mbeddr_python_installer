@@ -506,19 +506,10 @@ def completeDirAware(text, state):
 
     return res
 
-
 def readFileName(promptMessage):
-  debug (" readFileName with " + promptMessage );
-  if 'libedit' in readline.__doc__:
-    debug ("libedit");
-    readline.parse_and_bind("bind ^I rl_complete")
-    complete = completeSimple
-  else:
-    debug ("no libedit");
-    readline.parse_and_bind("tab: complete")
-    complete = completeDirAware
-
-  readline.set_completer_delims('\t\n;')
+  debug (" readFileName with " + promptMessage );  
+  readline.parse_and_bind("tab: complete")
+  complete = completeDirAware
   readline.set_completer(complete)  
   return input(promptMessage).strip()
 
