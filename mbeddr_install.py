@@ -10,6 +10,7 @@
 import sys, os, subprocess, platform, time, shutil, string, traceback
 import os.path
 from os.path import expanduser
+import errno
 
 from urllib.request import urlopen
 from urllib.request import urlretrieve
@@ -1543,7 +1544,7 @@ except:
   
   if onWindows():
     if exc_type == OSError:
-      if exc_value.errno == errno.EPERM:
+      if exc_value.errno == errno.EACCES:
         log ( "Permission denied - are you running Cygwin Terminal as an Administrator?" );
 
   
