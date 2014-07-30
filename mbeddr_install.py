@@ -1180,7 +1180,7 @@ class MPSInstallerForWin(MPSInstallerBase):
         log ( "Can not detect MPS installed" );
         exit (1);
     
-    os.system("mv " + linkPath + " " + mbeddrLinkPath);
+    os.system("mv \"" + linkPath + "\" \"" + mbeddrLinkPath+"\"");
     
     i = 0;
     
