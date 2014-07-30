@@ -98,9 +98,9 @@ IF EXIST "%PROJECT_HOME%jre" set JDK=%PROJECT_HOME%jre
 IF NOT "%JDK%" == "" GOTO jdk
 
 :jdk
-IF EXIST "%JDK%" set JAVA=%JDK%\bin\javaw.exe
-IF NOT EXIST "%JAVA%" set JAVA=%JDK%\jre\bin\javaw.exe
-IF NOT EXIST "%JAVA%" set JAVA=javaw.exe
+IF EXIST "%JDK%" set JAVA=%JDK%\bin\java.exe
+IF NOT EXIST "%JAVA%" set JAVA=%JDK%\jre\bin\java.exe
+IF NOT EXIST "%JAVA%" set JAVA=java.exe
 
 set MAIN_CLASS=jetbrains.mps.Launcher
 
