@@ -19,7 +19,6 @@ import zipfile, tarfile
 
 #Autocompletion, input
 import readline, glob
-import rlcompleter
 
 
 log = print;
@@ -488,29 +487,24 @@ def downloadFile(url, destdir):
   
   
 # Autocomplete file names
-def completeSimple(text, state):
-    debug ( " Complete Simple t = " + text + " s = " + state );
-    
-    res = glob.glob(text+"*")+[None];
-    return (res)[state];
-
-def completeDirAware(text, state):
-    debug ( " Complete DirAware t = " + text + " s = " + state );
-    
-    res = completeSimple(text, state);
-    
+class Completer:
+  def completeSimple(text, state):      
+      res = glob.glob(text+"*");
+      return res[state];
+      
+  def completeDirAware(text, state):  
+    res = Completer.completeSimple(text, state);    
     if os.path.exists(res):
       if os.path.isdir(res):
         if not res.endswith(os.sep):
-          res = res + os.sep;
-
-    return res
+          res = res + os.sep;   
+    return res;
 
 def readFileName(promptMessage):
   debug (" readFileName with " + promptMessage );  
-  readline.parse_and_bind("tab: complete")
-  complete = completeDirAware
-  readline.set_completer(complete)  
+  readline.parse_and_bind("tab: complete")  
+  readline.set_completer_delims("\t\n");
+  readline.set_completer(Completer.completeDirAware)  
   return input(promptMessage).strip()
 
 def inputFileName(message, defres):  
