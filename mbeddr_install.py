@@ -430,7 +430,17 @@ def TEST_getOS():
 
 def addToPath(d):
   os.environ['PATH'] = os.environ['PATH'] + os.pathsep + d;
-    
+
+# Making files executable
+def makeExecutable(f):
+  os.system("chmod +x " + os.path.abspath(f));
+  
+def makeAllExesExecutable(folder):
+  for f in os.listdir(dest):
+    if str(f).lower().endswith(".exe"):
+      makeExecutable(f);
+  
+  
 # Downloading file with progress
 
 def getFileNameFromUrl(url):
@@ -917,6 +927,8 @@ class CBMCInstallerForMac(CBMCInstallerBase):
     return True;
 
 
+ 
+    
 #This is a stub
 class CBMCInstallerForWin(CBMCInstallerBase):
   def downloadCBMC(self, dest):
@@ -943,6 +955,8 @@ class CBMCInstallerForWin(CBMCInstallerBase):
     os.system("mv " + res + " " + targetPath);
     
     replaceCbmcbinInBat(targetPath);
+    
+    
     
     return True;
     
