@@ -60,6 +60,8 @@ III. Installing CBMC.
 
 
 --- TODO 
+0) Mail the mps bat and change...
+
 1) Increase MaxPermSize
 2) Change Java in mps.bat
 3) Generate set_env.bat
