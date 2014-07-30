@@ -1567,12 +1567,6 @@ except:
   
   exc_type, exc_value, exc_traceback = sys.exc_info()
     
-  if onWindows():
-    if exc_type == OSError:
-      if exc_value.errno == errno.EACCES:
-        log ( "Permission denied - are you running Cygwin Terminal as an Administrator?" );
-        
-
   if exc_type == ShutDownSilently:
     pass;
   else:
