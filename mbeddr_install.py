@@ -23,7 +23,7 @@ import readline, glob
 
 log = print;
 
-DEBUG = False
+DEBUG = True
 
 def debug(strr):
   if DEBUG:
@@ -438,6 +438,7 @@ def makeExecutable(f):
 def makeAllExesExecutable(folder):
   for f in os.listdir(folder):
     if str(f).lower().endswith(".exe"):
+      debug ("Makeing executable: " + f );
       makeExecutable(f);
   
   
@@ -791,7 +792,7 @@ class CBMCInstallerBase:
        
   def checkCBMC(self):
     try:
-      cbmc = locateAndExecuteCBMC();
+      cbmc = locateAndExecuteCBMC();      
       debug ( "Locate returns " + cbmc );
       return self.checkCBMCVersion(cbmc)
     except OSError:      
