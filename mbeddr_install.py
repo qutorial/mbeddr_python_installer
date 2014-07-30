@@ -1466,7 +1466,7 @@ def checkRights():
   if onWindows():
     rc = getReturnCode("at");
     if rc != 0:
-      log ( " Please, run Cygwin Terminal as an Administrator! " );
+      log ( "\nPlease, run Cygwin Terminal as an Administrator!" );
       raise ShutDownSilently();
   
 def main():  
