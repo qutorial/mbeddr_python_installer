@@ -26,6 +26,10 @@ log = print;
 
 DEBUG = False
 
+class ShutDownSilently(Exception):
+  pass
+  
+  
 def debug(strr):
   if DEBUG:
     strs = [s.strip() for s in strr.splitlines()]
@@ -1463,7 +1467,7 @@ def checkRights():
     rc = getReturnCode("at");
     if rc != 0:
       log ( " Please, run Cygwin Terminal as an Administrator! " );
-      exit(1);
+      raise ShutDownSilently();
   
 def main():  
 
@@ -1551,17 +1555,28 @@ def RUN_TESTS():
 #RUN_TESTS();
 #exit(1);
 
+def reportException(exc_type, exc_value, exc_traceback):
+  log (  "\nException:" )
+  traceback.print_exception(exc_type, exc_value, exc_traceback)
+  log (  "\n" )
+  printErrorMessage()
 
 try:
   main();
 except:
-  log (  "\n\nException:" )
-  exc_type, exc_value, exc_traceback = sys.exc_info()
-  traceback.print_exception(exc_type, exc_value, exc_traceback)
-  log (  "\n\n" )
-  printErrorMessage()
   
+  exc_type, exc_value, exc_traceback = sys.exc_info()
+    
   if onWindows():
     if exc_type == OSError:
       if exc_value.errno == errno.EACCES:
         log ( "Permission denied - are you running Cygwin Terminal as an Administrator?" );
+        
+
+  if exc_type == ShutDownSilently:
+    pass;
+  else:
+    reportException(exc_type, exc_value, exc_traceback);
+        
+  
+  
