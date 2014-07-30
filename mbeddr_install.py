@@ -458,14 +458,29 @@ def TEST_getFileNameFromUrl():
   return getFileNameFromUrl(UserGuideURL) == "UserGuide.pdf"
   
 
+def formatDataSize(d):
+  if d > 2 * 1024 * 1024:
+    return "" + (d / (1024 * 1024)) + " MB"
+  else:
+    if d > 100 * 1024:
+      return "" + (d / 1024 ) + " KB"
+    else:
+      return "" + d + " B"
+  
 def formatProgressStr(totalsize, readsofar):
   
-  percent = readsofar * 100 / totalsize
-  
-  s = "\rProgress: %5.1f%% %*d bytes / %d bytes"  
+  if totalsize <= 0:
+    return "\rRead " + formatDataSize(readsofar);
   
   ts = totalsize;
   rsf = readsofar;
+  
+  if readsofar > totalsize:
+    rsf = totalsize;
+    
+  percent = rsf * 100 / ts
+  
+  s = "\rProgress: %5.1f%% %*d bytes / %d bytes"  
   
   if ts > 2*1024*1024:
     s = "\rProgress: %5.1f%% %*d MB / %d MB"
@@ -476,23 +491,18 @@ def formatProgressStr(totalsize, readsofar):
       s = "\rProgress: %5.1f%% %*d KB / %d KB"
       ts = ts / 1024
       rsf = rsf / 1024
-  
-    
+   
   s = s % (percent, len(str(ts)), rsf, ts)
-  
   return s;
   
   
   
 def downloadProgressHook(blocknum, blocksize, totalsize):
-    readsofar = blocknum * blocksize
-    if totalsize > 0:
-        s = formatProgressStr(totalsize, readsofar);
-        sys.stderr.write(s)
-        if readsofar >= totalsize: # near the end
-            sys.stderr.write("\n")
-    else: # total size is unknown
-        sys.stderr.write("read %d\n" % (readsofar,))
+  readsofar = blocknum * blocksize
+  s = formatProgressStr(totalsize, readsofar);
+  sys.stderr.write(s)
+  if readsofar >= totalsize: # near the end
+      sys.stderr.write("\n")
 
 def downloadFile(url, destdir):
   file_name = getFileNameFromUrl(url);
