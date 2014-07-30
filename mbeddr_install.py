@@ -433,13 +433,13 @@ def addToPath(d):
 
 # Making files executable
 def makeExecutable(f):
-  os.system("chmod +x " + os.path.abspath(f));
+  os.system("chmod +x " + f);
   
 def makeAllExesExecutable(folder):
   for f in os.listdir(folder):
     if str(f).lower().endswith(".exe"):
       debug ("Makeing executable: " + f );
-      makeExecutable(f);
+      makeExecutable(os.path.join(folder, f));
   
   
 # Downloading file with progress
