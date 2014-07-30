@@ -436,7 +436,7 @@ def makeExecutable(f):
   os.system("chmod +x " + os.path.abspath(f));
   
 def makeAllExesExecutable(folder):
-  for f in os.listdir(dest):
+  for f in os.listdir(folder):
     if str(f).lower().endswith(".exe"):
       makeExecutable(f);
   
