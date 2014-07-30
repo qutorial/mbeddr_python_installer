@@ -23,7 +23,7 @@ import readline, glob
 
 log = print;
 
-DEBUG = True
+DEBUG = False
 
 def debug(strr):
   if DEBUG:
