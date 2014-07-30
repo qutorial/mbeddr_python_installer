@@ -1175,8 +1175,8 @@ class MPSInstallerForWin(MPSInstallerBase):
     log ( "Waiting untill MPS is installed..." );
     while not os.path.exists(linkPath):
       i = i + 1;
-      time.sleep(5);
-      if i > 60 :
+      time.sleep(1);
+      if i > 300 :
         log ( "Can not detect MPS installed" );
         exit (1);
     
@@ -1188,9 +1188,9 @@ class MPSInstallerForWin(MPSInstallerBase):
       fp = None
       
       i = i + 1;
-      time.sleep(3);
+      time.sleep(1);
       
-      if i > 60:
+      if i > 300:
         log ( "Can not finish the installation of MPS..." );
         exit (1);
       
