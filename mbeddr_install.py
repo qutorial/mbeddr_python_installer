@@ -771,8 +771,8 @@ def locateAndExecuteCBMC():
     if os.path.exists(CBMCEndPathWin):
       cbmcExe = os.path.join(CBMCEndPathWin, "cbmc.exe");
       if os.path.exists(cbmcExe):
+        makeAllExesExecutable(CBMCEndPathWin);
         replaceCbmcbinInBat(CBMCEndPathWin);
-        os.system("chmod +x " + cbmcExe);
         return getOutput([cbmcExe, "--version"]);  
   
   #if stuff above did not work for windows - last attempt and solution for Unix
@@ -955,8 +955,7 @@ class CBMCInstallerForWin(CBMCInstallerBase):
     os.system("mv " + res + " " + targetPath);
     
     replaceCbmcbinInBat(targetPath);
-    
-    
+    makeAllExesExecutable(targetPath);
     
     return True;
     
@@ -1168,7 +1167,7 @@ class MPSInstallerForWin(MPSInstallerBase):
     log ( "Press Enter key to continue" );
     input();    
     
-    os.system("chmod +x " + self.archive);    
+    makeExecutable(self.archive);
     currdir = os.getcwd();    
     os.chdir(os.path.dirname(self.archive));    
     comm = "explorer.exe " + getFileNameFromUrl(self.archive);
