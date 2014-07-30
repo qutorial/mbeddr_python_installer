@@ -563,16 +563,23 @@ def unarchive(a, dest):
 
     
 # Get command output as a string
-def getOutput(args):
+def strToArr(args):
   command = args;
   if isinstance(args, str):
     command = args.split();      
+  return command;
+
+
+def getOutput(args):
+  command = strToArr(args);      
   try:
     return subprocess.check_output(command, stderr=subprocess.STDOUT).decode('ascii').strip();
   except subprocess.CalledProcessError as e:
     return e.output;
-
-  
+    
+def getReturnCode(args):
+  command = strToArr(args);      
+  return subprocess.call(command, stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT);
   
 # Windows Cygwin path conversions
 def cygwinPathToWin(p):
@@ -1448,9 +1455,18 @@ Please, write an email on this address, if you experience troubles using the ins
   
 # ---------- END OF :  FINAL GREETINGS ------------
 
+def checkRights():
+  if onWindows():
+    rc = getReturnCode("at");
+    if rc != 0:
+      log ( "Please, run Cygwin Terminal as an Administrator" );
+      exit(1);
   
 def main():  
+
   log ( "Welcome to mbeddr installation from source code!" );
+  
+  checkRights();
 
   log (  "Detecting Git"   );
   j = checkGit()
@@ -1546,7 +1562,3 @@ except:
     if exc_type == OSError:
       if exc_value.errno == errno.EACCES:
         log ( "Permission denied - are you running Cygwin Terminal as an Administrator?" );
-
-  
-  
-  
