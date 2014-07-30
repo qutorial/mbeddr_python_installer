@@ -23,7 +23,7 @@ import readline, glob
 
 log = print;
 
-DEBUG = True
+DEBUG = False
 
 def debug(strr):
   if DEBUG:
@@ -438,7 +438,7 @@ def makeExecutable(f):
 def makeAllExesExecutable(folder):
   for f in os.listdir(folder):
     if str(f).lower().endswith(".exe"):
-      debug ("Makeing executable: " + f );
+      debug ("Making executable: " + f );
       makeExecutable(os.path.join(folder, f));
   
   
