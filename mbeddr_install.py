@@ -23,7 +23,7 @@ import readline, glob
 
 log = print;
 
-DEBUG = False
+DEBUG = True
 
 def debug(strr):
   if DEBUG:
@@ -1531,12 +1531,21 @@ def RUN_TESTS():
 #RUN_TESTS();
 #exit(1);
 
+
 try:
   main();
 except:
-  log (  "\n\nException:" );
+  log (  "\n\nException:" )
   exc_type, exc_value, exc_traceback = sys.exc_info()
   traceback.print_exception(exc_type, exc_value, exc_traceback)
-  log (  "\n\n" );
+  log (  "\n\n" )
   printErrorMessage()
+  
+  if onWindows():
+    if exc_type == OSError:
+      if exc_value.errno == errno.EPERM:
+        log ( "Permission denied - are you running Cygwin Terminal as an Administrator?" );
+
+  
+  
   
