@@ -24,7 +24,7 @@ import readline, glob
 
 log = print;
 
-DEBUG = True
+DEBUG = False
 
 def debug(strr):
   if DEBUG:
@@ -1462,7 +1462,7 @@ def checkRights():
   if onWindows():
     rc = getReturnCode("at");
     if rc != 0:
-      log ( "Please, run Cygwin Terminal as an Administrator" );
+      log ( " Please, run Cygwin Terminal as an Administrator! " );
       exit(1);
   
 def main():  
