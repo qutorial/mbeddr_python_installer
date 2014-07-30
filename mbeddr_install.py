@@ -24,7 +24,7 @@ import rlcompleter
 
 log = print;
 
-DEBUG = False
+DEBUG = True
 
 def debug(strr):
   if DEBUG:
@@ -489,10 +489,14 @@ def downloadFile(url, destdir):
   
 # Autocomplete file names
 def completeSimple(text, state):
-    res = glob.glob(text.replace(" ", "\ ")+"*")+[None];
+    debug ( " Complete Simple t = " + text + " s = " + state );
+    
+    res = glob.glob(text+"*")+[None];
     return (res)[state];
 
 def completeDirAware(text, state):
+    debug ( " Complete DirAware t = " + text + " s = " + state );
+    
     res = completeSimple(text, state);
     
     if os.path.exists(res):
@@ -504,14 +508,17 @@ def completeDirAware(text, state):
 
 
 def readFileName(promptMessage):
+  debug (" readFileName with " + promptMessage );
   if 'libedit' in readline.__doc__:
+    debug ("libedit");
     readline.parse_and_bind("bind ^I rl_complete")
     complete = completeSimple
   else:
+    debug ("no libedit");
     readline.parse_and_bind("tab: complete")
     complete = completeDirAware
 
-  readline.set_completer_delims(' \t\n;')
+  readline.set_completer_delims('\t\n;')
   readline.set_completer(complete)  
   return input(promptMessage).strip()
 
