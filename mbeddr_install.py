@@ -760,12 +760,16 @@ def prepareDestDir(complainExists = True):
   
 # ------------------ INSTALLING CBMC ------------------
 
+def replaceCbmcbinInBat(targetPath):
+  global MPS_BAT_WITH_ENV    
+  MPS_BAT_WITH_ENV = MPS_BAT_WITH_ENV.replace("CBMCBIN", convertPathToNative(targetPath));
 
 def locateAndExecuteCBMC():
   if onWindows():
     if os.path.exists(CBMCEndPathWin):
       cbmcExe = os.path.join(CBMCEndPathWin, "cbmc.exe");
       if os.path.exists(cbmcExe):
+        replaceCbmcbinInBat(CBMCEndPathWin);
         os.system("chmod +x " + cbmcExe);
         return getOutput([cbmcExe, "--version"]);  
   
@@ -778,7 +782,7 @@ class CBMCInstallerBase:
     return CBMCVersion + "." + CBMCSubVersion
     
   def checkCBMCVersion(self, cbmc):
-    if self.getCBMCVersion() in cbmc:
+    if self.getCBMCVersion() in cbmc:      
       return True;
     else:
       return "Unrecognized CBMC C Prover version\n"
@@ -920,6 +924,7 @@ class CBMCInstallerForMac(CBMCInstallerBase):
     log ( "Continuing installation...\n" )
     return True;
 
+
 #This is a stub
 class CBMCInstallerForWin(CBMCInstallerBase):
   def downloadCBMC(self, dest):
@@ -945,8 +950,7 @@ class CBMCInstallerForWin(CBMCInstallerBase):
       
     os.system("mv " + res + " " + targetPath);
     
-    global MPS_BAT_WITH_ENV    
-    MPS_BAT_WITH_ENV = MPS_BAT_WITH_ENV.replace("CBMCBIN", convertPathToNative(targetPath));
+    replaceCbmcbinInBat(targetPath);
     
     return True;
     

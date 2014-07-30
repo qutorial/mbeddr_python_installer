@@ -17,7 +17,7 @@ Python: python3  (version 3 is important).
 Text: gettext
 
 
-By clicking on the Skip value in the New column, and selecting the 
+By clicking on the Skip value in the "New" column, and selecting the 
 version to be installed. More packages can be selected when required by you.
 
 If you have not picked some of the required packages before proceeding,
@@ -26,7 +26,7 @@ selecting the missing packages.
 
 C) Upon finishing "Cygwin Terminal" will be insalled. 
 It is accessible from the Windows Start menu:
-Start - Programms - Cygwin - Cygwin Terminal.
+Start - Programms - Cygwin - Cygwin Terminal (run it as Administrator to install mbeddr).
 
 
 II. Start the installation process.
