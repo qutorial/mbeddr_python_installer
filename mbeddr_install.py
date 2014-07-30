@@ -578,8 +578,11 @@ def getOutput(args):
     return e.output;
     
 def getReturnCode(args):
-  command = strToArr(args);      
-  return subprocess.call(command, stdout = os.devnull, stderr=subprocess.STDOUT);
+  command = strToArr(args);   
+  f = open(os.devnull, 'w')
+  res = subprocess.call(command, stdout = f, stderr=subprocess.STDOUT);
+  f.close();
+  return res;
   
 # Windows Cygwin path conversions
 def cygwinPathToWin(p):
