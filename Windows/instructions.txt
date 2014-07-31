@@ -1,13 +1,92 @@
 To run the installer, please, follow these steps: 
 
+I.  Install Cygwin.
+
+For this:
+A) Start the installation, and prepare to select packages:
+http://cygwin.com/install.html
+B) Select the following packages:
+
+
+Devel: gcc-core (or cygwin64-gcc-core for 64bit systems)
+Devel: gdb
+Devel: git
+Devel: make
+Web: wget
+Python: python3  (version 3 is important).
+Text: gettext
+
+
+By clicking on the Skip value in the "New" column, and selecting the 
+version to be installed. More packages can be selected when required by you.
+
+If you have not picked some of the required packages before proceeding,
+wait until the Cygwin installation finishes, and then run it again, 
+selecting the missing packages.
+
+C) Upon finishing "Cygwin Terminal" will be insalled. 
+It is accessible from the Windows Start menu:
+Start - Programms - Cygwin - Cygwin Terminal (run it as Administrator to install mbeddr).
+
+
+II. Start the installation process.
+A) Run the Cygwin Terminal as an Administrator 
+(Right click on the icon, Run as Administrator)
+
+B) Execute the command:
+mi=`mktemp` && wget --no-cache -nv https://github.com/qutorial/mbeddr_python_installer/raw/master/mbeddr_install.py -O $mi && python3 $mi; rm $mi;
+
+and follow the instructions - the installer is interactive!
+
+MPS installer will start, copy there the path where MPS has to be installed. After the installer 
+finishes, a warning appears, that it was not installed "right". This warning is to be ignored.
+
+
+II. Install Java and Ant.
+
+
+A) MPS works best with Oracle Java. 
+JDK 7 is required (not JRE, not JDK 8):
+http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html
+Select the matching to your operating system JDK and install it.
+
+B) Install Apache Ant
+Get the zip archive from http://ant.apache.org/ and unpack it in a folder like C:\apache-ant-1.9.4\ . 
+Remember the name of the folder.
+
+
+
+III. Installing CBMC.
+
+
+--- TODO 
+0) Mail the mps bat and change...
+
+1) Increase MaxPermSize
+2) Change Java in mps.bat
+3) Generate set_env.bat
+
+
+
+
+
+
+
+
+
+III. Start the installation.
+Enter Cygwin Terminal and run this command:
+
+mi=`mktemp` && wget --no-cache -nv https://github.com/qutorial/mbeddr_python_installer/raw/master/mbeddr_install.py -O $mi && python3 $mi; rm $mi;
+
+
+
+
+
+
 Download and install Python 2.7 (and not 3.x!) from:
 https://www.python.org/download/
 - Pythong installs normally to C:\Pyton27\python.exe
-
-Install Cygwin from:
-http://cygwin.com/install.html
-Cygwin online installation procedure usually takes some time to finish.
-
 
 
 

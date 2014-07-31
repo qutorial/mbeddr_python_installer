@@ -1,3 +1,6 @@
 mbeddr_install.pyc
 .mbeddr_install.py.kate-swp
 *.orig
+*.kate-swp
+*.bak
+
