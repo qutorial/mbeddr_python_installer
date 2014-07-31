@@ -41,11 +41,13 @@ def getMbeddrDestDir(dest):
 
 # MPS CONFIGURATION
 
-MPSMac = """http://download.jetbrains.com/mps/31/MPS-3.1-macos.dmg"""
-MPSLin = """http://download.jetbrains.com/mps/31/MPS-3.1.tar.gz"""
-MPSZip = """http://download.jetbrains.com/mps/31/MPS-3.1.1.zip"""
+MPSMac = """http://download.jetbrains.com/mps/31/MPS-3.1.1-macos.dmg"""
+MPSLin = """http://download.jetbrains.com/mps/31/MPS-3.1.1.tar.gz"""
 MPSWin = """http://download.jetbrains.com/mps/31/MPS-3.1.1.exe"""
-MPSArcDir="MPS" #This is just a part of it
+
+MPSArcDir="MPS" #This is just a part of the unarchived folder namelist
+
+
 MPSVolumesDir = """/Volumes/""" #MPSVolumesDir = """/Volumes/MPS 3.1/MPS 3.1.app"""
 MPSDestDirLinux = "MPS31"
 MPSDestDirMac = "MPS31.app"
