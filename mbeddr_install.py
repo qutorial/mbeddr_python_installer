@@ -62,9 +62,9 @@ def getMbeddrDestDir(dest):
 # MPS CONFIGURATION
 
 
-MPSMac = """http://download.jetbrains.com/mps/31/MPS-3.1.1-macos.dmg"""
-MPSLin = """http://download.jetbrains.com/mps/31/MPS-3.1.1.tar.gz"""
-MPSWin = """http://download.jetbrains.com/mps/31/MPS-3.1.1.exe"""
+MPSMac = """https://raw.githubusercontent.com/mbeddr/mbeddr.core/"""+TheBranch+"""/versions/MPSMac.txt"""
+MPSLin = """https://raw.githubusercontent.com/mbeddr/mbeddr.core/"""+TheBranch+"""/versions/MPSLin.txt"""
+MPSWin = """https://raw.githubusercontent.com/mbeddr/mbeddr.core/"""+TheBranch+"""/versions/MPSWin.txt"""
 
 MPSArcDir="MPS" #This is just a part of the unarchived folder name
 
@@ -511,6 +511,12 @@ def downloadFile(url, destdir):
   urlretrieve(url, resName, downloadProgressHook);
   return resName
   
+def httpGet(url):
+  filename, headers = urlretrieve(url);
+  f = open(filename, 'r');
+  res = f.read()
+  f.close();  
+  return res;
   
 # Autocomplete file names
 class Completer:
@@ -1041,7 +1047,7 @@ def TEST_INTERACTIVE_installCBMC():
 
 
 
-def getMPSUrl():
+def getMPSDownloadUrl():
   if onLinux():
     return MPSLin
   if onMac():
@@ -1050,6 +1056,13 @@ def getMPSUrl():
     return MPSWin
   return "";
 
+THE_MPS_URL = None;
+def getMPSUrl():
+  global THE_MPS_URL
+  if THE_MPS_URL == None:
+    THE_MPS_URL = str ( httpGet(getMPSDownloadUrl()) ).strip();
+  return THE_MPS_URL;
+  
 def getMPSFileName():
   return getFileNameFromUrl(getMPSUrl());
 
@@ -1581,6 +1594,4 @@ except:
     pass;
   else:
     reportException(exc_type, exc_value, exc_traceback);
-        
-  
-  
+     
