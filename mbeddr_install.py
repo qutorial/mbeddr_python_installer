@@ -1392,14 +1392,16 @@ def testConfigureMPSWithMbeddr():
 # ------------------ END CONFIGURING MPS WITH MBEDDR ------------------
 
     
-def cloneMbeddr(dest, MbeddrDir):
+def cloneMbeddr(MbeddrDir, branch):  
   if not os.path.exists(MbeddrDir):
       os.makedirs(MbeddrDir);
   os.chdir(MbeddrDir);
   theOldPath = os.environ['PATH'];
   os.environ['PATH'] = "/usr/bin";
-  os.system("git clone --recursive -b " + TheBranch + " " + MbeddrRepo+ " .");  
+  os.system(""""bash -c "echo PATH for git is set to: $PATH" """);
+  os.system("git clone --recursive -b " + branch + " " + MbeddrRepo+ " .");  
   os.environ['PATH'] = theOldPath;
+
 
   
 #Path to Native with Forward Slashes
@@ -1559,7 +1561,7 @@ def main():
     exit(1);
     
   log (  "Cloning mbeddr..." );
-  cloneMbeddr(dest, MbeddrDir);
+  cloneMbeddr(MbeddrDir, TheBranch);
   
   log (  "Setting up MPS to work with mbeddr..." );
   configureMPSWithMbeddr(MPSDir, MbeddrDir);
