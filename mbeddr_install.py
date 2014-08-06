@@ -1497,7 +1497,7 @@ asciiArt = """
   
   
 def greetings(MPSDir, MbeddrDir, dest):
-  log ( asciiArt );
+#  log ( asciiArt );
   if onLinux():
     greetingsLinux(MPSDir, MbeddrDir, dest);
   if onMac():
@@ -1540,7 +1540,7 @@ def checkRights():
   
 def main():  
 
-  log ( "Welcome to mbeddr installation from source code!" );
+  log ( "\nWelcome to mbeddr installer for advanced users and developers!\n" );
   
   checkRights();
 
