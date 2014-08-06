@@ -1407,9 +1407,6 @@ def TEST_INTERACTIVE_cloneMbeddr():
   mdir = readFileName("Where to clone mbeddr?");
   branch = TheBranch;
   cloneMbeddr(mdir, branch);
-
-TEST_INTERACTIVE_cloneMbeddr();
-exit(0);
  
 #Path to Native with Forward Slashes
 def p2nfs(p):

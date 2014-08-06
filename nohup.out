@@ -1,0 +1,117 @@
+QDBusConnection: session D-Bus connection created before QCoreApplication. Application may misbehave.
+kate(3817)/kate-filetree KateFileTreePluginView::KateFileTreePluginView: BEGIN: mw: Kate::MainWindow(0x2808360)
+kate(3817)/kate-filetree ProxyItem::ProxyItem: ProxyItem(0x2a94d40,0x0,-1,QObject(0x0) ,"m_root")
+kate(3817)/kate-filetree ProxyItem::ProxyItem: ProxyItem(0x2a95130,0x0,-1,QObject(0x0) ,"Untitled")
+kate(3817)/kate-filetree KateFileTreeModel::documentOpened: before add: ProxyItem(0x2a95130,0x0,-1,KateDocument(0x2856cf0) , "Untitled" )
+kate(3817)/kate-filetree KateFileTreeModel::setupIcon: BEGIN!
+kate(3817)/kate-filetree KateFileTreeModel::setupIcon: END!
+kate(3817)/kate-filetree KateFileTreeModel::handleInsert: BEGIN!
+kate(3817)/kate-filetree KateFileTreeModel::handleInsert: empty item
+kate(3817)/kate-filetree ProxyItem::addChild: added ProxyItem(0x2a95130,0x2a94d40,0,KateDocument(0x2856cf0) , "Untitled" )   to ProxyItemDir(0x2a94d40,0x0,-1,"m_root", children:1)
+kate(3817)/kate-filetree KateFileTreeModel::documentOpened: after add: ProxyItem(0x2a95130,0x2a94d40,0,KateDocument(0x2856cf0) , "Untitled" )
+kate(3817)/kate-filetree KateFileTreeProxyModel::KateFileTreeProxyModel: BEGIN!
+kate(3817)/kate-filetree KateFileTreePluginView::setListMode: BEGIN
+kate(3817)/kate-filetree KateFileTreePluginView::setListMode: treeMode
+kate(3817)/kate-filetree KateFileTreePluginView::setListMode: END
+kate(3817)/kate-filetree KateFileTreePluginView::viewChanged: BEGIN!
+kate(3817)/kate-filetree KateFileTreePluginView::viewChanged: BEGIN!
+kate(3817)/kate-filetree KateFileTreeProxyModel::docIndex: !
+kate(3817)/kate-filetree KateFileTreeModel::docIndex: BEGIN!
+kate(3817)/kate-filetree KateFileTreeModel::docIndex: END!
+kate(3817)/kate-filetree KateFileTreePluginView::viewChanged: selected doc= KateDocument(0x2856cf0) QModelIndex(0,0,0x2a8dd60,KateFileTreeProxyModel(0x2ac1050) )
+kate(3817)/kate-filetree KateFileTreePluginView::viewChanged: display= "Untitled"
+kate(3817)/kate-filetree KateFileTreeModel::documentActivated: BEGIN!
+kate(3817)/kate-filetree KateFileTreeModel::documentActivated: adding viewHistory ProxyItem(0x2a95130,0x2a94d40,0,KateDocument(0x2856cf0) , "Untitled" )
+kate(3817)/kate-filetree KateFileTreeModel::updateBackgrounds: BEGIN!
+kate(3817)/kate-filetree KateFileTreeModel::updateBackgrounds: END!
+kate(3817)/kate-filetree KateFileTreeModel::documentActivated: END!
+kate(3817)/kate-filetree KateFileTree::slotCurrentChanged: current: QModelIndex(0,0,0x2a8dd60,KateFileTreeProxyModel(0x2ac1050) )  previous: QModelIndex(-1,-1,0x0,QObject(0x0) )
+kate(3817)/kate-filetree KateFileTree::slotCurrentChanged: got doc, setting prev: QModelIndex(0,0,0x2a8dd60,KateFileTreeProxyModel(0x2ac1050) )
+kate(3817)/kate-filetree KateFileTreePluginView::viewChanged: END!
+kate(3817)/kate-filetree KateFileTreeModel::documentNameChanged: BEGIN!
+kate(3817)/kate-filetree KateFileTreeModel::documentNameChanged: change to unnamed item
+kate(3817)/kate-filetree KateFileTreeModel::documentNameChanged: ProxyItem(0x2a95130,0x2a94d40,0,KateDocument(0x2856cf0) , "Untitled" )
+kate(3817)/kate-filetree KateFileTreeModel::documentNameChanged: "Untitled" -> "Untitled"
+kate(3817)/kate-filetree KateFileTreeModel::documentNameChanged: removing brush ProxyItem(0x2a95130,0x2a94d40,0,KateDocument(0x2856cf0) , "Untitled" )
+kate(3817)/kate-filetree KateFileTreeModel::documentNameChanged: removing view history ProxyItem(0x2a95130,0x2a94d40,0,KateDocument(0x2856cf0) , "Untitled" )
+kate(3817)/kate-filetree KateFileTreeModel::handleNameChange: BEGIN!
+kate(3817)/kate-filetree KateFileTreeModel::handleNameChange: bogus name change
+kate(3817)/kate-filetree KateFileTreeModel::documentNameChanged: END!
+kate(3817)/kate-filetree KateFileTreeModel::documentNameChanged: BEGIN!
+kate(3817)/kate-filetree KateFileTreeModel::documentNameChanged: ProxyItem(0x2a95130,0x2a94d40,0,KateDocument(0x2856cf0) , "Untitled" )
+kate(3817)/kate-filetree KateFileTreeModel::documentNameChanged: "Untitled" -> "/home/zaur/Documents/Fortiss/mbeddr_install/mbeddr_install.py"
+kate(3817)/kate-filetree KateFileTreeModel::handleNameChange: BEGIN!
+kate(3817)/kate-filetree KateFileTreeModel::handleNameChange: removing ProxyItem(0x2a95130,0x2a94d40,0,KateDocument(0x2856cf0) , "/home/zaur/Documents/Fortiss/mbeddr_install/mbeddr_install.py" )   from ProxyItemDir(0x2a94d40,0x0,-1,"m_root", children:1)
+kate(3817)/kate-filetree KateFileTree::slotCurrentChanged: current: QModelIndex(-1,-1,0x0,QObject(0x0) ) previous: QModelIndex(0,0,0x2a8dd60,KateFileTreeProxyModel(0x2ac1050) )
+kate(3817)/kate-filetree ProxyItem::remChild: remove ProxyItem(0x2a95130,0x2a94d40,0,KateDocument(0x2856cf0) , "/home/zaur/Documents/Fortiss/mbeddr_install/mbeddr_install.py" )   from ProxyItemDir(0x2a94d40,0x0,-1,"m_root", children:1)
+kate(3817)/kate-filetree KateFileTreeModel::handleEmptyParents: BEGIN!
+kate(3817)/kate-filetree KateFileTreeModel::handleEmptyParents: parent ProxyItemDir(0x2a94d40,0x0,-1,"m_root", children:0) grandparentProxyItemDir(0x0)
+kate(3817)/kate-filetree KateFileTreeModel::setupIcon: BEGIN!
+kate(3817)/kate-filetree KateFileTreeModel::setupIcon: END!
+kate(3817)/kate-filetree KateFileTreeModel::handleNameChange: inserting ProxyItem(0x2a95130,0x0,0,KateDocument(0x2856cf0) , "/home/zaur/Documents/Fortiss/mbeddr_install/mbeddr_install.py" )
+kate(3817)/kate-filetree KateFileTreeModel::handleInsert: BEGIN!
+kate(3817)/kate-filetree KateFileTreeModel::handleInsert: creating a new root
+kate(3817)/kate-filetree ProxyItem::ProxyItem: ProxyItem(0x2f192f0,0x0,-1,QObject(0x0) ,"/home/zaur/Documents/Fortiss/mbeddr_install")
+kate(3817)/kate-filetree KateFileTreeModel::handleInsert: add ProxyItemDir(0x2f192f0,0x0,-1,"/home/zaur/Documents/Fortiss/mbeddr_install", children:0) to m_root
+kate(3817)/kate-filetree ProxyItem::addChild: added ProxyItem(0x2f192f0,0x2a94d40,0,QObject(0x0) ,"/home/zaur/Documents/Fortiss/mbeddr_install") toProxyItemDir(0x2a94d40,0x0,-1,"m_root", children:1)
+kate(3817)/kate-filetree KateFileTreeModel::handleInsert: attempting to merge some existing roots
+kate(3817)/kate-filetree KateFileTreeModel::handleInsert: adding ProxyItem(0x2a95130,0x0,0,KateDocument(0x2856cf0) , "/home/zaur/Documents/Fortiss/mbeddr_install/mbeddr_install.py" )   to ProxyItemDir(0x2f192f0,0x2a94d40,0,"/home/zaur/Documents/Fortiss/mbeddr_install", children:0)
+kate(3817)/kate-filetree ProxyItem::addChild: added ProxyItem(0x2a95130,0x2f192f0,0,KateDocument(0x2856cf0) , "/home/zaur/Documents/Fortiss/mbeddr_install/mbeddr_install.py" )   to ProxyItemDir(0x2f192f0,0x2a94d40,0,"/home/zaur/Documents/Fortiss/mbeddr_install", children:1)
+kate(3817)/kate-filetree KateFileTreeModel::handleInsert: END!
+kate(3817)/kate-filetree KateFileTreeModel::handleNameChange: END!
+kate(3817)/kate-filetree KateFileTreeModel::documentNameChanged: END!
+kate(3817)/kate-filetree KateFileTreeModel::documentNameChanged: BEGIN!
+kate(3817)/kate-filetree KateFileTreeModel::documentNameChanged: ProxyItem(0x2a95130,0x2f192f0,0,KateDocument(0x2856cf0) , "/home/zaur/Documents/Fortiss/mbeddr_install/mbeddr_install.py" )
+kate(3817)/kate-filetree KateFileTreeModel::documentNameChanged: "mbeddr_install.py" -> "/home/zaur/Documents/Fortiss/mbeddr_install/mbeddr_install.py"
+kate(3817)/kate-filetree KateFileTreeModel::handleNameChange: BEGIN!
+kate(3817)/kate-filetree KateFileTreeModel::handleNameChange: bogus name change
+kate(3817)/kate-filetree KateFileTreeModel::documentNameChanged: END!
+kate(3817)/kate-filetree KateFileTreePluginView::viewChanged: BEGIN!
+kate(3817)/kate-filetree KateFileTreeProxyModel::docIndex: !
+kate(3817)/kate-filetree KateFileTreeModel::docIndex: BEGIN!
+kate(3817)/kate-filetree KateFileTreeModel::docIndex: END!
+kate(3817)/kate-filetree KateFileTreePluginView::viewChanged: selected doc= KateDocument(0x2856cf0) QModelIndex(0,0,0x2f7ab60,KateFileTreeProxyModel(0x2ac1050) )
+kate(3817)/kate-filetree KateFileTreePluginView::viewChanged: display= "mbeddr_install.py"
+kate(3817)/kate-filetree KateFileTreeModel::documentActivated: BEGIN!
+kate(3817)/kate-filetree KateFileTreeModel::documentActivated: adding viewHistory ProxyItem(0x2a95130,0x2f192f0,0,KateDocument(0x2856cf0) , "/home/zaur/Documents/Fortiss/mbeddr_install/mbeddr_install.py" )
+kate(3817)/kate-filetree KateFileTreeModel::updateBackgrounds: BEGIN!
+kate(3817)/kate-filetree KateFileTreeModel::updateBackgrounds: END!
+kate(3817)/kate-filetree KateFileTreeModel::documentActivated: END!
+kate(3817)/kate-filetree KateFileTree::slotCurrentChanged: current: QModelIndex(0,0,0x2f7ab60,KateFileTreeProxyModel(0x2ac1050) )  previous: QModelIndex(-1,-1,0x0,QObject(0x0) )
+kate(3817)/kate-filetree KateFileTree::slotCurrentChanged: got doc, setting prev: QModelIndex(0,0,0x2f7ab60,KateFileTreeProxyModel(0x2ac1050) )
+kate(3817)/kate-filetree KateFileTreePluginView::viewChanged: END!
+kate(3817)/kate-filetree KateFileTreeModel::documentModifiedChanged: BEGIN!
+kate(3817)/kate-filetree KateFileTreeModel::documentModifiedChanged: modified!
+kate(3817)/kate-filetree KateFileTreeModel::setupIcon: BEGIN!
+kate(3817)/kate-filetree KateFileTreeModel::setupIcon: END!
+kate(3817)/kate-filetree KateFileTreeModel::documentModifiedChanged: END!
+kate(3817)/kate-filetree KateFileTreeModel::documentNameChanged: BEGIN!
+kate(3817)/kate-filetree KateFileTreeModel::documentNameChanged: ProxyItem(0x2a95130,0x2f192f0,0,KateDocument(0x2856cf0) , "/home/zaur/Documents/Fortiss/mbeddr_install/mbeddr_install.py" )
+kate(3817)/kate-filetree KateFileTreeModel::documentNameChanged: "mbeddr_install.py" -> "/home/zaur/Documents/Fortiss/mbeddr_install/mbeddr_install.py"
+kate(3817)/kate-filetree KateFileTreeModel::documentNameChanged: removing brush ProxyItem(0x2a95130,0x2f192f0,0,KateDocument(0x2856cf0) , "/home/zaur/Documents/Fortiss/mbeddr_install/mbeddr_install.py" )
+kate(3817)/kate-filetree KateFileTreeModel::documentNameChanged: removing view history ProxyItem(0x2a95130,0x2f192f0,0,KateDocument(0x2856cf0) , "/home/zaur/Documents/Fortiss/mbeddr_install/mbeddr_install.py" )
+kate(3817)/kate-filetree KateFileTreeModel::handleNameChange: BEGIN!
+kate(3817)/kate-filetree KateFileTreeModel::handleNameChange: bogus name change
+kate(3817)/kate-filetree KateFileTreeModel::documentNameChanged: END!
+kate(3817)/kate-filetree KateFileTreeModel::documentModifiedChanged: BEGIN!
+kate(3817)/kate-filetree KateFileTreeModel::documentModifiedChanged: saved!
+kate(3817)/kate-filetree KateFileTreeModel::setupIcon: BEGIN!
+kate(3817)/kate-filetree KateFileTreeModel::setupIcon: END!
+kate(3817)/kate-filetree KateFileTreeModel::documentModifiedChanged: END!
+kate(3817)/kate-filetree KateFileTreeModel::documentModifiedChanged: BEGIN!
+kate(3817)/kate-filetree KateFileTreeModel::documentModifiedChanged: modified!
+kate(3817)/kate-filetree KateFileTreeModel::setupIcon: BEGIN!
+kate(3817)/kate-filetree KateFileTreeModel::setupIcon: END!
+kate(3817)/kate-filetree KateFileTreeModel::documentModifiedChanged: END!
+kate(3817)/kate-filetree KateFileTreeModel::documentNameChanged: BEGIN!
+kate(3817)/kate-filetree KateFileTreeModel::documentNameChanged: ProxyItem(0x2a95130,0x2f192f0,0,KateDocument(0x2856cf0) , "/home/zaur/Documents/Fortiss/mbeddr_install/mbeddr_install.py" )
+kate(3817)/kate-filetree KateFileTreeModel::documentNameChanged: "mbeddr_install.py" -> "/home/zaur/Documents/Fortiss/mbeddr_install/mbeddr_install.py"
+kate(3817)/kate-filetree KateFileTreeModel::handleNameChange: BEGIN!
+kate(3817)/kate-filetree KateFileTreeModel::handleNameChange: bogus name change
+kate(3817)/kate-filetree KateFileTreeModel::documentNameChanged: END!
+kate(3817)/kate-filetree KateFileTreeModel::documentModifiedChanged: BEGIN!
+kate(3817)/kate-filetree KateFileTreeModel::documentModifiedChanged: saved!
+kate(3817)/kate-filetree KateFileTreeModel::setupIcon: BEGIN!
+kate(3817)/kate-filetree KateFileTreeModel::setupIcon: END!
+kate(3817)/kate-filetree KateFileTreeModel::documentModifiedChanged: END!
+kate(3817)/kate-filetree KateFileTreePluginSettings::save: save config!
