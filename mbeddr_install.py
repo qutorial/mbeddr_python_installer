@@ -428,11 +428,11 @@ InstallGitCygwin = """Please, start Cygwin Installer and select "git" package to
 def getInstallGitMessage():
   if onLinux():
     return InstallGitUbuntu;
-  else if onMac():
+  if onMac():
     return InstallGitMac;
-  else if onWindows():
+  if onWindows():
     return InstallGitCygwin;
-  else return "Install git, please, visit http://git-scm.com/ for instructions.\n";
+  return "Install git, please, visit http://git-scm.com/ for instructions.\n";
   
 
 
@@ -1402,8 +1402,14 @@ def cloneMbeddr(MbeddrDir, branch):
   os.system("git clone --recursive -b " + branch + " " + MbeddrRepo+ " .");  
   os.environ['PATH'] = theOldPath;
 
+def TEST_INTERACTIVE_cloneMbeddr():
+  mdir = readFileName("Where to clone mbeddr?");
+  branch = TheBranch;
+  cloneMbeddr(mdir, branch);
 
-  
+TEST_INTERACTIVE_cloneMbeddr();
+exit(0);
+ 
 #Path to Native with Forward Slashes
 def p2nfs(p):
   return convertPathToNative(p).replace("\\", "/");
