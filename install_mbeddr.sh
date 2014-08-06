@@ -1,5 +1,13 @@
 #!/bin/sh
 
+
+
+# !   RIGHT CLICK THE LINK AND SELECT "SAVE AS"   !
+
+# !  Alternatively, select File Menu->"Save As"  !
+
+
+
 UNAME=`uname`
 PYTHON=`which python3`
 BRANCH=master
