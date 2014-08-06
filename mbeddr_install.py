@@ -1394,15 +1394,15 @@ def testConfigureMPSWithMbeddr():
   
 # ------------------ END CONFIGURING MPS WITH MBEDDR ------------------
 
+def printPathVariable():
+  os.system("""echo PATH for git is set to: $PATH""");
     
 def cloneMbeddr(MbeddrDir, branch):  
   if not os.path.exists(MbeddrDir):
       os.makedirs(MbeddrDir);
   os.chdir(MbeddrDir);
   theOldPath = os.environ['PATH'];
-  os.environ['PATH'] = "/usr/bin";
-# Commented out to test the PATH setting
-#  os.system("""echo PATH for git is set to: $PATH""");
+  os.environ['PATH'] = "/usr/bin"+ os.pathsep + "/bin";  
   os.system("git clone --recursive -b " + branch + " " + MbeddrRepo+ " .");  
   os.environ['PATH'] = theOldPath;
 
