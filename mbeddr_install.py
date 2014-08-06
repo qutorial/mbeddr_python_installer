@@ -1215,8 +1215,7 @@ class MPSInstallerForWin(MPSInstallerBase):
   def setUpMPSHook(self, dest):
     log ( "Running the installer..." );
     
-    log ( "IMPORTANT!" );
-    log ( "Please, specify this directory in MPS Installer: " + convertPathToNative(self.getMPSEndPath(dest))); 
+    log ( " * Please, specify this directory in MPS Installer: " + convertPathToNative(self.getMPSEndPath(dest))); 
     log ( "Press Enter key to continue" );
     input();    
     
@@ -1235,6 +1234,7 @@ class MPSInstallerForWin(MPSInstallerBase):
     i = 0;
     
     log ( "Waiting untill MPS is installed..." );
+    log ( " * The installer window can be in the background, switch to it, please!" );
     while not os.path.exists(linkPath):
       i = i + 1;
       time.sleep(1);
