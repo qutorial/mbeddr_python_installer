@@ -1497,7 +1497,7 @@ asciiArt = """
   
   
 def greetings(MPSDir, MbeddrDir, dest):
-  log ( asciiArt );
+#  log ( asciiArt );
   if onLinux():
     greetingsLinux(MPSDir, MbeddrDir, dest);
   if onMac():
