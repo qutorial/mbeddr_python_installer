@@ -92,8 +92,8 @@ def TEST_getOS():
 
 # MBEDDR CONFIGURATION
 MbeddrRepo = """https://github.com/mbeddr/mbeddr.core.git"""
-#TheBranch = "fortiss_stable"
-TheBranch = "master"
+TheBranch = "fortiss_stable"
+#TheBranch = "master"
 BuildProperties = """# MPS installation
 mps.home=MPSDir
 # Folder where MPS stores it's cache
