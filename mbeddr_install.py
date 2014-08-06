@@ -42,6 +42,51 @@ if sys.version_info < (3, 0):
     log ( "Your Python version is not supported. Please, install Python 2.7." );
     log ( "http://www.python.org/download/" );
     exit(1);
+    
+
+# Detecting OS
+
+LINUX32 = "Lin32"
+LINUX64 = "Lin64"
+MACOS = "Mac"
+WINDOWS = "Win"
+    
+def getOS():
+  s = platform.platform()
+  if "Lin" in s:
+    if platform.architecture()[0] == '64bit':
+      return LINUX64
+    else:
+      return LINUX32;
+  if "Darwin" in s:
+    return MACOS
+  if "Win" in s:
+    return WINDOWS
+
+def onLinux32():
+  return LINUX32 == getOS();
+    
+def onLinux64():
+  return LINUX64 == getOS();
+
+def onLinux():
+  return onLinux32() or onLinux64();
+  
+def onMac():
+  return MACOS == getOS();
+
+def onWindows():
+  return WINDOWS == getOS();
+    
+
+def TEST_getOS():
+  if onLinux() and not onMac() and not onWindows():
+    return True;
+  if not onLinux() and onMac() and not onWindows():
+    return True;
+  if not onLinux() and not onMac() and onWindows():
+    return True;
+  return False;
 
 ################### -- CONFIGURATION -- ###################
 
@@ -368,13 +413,27 @@ sudo apt-get install ant
 """
 
 
-# GIT CONFIGURATION
-InstallGitMessage= """Please, install Git.
-http://git-scm.com/downloads"""
-
-InstallGitHintUbuntu = """\nOn Ubuntu this might work:
-sudo apt-get install git
+# Install Git Messages
+InstallGitMac= """Please, install Git from here:
+    http://git-scm.com/downloads
 """
+
+InstallGitUbuntu = """Please, run
+    sudo apt-get install git
+to install git on Ubuntu.
+"""
+
+InstallGitCygwin = """Please, start Cygwin Installer and select "git" package to install"""
+
+def getInstallGitMessage():
+  if onLinux():
+    return InstallGitUbuntu;
+  else if onMac():
+    return InstallGitMac;
+  else if onWindows():
+    return InstallGitCygwin;
+  else return "Install git, please, visit http://git-scm.com/ for instructions.\n";
+  
 
 
 # USER GUIDE CONFIGURATION
@@ -386,50 +445,6 @@ ReadMeURL = """https://github.com/qutorial/mbeddr_python_installer/blob/master/R
 
 
 ################### END OF CONFIGURATION ###################
-
-# Detecting OS
-
-LINUX32 = "Lin32"
-LINUX64 = "Lin64"
-MACOS = "Mac"
-WINDOWS = "Win"
-    
-def getOS():
-  s = platform.platform()
-  if "Lin" in s:
-    if platform.architecture()[0] == '64bit':
-      return LINUX64
-    else:
-      return LINUX32;
-  if "Darwin" in s:
-    return MACOS
-  if "Win" in s:
-    return WINDOWS
-
-def onLinux32():
-  return LINUX32 == getOS();
-    
-def onLinux64():
-  return LINUX64 == getOS();
-
-def onLinux():
-  return onLinux32() or onLinux64();
-  
-def onMac():
-  return MACOS == getOS();
-
-def onWindows():
-  return WINDOWS == getOS();
-    
-
-def TEST_getOS():
-  if onLinux() and not onMac() and not onWindows():
-    return True;
-  if not onLinux() and onMac() and not onWindows():
-    return True;
-  if not onLinux() and not onMac() and onWindows():
-    return True;
-  return False;
 
 # Adding to Path
 
@@ -628,13 +643,10 @@ def checkGit():
     git = getOutput(["git", "--version"]);
     return checkGitVersion(git)
   except OSError:
-    answer = InstallGitMessage;
-    if onLinux():
-      answer += InstallGitHintUbuntu;
-    return answer;
+    return getInstallGitMessage();
 
 def TEST_checkGit():
-  return checkGit() == True or checkGit() == InstallGitMessage;
+  return checkGit() == True or checkGit() == getInstallGitMessage();
     
 # JAVA 
 
@@ -1384,7 +1396,10 @@ def cloneMbeddr(dest, MbeddrDir):
   if not os.path.exists(MbeddrDir):
       os.makedirs(MbeddrDir);
   os.chdir(MbeddrDir);
+  theOldPath = os.environ['PATH'];
+  os.environ['PATH'] = "/usr/bin";
   os.system("git clone --recursive -b " + TheBranch + " " + MbeddrRepo+ " .");  
+  os.environ['PATH'] = theOldPath;
 
   
 #Path to Native with Forward Slashes
