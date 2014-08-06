@@ -1401,10 +1401,16 @@ def cloneMbeddr(MbeddrDir, branch):
   if not os.path.exists(MbeddrDir):
       os.makedirs(MbeddrDir);
   os.chdir(MbeddrDir);
+  
   theOldPath = os.environ['PATH'];
-  os.environ['PATH'] = "/usr/bin"+ os.pathsep + "/bin";  
+  
+  if onWindows():    
+    os.environ['PATH'] = "/usr/bin"+ os.pathsep + "/bin";  
+  
   os.system("git clone --recursive -b " + branch + " " + MbeddrRepo+ " .");  
-  os.environ['PATH'] = theOldPath;
+  
+  if onWindows():
+    os.environ['PATH'] = theOldPath;
 
 def TEST_INTERACTIVE_cloneMbeddr():
   mdir = readFileName("Where to clone mbeddr?");
@@ -1474,7 +1480,24 @@ def greetingsMac(MPSDir, MbeddrDir, dest):
   log (  "\nTo start working: Run MPS (located in " + dest + ") and go through the tutorial project from:" );
 
 
+asciiArt = """                           .,                `,     `,`     
+                           ;'                ,'`    `'.     
+       `.`::`              ;'                ,'`    .'.     
+     ...,`::::: `''': '''  ;''':    '';    :'''`  :'''. :'''
+     ..,,`::;:' ''.,'':`'' ;'..''  ''.''  ''.:'` '',,'.`';.:
+     ,,,,.:::;' ''  ''  '' ;'  :'`;'  `',:'     `.  ``  ,,  
+     ,,,:.  `,:  .  ''  '' ;'  .'.'':. `.::  .: ::  `:` :`  
+       .,`.,::: ::  ,`   ` `   `, ::     ::  .: ,:  `:` :.  
+     ::::.::::: ::  ::  :: ::  :: `::  , `:: .:  :: `:` :.  
+     ;;;':::::: ::  ::  :: ,::::   `::::  `::::  `::::` :.  
+     .''':::::                                              
+        '::.    :,::,,,:`.,`:``;`; :: :.,.,:.``:,: `,,,.:,, 
+                  `       :         `                       
+"""
+  
+  
 def greetings(MPSDir, MbeddrDir, dest):
+  log ( asciiArt );
   if onLinux():
     greetingsLinux(MPSDir, MbeddrDir, dest);
   if onMac():
@@ -1489,9 +1512,12 @@ def greetings(MPSDir, MbeddrDir, dest):
   log (  "-----------------------------------------------------------\n" );
   log (  """This installer for mbeddr advanced users has been built by molotnikov (at) fortiss (dot) org.
   
-If the installer did not work for you, please, let us know. 
+If the installer did not work for you, please, let us know by posting an issue here:
 https://github.com/qutorial/mbeddr_python_installer
 """ );
+
+greetings("", "", "");
+exit(0);
 
 
 def printErrorMessage():
