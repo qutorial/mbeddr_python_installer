@@ -1398,7 +1398,8 @@ def cloneMbeddr(MbeddrDir, branch):
   os.chdir(MbeddrDir);
   theOldPath = os.environ['PATH'];
   os.environ['PATH'] = "/usr/bin";
-  os.system(""""bash -c "echo PATH for git is set to: $PATH" """);
+# Commented out to test the PATH setting
+#  os.system("""echo PATH for git is set to: $PATH""");
   os.system("git clone --recursive -b " + branch + " " + MbeddrRepo+ " .");  
   os.environ['PATH'] = theOldPath;
 
