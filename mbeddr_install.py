@@ -1480,19 +1480,19 @@ def greetingsMac(MPSDir, MbeddrDir, dest):
   log (  "\nTo start working: Run MPS (located in " + dest + ") and go through the tutorial project from:" );
 
 
-asciiArt = """                           .,                `,     `,`     
-                           ;'                ,'`    `'.     
-       `.`::`              ;'                ,'`    .'.     
-     ...,`::::: `''': '''  ;''':    '';    :'''`  :'''. :'''
-     ..,,`::;:' ''.,'':`'' ;'..''  ''.''  ''.:'` '',,'.`';.:
-     ,,,,.:::;' ''  ''  '' ;'  :'`;'  `',:'     `.  ``  ,,  
-     ,,,:.  `,:  .  ''  '' ;'  .'.'':. `.::  .: ::  `:` :`  
-       .,`.,::: ::  ,`   ` `   `, ::     ::  .: ,:  `:` :.  
-     ::::.::::: ::  ::  :: ::  :: `::  , `:: .:  :: `:` :.  
-     ;;;':::::: ::  ::  :: ,::::   `::::  `::::  `::::` :.  
-     .''':::::                                              
-        '::.    :,::,,,:`.,`:``;`; :: :.,.,:.``:,: `,,,.:,, 
-                  `       :         `                       
+asciiArt = """
+                                                      dKKl                                :O00.         ,KK0.           
+                 .  .                                 OMMd                                dMMM.         :MMM'           
+            .:d0WM':MNOd:.                            0MMd                                dMMM.         :MMM'           
+         cOWMMMMMM':MMMMMMWOd  .oxO0XX0Odc:xOKX0ko.   0MMNOOOOd;      ;dO0KOkl'     .cxOO0NMMM.   .cxOOOXMMM'  ldOKXXXX:
+         0MMMMMMMM':MMMMMMMMM. lMMMo,,:OMMM0c,,xMMW;  0MMO,,:kWMX,  ,XMWd:,lXMMx  .OMMKl;,OMMW.  cKXOo:,lKXN. .MMMO;,:: 
+        .MMMMMMMMM';MNXX000Ok. cWMM'   'MMMl   .MMMd  0MMd    kMMW. XMMd..''kWXX' cxxl    ,xxo  :xxO.   'xxx. .ddd'     
+        .XNWMMMMMM'.kdoxkO00K. 'xxx.   .O00:   .MMMd  0MWo    c00k..xkkdolcc:',,..XNMd    dMMM. KMM0    :MMM' 'MMM,     
+        .xxxxxxdxc :MMMMMMMMM. lMMM'   .KOO,   .xxx;  dxo,   .xO0x  0MMO          KMMK.   dMMM. dMMW'   :MMM' 'MMMl     
+        .MMMMMMMMW.:MMMMMMMMM. lMMM'   'MMMl   .MMMd .MMMKooxXMNd.  .kNMXkddkOXo  .kWMNkooKMMM.  oNMNkdoOMMM. 'MMMl     
+        .KWMMMMMMM':MMMMMMMW0. .lll.   .lll'    lll,  ':oxxxdc,        ,lxxxxoc.     ,cdxxxo:'     ,lxxxxoc,  .lll'     
+          .;oONMMM':MMWKxc'                                                                                             
+               .:o..:'                    engineering the future of embedded software
 """
   
   
@@ -1515,10 +1515,6 @@ def greetings(MPSDir, MbeddrDir, dest):
 If the installer did not work for you, please, let us know by posting an issue here:
 https://github.com/qutorial/mbeddr_python_installer
 """ );
-
-greetings("", "", "");
-exit(0);
-
 
 def printErrorMessage():
   log (  """The installation went wrong, unfortunately.
