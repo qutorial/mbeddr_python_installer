@@ -1263,6 +1263,9 @@ class MPSInstallerForWin(MPSInstallerBase):
       
       fp.close();
       break;
+      
+    log ( "Finished installing MPS!\n" );  
+    
            
 def getMPSInstaller():
   if onLinux():
