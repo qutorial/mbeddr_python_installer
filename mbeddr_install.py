@@ -106,6 +106,7 @@ def getMbeddrDestDir(dest):
 
 # MPS CONFIGURATION
 
+JAVA_XMX="-Xmx2048m"
 
 MPSMac = """https://raw.githubusercontent.com/mbeddr/mbeddr.core/"""+TheBranch+"""/versions/MPSMac.txt"""
 MPSLin = """https://raw.githubusercontent.com/mbeddr/mbeddr.core/"""+TheBranch+"""/versions/MPSLin.txt"""
@@ -128,6 +129,31 @@ MPSBatName = """mps.bat"""
 
 MPSVolumesDir = """/Volumes/""" #MPSVolumesDir = """/Volumes/MPS 3.1/MPS 3.1.app"""
 MPSDestDirMac = "MPS31.app"
+
+MPS_VM_OPTIONS = """-client                                                                                                                              
+-Xss1024k                                                                                                                            
+-ea                                                                                                                                  
+""" + JAVA_XMX + """                                                                                                                            
+-XX:MaxPermSize=256m                                                                                                                 
+-XX:NewSize=256m                                                                                                                     
+-XX:+HeapDumpOnOutOfMemoryError                                                                                                      
+-Xverify:none                                                                                                                        
+-Dfile.encoding=UTF-8                                                                                                                
+-Dapple.awt.graphics.UseQuartz=true                                                                                                  
+-Didea.paths.selector=MPS31
+"""
+
+def getMPSVmoptions():
+  global MPS_VM_OPTIONS;
+  return MPS_VM_OPTIONS;
+  
+def TEST_getMPSVmoptions():  
+  global JAVA_XMX  
+  if not "m" in JAVA_XMX:
+    return False;
+  if not JAVA_XMX in getMPSVmoptions():
+    return False;
+  return True;
 
 MPS_BAT_WITH_ENV = r"""@echo off
 
@@ -175,7 +201,7 @@ set CLASSPATH=%CLASSPATH%;%PROJECT_HOME%lib\mps-boot.jar
 set CLASSPATH=%CLASSPATH%;%PROJECT_HOME%lib\boot.jar
 set CLASSPATH=%CLASSPATH%;%PROJECT_HOME%lib\bootstrap.jar
 set CLASSPATH=%CLASSPATH%;%PROJECT_HOME%lib\util.jar
-set CLASSPATH=%CLASSPATH%;%PROJECT_HOME%lib\jdom.jar
+set CLASSPATH=%CLASSPATH%;%PROJEreturn CT_HOME%lib\jdom.jar
 set CLASSPATH=%CLASSPATH%;%PROJECT_HOME%lib\log4j.jar
 set CLASSPATH=%CLASSPATH%;%PROJECT_HOME%lib\extensions.jar
 set CLASSPATH=%CLASSPATH%;%PROJECT_HOME%lib\trove4j.jar
@@ -269,13 +295,400 @@ MPSLibraryManager = """<?xml version="1.0" encoding="UTF-8"?>
   <component name="LibraryManager">
     <option name="libraries">
       <map>
+
+On 08/26/2014 04:09 PM, Radka Kolkusová wrote:> Ahoj medveďik,
+> 
+> We finished lectures, and I just came to the hotel. Today it was quite
+> interesting, as I told, tomorrow it's my presentation so I will stay in the
+> hotel all evening and work on it (made nothing till now).
+> 
+> I am also looking forward to have breakfast with you, medveďik! Especially
+> if it's croissants with honey! Like a real medveď! :-)))
+> 
+> Since when you plan computer games? Interesting! :-)))
+> How are guys doing?
+> 
+> I am glad that weather got better, and you were able to go to work.
+> 
+> Now, dear, I am going to make tea and answer your emails you want to be
+> answered...
+> 
+> Love you,
+> R.
+> On Aug 26, 2014 2:42 PM, "Zaur Molotnikov" <qutorial@gmail.com> wrote:
+> 
+>> Dear, my day is quite ok. There is nothing special.
+>>
+>> I woke up early. It was raining. Stayed home, worked. Two croissants.
+>> First with honey, second with Waldfrucht Confituere. :) I am looking
+>> forward to have such breakfasts with you, my personal Zajach, who I
+>> love. :*  Next I was reading a book. Chatting a bit with guys, and tried
+>> a new game on Linux, which twins advised me: racing game :)
+>> I had lunch at home, last pack of suis mais, which I do not want to see
+>> until the next summer anymore, and then I went to work. The rain paused.
+>> And it was a good chance. I cleaned the kitchen nicely yesterday. Today
+>> made Kalk away from Kanne. Preparing for you to come.
+>> Then I travelled to work :) Now working hard. Have cool mood and speed.
+>>
+>> I love you, Zajach :)
+>>
+>> On 08/26/2014 01:33 PM, Radka Kolkusová wrote:
+>>> I love you too, medvedik.
+>>>
+>>> now break, if you like, write me something about your day. I am going to
+>>> read all mails now :-)
+>>> Just made tea, jamiiii.
+>>>
+>>> I miss you, looking forward to come to germany and to go to vacation
+>>>
+>>>
+>>> On Tue, Aug 26, 2014 at 2:01 PM, Zaur Molotnikov <qutorial@gmail.com>
+>> wrote:
+>>>
+>>>> I love you, dearest.
+>>>>
+>>>> Enjoy your lectures :)
+>>>>
+>>>> Maybe we will talkbox in the evening.
+>>>>
+>>>> On 08/26/2014 12:51 PM, Radka Kolkusová wrote:
+>>>>> I want sea, sun, beach, medvedik i zajachik under the sun! :-P
+>>>>>
+>>>>>
+>>>>> On Tue, Aug 26, 2014 at 1:50 PM, Radka Kolkusová <
+>>>> radka.kolkusova@gmail.com>
+>>>>> wrote:
+>>>>>
+>>>>>> can't now, I am in the class. can't write a lot, Dear.
+>>>>>>
+>>>>>> will answer later from my hotel room. Today I am not going anywhere,
+>>>> just
+>>>>>> in the hotel (tomorrow is my presentation so I have to prepare it).
+>>>>>>
+>>>>>> just -
+>>>>>>
+>>>>>> 1. I am very much looking forward to live with you!!!! can't wait
+>>>>>> 2. Can= t wait to vacation, especially now, when it's so cold here :-(
+>>>>>>
+>>>>>>
+>>>>>> On Tue, Aug 26, 2014 at 1:48 PM, Zaur Molotnikov <qutorial@gmail.com>
+>>>>>> wrote:
+>>>>>>
+>>>>>>> Waiting :)
+>>>>>>>
+>>>>>>> I know you have not much time, so I will also wait for your answers:
+>>>>>>>
+>>>>>>> about vacation,
+>>>>>>> about living together and expectations (my 15 expectations - you just
+>>>> do
+>>>>>>> not answer)...
+>>>>>>>
+>>>>>>> On 08/26/2014 12:40 PM, Radka Kolkusová wrote:
+>>>>>>>> Yes Dear, only now came to my class!
+>>>>>>>> just writing you a nice email :-)
+>>>>>>>>
+>>>>>>>> wait..
+>>>>>>>>
+>>>>>>>>
+>>>>>>>> On Tue, Aug 26, 2014 at 1:38 PM, Zaur Molotnikov <
+>> qutorial@gmail.com>
+>>>>>>> wrote:
+>>>>>>>>
+>>>>>>>>> Radka, dear this news link is the only mail I received from you
+>>>> today.
+>>>>>>>>>
+>>>>>>>>> Are you healthy, tell me better.
+>>>>>>>>>
+>>>>>>>>> On 08/26/2014 12:22 PM, Radka Kolkusová wrote:
+>>>>>>>>>>
+>>>>>>>>>
+>>>>>>>
+>>>>
+>> http://en.ria.ru/society/20140825/192333372/China-to-Replace-Google-Microsoft-With-Homegrown-OS.html
+>>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>
+>>>>>>>
+>>>>>>
+>>>>>>
+>>>>>
+>>>>
+>>>
+>>
+> 
+
+-- 
+Kind regards,
+Zaur.
+
+Find my PGP key here:
+http://molotnikov.de/zaur/pgp/pgpkey.asc
+http://pgp.mit.edu/pks/lookup?op=get&search=0x5895DF95B549EA42
         <entry key="mbeddr.core">
           <value>
+
+On 08/26/2014 04:09 PM, Radka Kolkusová wrote:> Ahoj medveďik,
+> 
+> We finished lectures, and I just came to the hotel. Today it was quite
+> interesting, as I told, tomorrow it's my presentation so I will stay in the
+> hotel all evening and work on it (made nothing till now).
+> 
+> I am also looking forward to have breakfast with you, medveďik! Especially
+> if it's croissants with honey! Like a real medveď! :-)))
+> 
+> Since when you plan computer games? Interesting! :-)))
+> How are guys doing?
+> 
+> I am glad that weather got better, and you were able to go to work.
+> 
+> Now, dear, I am going to make tea and answer your emails you want to be
+> answered...
+> 
+> Love you,
+> R.
+> On Aug 26, 2014 2:42 PM, "Zaur Molotnikov" <qutorial@gmail.com> wrote:
+> 
+>> Dear, my day is quite ok. There is nothing special.
+>>
+>> I woke up early. It was raining. Stayed home, worked. Two croissants.
+>> First with honey, second with Waldfrucht Confituere. :) I am looking
+>> forward to have such breakfasts with you, my personal Zajach, who I
+>> love. :*  Next I was reading a book. Chatting a bit with guys, and tried
+>> a new game on Linux, which twins advised me: racing game :)
+>> I had lunch at home, last pack of suis mais, which I do not want to see
+>> until the next summer anymore, and then I went to work. The rain paused.
+>> And it was a good chance. I cleaned the kitchen nicely yesterday. Today
+>> made Kalk away from Kanne. Preparing for you to come.
+>> Then I travelled to work :) Now working hard. Have cool mood and speed.
+>>
+>> I love you, Zajach :)
+>>
+>> On 08/26/2014 01:33 PM, Radka Kolkusová wrote:
+>>> I love you too, medvedik.
+>>>
+>>> now break, if you like, write me something about your day. I am going to
+>>> read all mails now :-)
+>>> Just made tea, jamiiii.
+>>>
+>>> I miss you, looking forward to come to germany and to go to vacation
+>>>
+>>>
+>>> On Tue, Aug 26, 2014 at 2:01 PM, Zaur Molotnikov <qutorial@gmail.com>
+>> wrote:
+>>>
+>>>> I love you, dearest.
+>>>>
+>>>> Enjoy your lectures :)
+>>>>
+>>>> Maybe we will talkbox in the evening.
+>>>>
+>>>> On 08/26/2014 12:51 PM, Radka Kolkusová wrote:
+>>>>> I want sea, sun, beach, medvedik i zajachik under the sun! :-P
+>>>>>
+>>>>>
+>>>>> On Tue, Aug 26, 2014 at 1:50 PM, Radka Kolkusová <
+>>>> radka.kolkusova@gmail.com>
+>>>>> wrote:
+>>>>>
+>>>>>> can't now, I am in the class. can't write a lot, Dear.
+>>>>>>
+>>>>>> will answer later from my hotel room. Today I am not going anywhere,
+>>>> just
+>>>>>> in the hotel (tomorrow is my presentation so I have to prepare it).
+>>>>>>
+>>>>>> just -
+>>>>>>
+>>>>>> 1. I am very much looking forward to live with you!!!! can't wait
+>>>>>> 2. Can= t wait to vacation, especially now, when it's so cold here :-(
+>>>>>>
+>>>>>>
+>>>>>> On Tue, Aug 26, 2014 at 1:48 PM, Zaur Molotnikov <qutorial@gmail.com>
+>>>>>> wrote:
+>>>>>>
+>>>>>>> Waiting :)
+>>>>>>>
+>>>>>>> I know you have not much time, so I will also wait for your answers:
+>>>>>>>
+>>>>>>> about vacation,
+>>>>>>> about living together and expectations (my 15 expectations - you just
+>>>> do
+>>>>>>> not answer)...
+>>>>>>>
+>>>>>>> On 08/26/2014 12:40 PM, Radka Kolkusová wrote:
+>>>>>>>> Yes Dear, only now came to my class!
+>>>>>>>> just writing you a nice email :-)
+>>>>>>>>
+>>>>>>>> wait..
+>>>>>>>>
+>>>>>>>>
+>>>>>>>> On Tue, Aug 26, 2014 at 1:38 PM, Zaur Molotnikov <
+>> qutorial@gmail.com>
+>>>>>>> wrote:
+>>>>>>>>
+>>>>>>>>> Radka, dear this news link is the only mail I received from you
+>>>> today.
+>>>>>>>>>
+>>>>>>>>> Are you healthy, tell me better.
+>>>>>>>>>
+>>>>>>>>> On 08/26/2014 12:22 PM, Radka Kolkusová wrote:
+>>>>>>>>>>
+>>>>>>>>>
+>>>>>>>
+>>>>
+>> http://en.ria.ru/society/20140825/192333372/China-to-Replace-Google-Microsoft-With-Homegrown-OS.html
+>>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>
+>>>>>>>
+>>>>>>
+>>>>>>
+>>>>>
+>>>>
+>>>
+>>
+> 
+
+-- 
+Kind regards,
+Zaur.
+
+Find my PGP key here:
+http://molotnikov.de/zaur/pgp/pgpkey.asc
+http://pgp.mit.edu/pks/lookup?op=get&search=0x5895DF95B549EA42
             <Library>
               <option name="name" value="mbeddr.core" />
               <option name="path" value="${mbeddr.github.core.home}/code" />
             </Library>
           </value>
+
+On 08/26/2014 04:09 PM, Radka Kolkusová wrote:> Ahoj medveďik,
+> 
+> We finished lectures, and I just came to the hotel. Today it was quite
+> interesting, as I told, tomorrow it's my presentation so I will stay in the
+> hotel all evening and work on it (made nothing till now).
+> 
+> I am also looking forward to have breakfast with you, medveďik! Especially
+> if it's croissants with honey! Like a real medveď! :-)))
+> 
+> Since when you plan computer games? Interesting! :-)))
+> How are guys doing?
+> 
+> I am glad that weather got better, and you were able to go to work.
+> 
+> Now, dear, I am going to make tea and answer your emails you want to be
+> answered...
+> 
+> Love you,
+> R.
+> On Aug 26, 2014 2:42 PM, "Zaur Molotnikov" <qutorial@gmail.com> wrote:
+> 
+>> Dear, my day is quite ok. There is nothing special.
+>>
+>> I woke up early. It was raining. Stayed home, worked. Two croissants.
+>> First with honey, second with Waldfrucht Confituere. :) I am looking
+>> forward to have such breakfasts with you, my personal Zajach, who I
+>> love. :*  Next I was reading a book. Chatting a bit with guys, and tried
+>> a new game on Linux, which twins advised me: racing game :)
+>> I had lunch at home, last pack of suis mais, which I do not want to see
+>> until the next summer anymore, and then I went to work. The rain paused.
+>> And it was a good chance. I cleaned the kitchen nicely yesterday. Today
+>> made Kalk away from Kanne. Preparing for you to come.
+>> Then I travelled to work :) Now working hard. Have cool mood and speed.
+>>
+>> I love you, Zajach :)
+>>
+>> On 08/26/2014 01:33 PM, Radka Kolkusová wrote:
+>>> I love you too, medvedik.
+>>>
+>>> now break, if you like, write me something about your day. I am going to
+>>> read all mails now :-)
+>>> Just made tea, jamiiii.
+>>>
+>>> I miss you, looking forward to come to germany and to go to vacation
+>>>
+>>>
+>>> On Tue, Aug 26, 2014 at 2:01 PM, Zaur Molotnikov <qutorial@gmail.com>
+>> wrote:
+>>>
+>>>> I love you, dearest.
+>>>>
+>>>> Enjoy your lectures :)
+>>>>
+>>>> Maybe we will talkbox in the evening.
+>>>>
+>>>> On 08/26/2014 12:51 PM, Radka Kolkusová wrote:
+>>>>> I want sea, sun, beach, medvedik i zajachik under the sun! :-P
+>>>>>
+>>>>>
+>>>>> On Tue, Aug 26, 2014 at 1:50 PM, Radka Kolkusová <
+>>>> radka.kolkusova@gmail.com>
+>>>>> wrote:
+>>>>>
+>>>>>> can't now, I am in the class. can't write a lot, Dear.
+>>>>>>
+>>>>>> will answer later from my hotel room. Today I am not going anywhere,
+>>>> just
+>>>>>> in the hotel (tomorrow is my presentation so I have to prepare it).
+>>>>>>
+>>>>>> just -
+>>>>>>
+>>>>>> 1. I am very much looking forward to live with you!!!! can't wait
+>>>>>> 2. Can= t wait to vacation, especially now, when it's so cold here :-(
+>>>>>>
+>>>>>>
+>>>>>> On Tue, Aug 26, 2014 at 1:48 PM, Zaur Molotnikov <qutorial@gmail.com>
+>>>>>> wrote:
+>>>>>>
+>>>>>>> Waiting :)
+>>>>>>>
+>>>>>>> I know you have not much time, so I will also wait for your answers:
+>>>>>>>
+>>>>>>> about vacation,
+>>>>>>> about living together and expectations (my 15 expectations - you just
+>>>> do
+>>>>>>> not answer)...
+>>>>>>>
+>>>>>>> On 08/26/2014 12:40 PM, Radka Kolkusová wrote:
+>>>>>>>> Yes Dear, only now came to my class!
+>>>>>>>> just writing you a nice email :-)
+>>>>>>>>
+>>>>>>>> wait..
+>>>>>>>>
+>>>>>>>>
+>>>>>>>> On Tue, Aug 26, 2014 at 1:38 PM, Zaur Molotnikov <
+>> qutorial@gmail.com>
+>>>>>>> wrote:
+>>>>>>>>
+>>>>>>>>> Radka, dear this news link is the only mail I received from you
+>>>> today.
+>>>>>>>>>
+>>>>>>>>> Are you healthy, tell me better.
+>>>>>>>>>
+>>>>>>>>> On 08/26/2014 12:22 PM, Radka Kolkusová wrote:
+>>>>>>>>>>
+>>>>>>>>>
+>>>>>>>
+>>>>
+>> http://en.ria.ru/society/20140825/192333372/China-to-Replace-Google-Microsoft-With-Homegrown-OS.html
+>>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>
+>>>>>>>
+>>>>>>
+>>>>>>
+>>>>>
+>>>>
+>>>
+>>
+> 
+
+-- 
+Kind regards,
+Zaur.
+
+Find my PGP key here:
+http://molotnikov.de/zaur/pgp/pgpkey.asc
+http://pgp.mit.edu/pks/lookup?op=get&search=0x5895DF95B549EA42
         </entry>
       </map>
     </option>
@@ -294,6 +707,651 @@ MPSInfoPlist= """<!DOCTYPE plist PUBLIC '-//Apple Computer//DTD PLIST 1.0//EN' '
 <plist version="1.0">
   <!--Generated by MPS-->
   <dict>
+
+On 08/26/2014 04:09 PM, Radka Kolkusová wrote:> Ahoj medveďik,
+> 
+> We finished lectures, and I just came to the hotel. Today it was quite
+> interesting, as I told, tomorrow it's my presentation so I will stay in the
+> hotel all evening and work on it (made nothing till now).
+> 
+> I am also looking forward to have breakfast with you, medveďik! Especially
+> if it's croissants with honey! Like a real medveď! :-)))
+> 
+> Since when you plan computer games? Interesting! :-)))
+> How are guys doing?
+> 
+> I am glad that weather got better, and you were able to go to work.
+> 
+> Now, dear, I am going to make tea and answer your emails you want to be
+> answered...
+> 
+> Love you,
+> R.
+> On Aug 26, 2014 2:42 PM, "Zaur Molotnikov" <qutorial@gmail.com> wrote:
+> 
+>> Dear, my day is quite ok. There is nothing special.
+>>
+>> I woke up early. It was raining. Stayed home, worked. Two croissants.
+>> First with honey, second with Waldfrucht Confituere. :) I am looking
+>> forward to have such breakfasts with you, my personal Zajach, who I
+>> love. :*  Next I was reading a book. Chatting a bit with guys, and tried
+>> a new game on Linux, which twins advised me: racing game :)
+>> I had lunch at home, last pack of suis mais, which I do not want to see
+>> until the next summer anymore, and then I went to work. The rain paused.
+>> And it was a good chance. I cleaned the kitchen nicely yesterday. Today
+>> made Kalk away from Kanne. Preparing for you to come.
+>> Then I travelled to work :) Now working hard. Have cool mood and speed.
+>>
+>> I love you, Zajach :)
+>>
+>> On 08/26/2014 01:33 PM, Radka Kolkusová wrote:
+>>> I love you too, medvedik.
+>>>
+>>> now break, if you like, write me something about your day. I am going to
+>>> read all mails now :-)
+>>> Just made tea, jamiiii.
+>>>
+>>> I miss you, looking forward to come to germany and to go to vacation
+>>>
+>>>
+>>> On Tue, Aug 26, 2014 at 2:01 PM, Zaur Molotnikov <qutorial@gmail.com>
+>> wrote:
+>>>
+>>>> I love you, dearest.
+>>>>
+>>>> Enjoy your lectures :)
+>>>>
+>>>> Maybe we will talkbox in the evening.
+>>>>
+>>>> On 08/26/2014 12:51 PM, Radka Kolkusová wrote:
+>>>>> I want sea, sun, beach, medvedik i zajachik under the sun! :-P
+>>>>>
+>>>>>
+>>>>> On Tue, Aug 26, 2014 at 1:50 PM, Radka Kolkusová <
+>>>> radka.kolkusova@gmail.com>
+>>>>> wrote:
+>>>>>
+>>>>>> can't now, I am in the class. can't write a lot, Dear.
+>>>>>>
+>>>>>> will answer later from my hotel room. Today I am not going anywhere,
+>>>> just
+>>>>>> in the hotel (tomorrow is my presentation so I have to prepare it).
+>>>>>>
+>>>>>> just -
+>>>>>>
+>>>>>> 1. I am very much looking forward to live with you!!!! can't wait
+>>>>>> 2. Can= t wait to vacation, especially now, when it's so cold here :-(
+>>>>>>
+>>>>>>
+>>>>>> On Tue, Aug 26, 2014 at 1:48 PM, Zaur Molotnikov <qutorial@gmail.com>
+>>>>>> wrote:
+>>>>>>
+>>>>>>> Waiting :)
+>>>>>>>
+>>>>>>> I know you have not much time, so I will also wait for your answers:
+>>>>>>>
+>>>>>>> about vacation,
+>>>>>>> about living together and expectations (my 15 expectations - you just
+>>>> do
+>>>>>>> not answer)...
+>>>>>>>
+>>>>>>> On 08/26/2014 12:40 PM, Radka Kolkusová wrote:
+>>>>>>>> Yes Dear, only now came to my class!
+>>>>>>>> just writing you a nice email :-)
+>>>>>>>>
+>>>>>>>> wait..
+>>>>>>>>
+>>>>>>>>
+>>>>>>>> On Tue, Aug 26, 2014 at 1:38 PM, Zaur Molotnikov <
+>> qutorial@gmail.com>
+>>>>>>> wrote:
+>>>>>>>>
+>>>>>>>>> Radka, dear this news link is the only mail I received from you
+>>>> today.
+>>>>>>>>>
+>>>>>>>>> Are you healthy, tell me better.
+>>>>>>>>>
+>>>>>>>>> On 08/26/2014 12:22 PM, Radka Kolkusová wrote:
+>>>>>>>>>>
+>>>>>>>>>
+>>>>>>>
+>>>>
+>> http://en.ria.ru/society/20140825/192333372/China-to-Replace-Google-Microsoft-With-Homegrown-OS.html
+>>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>
+>>>>>>>
+>>>>>>
+>>>>>>
+>>>>>
+>>>>
+>>>
+>>
+> 
+
+
+On 08/26/2014 04:09 PM, Radka Kolkusová wrote:> Ahoj medveďik,
+> 
+> We finished lectures, and I just came to the hotel. Today it was quite
+> interesting, as I told, tomorrow it's my presentation so I will stay in the
+> hotel all evening and work on it (made nothing till now).
+> 
+> I am also looking forward to have breakfast with you, medveďik! Especially
+> if it's croissants with honey! Like a real medveď! :-)))
+> 
+> Since when you plan computer games? Interesting! :-)))
+> How are guys doing?
+> 
+> I am glad that weather got better, and you were able to go to work.
+> 
+> Now, dear, I am going to make tea and answer your emails you want to be
+> answered...
+> 
+> Love you,
+> R.
+> On Aug 26, 2014 2:42 PM, "Zaur Molotnikov" <qutorial@gmail.com> wrote:
+> 
+>> Dear, my day is quite ok. There is nothing special.
+>>
+>> I woke up early. It was raining. Stayed home, worked. Two croissants.
+>> First with honey, second with Waldfrucht Confituere. :) I am looking
+>> forward to have such breakfasts with you, my personal Zajach, who I
+>> love. :*  Next I was reading a book. Chatting a bit with guys, and tried
+>> a new game on Linux, which twins advised me: racing game :)
+>> I had lunch at home, last pack of suis mais, which I do not want to see
+>> until the next summer anymore, and then I went to work. The rain paused.
+>> And it was a good chance. I cleaned the kitchen nicely yesterday. Today
+>> made Kalk away from Kanne. Preparing for you to come.
+>> Then I travelled to work :) Now working hard. Have cool mood and speed.
+>>
+>> I love you, Zajach :)
+>>
+>> On 08/26/2014 01:33 PM, Radka Kolkusová wrote:
+>>> I love you too, medvedik.
+>>>
+>>> now break, if you like, write me something about your day. I am going to
+>>> read all mails now :-)
+>>> Just made tea, jamiiii.
+>>>
+>>> I miss you, looking forward to come to germany and to go to vacation
+>>>
+>>>
+>>> On Tue, Aug 26, 2014 at 2:01 PM, Zaur Molotnikov <qutorial@gmail.com>
+>> wrote:
+>>>
+>>>> I love you, dearest.
+>>>>
+>>>> Enjoy your lectures :)
+>>>>
+>>>> Maybe we will talkbox in the evening.
+>>>>
+>>>> On 08/26/2014 12:51 PM, Radka Kolkusová wrote:
+>>>>> I want sea, sun, beach, medvedik i zajachik under the sun! :-P
+>>>>>
+>>>>>
+>>>>> On Tue, Aug 26, 2014 at 1:50 PM, Radka Kolkusová <
+>>>> radka.kolkusova@gmail.com>
+>>>>> wrote:
+>>>>>
+>>>>>> can't now, I am in the class. can't write a lot, Dear.
+>>>>>>
+>>>>>> will answer later from my hotel room. Today I am not going anywhere,
+>>>> just
+>>>>>> in the hotel (tomorrow is my presentation so I have to prepare it).
+>>>>>>
+>>>>>> just -
+>>>>>>
+>>>>>> 1. I am very much looking forward to live with you!!!! can't wait
+>>>>>> 2. Can= t wait to vacation, especially now, when it's so cold here :-(
+>>>>>>
+>>>>>>
+>>>>>> On Tue, Aug 26, 2014 at 1:48 PM, Zaur Molotnikov <qutorial@gmail.com>
+>>>>>> wrote:
+>>>>>>
+>>>>>>> Waiting :)
+>>>>>>>
+>>>>>>> I know you have not much time, so I will also wait for your answers:
+>>>>>>>
+>>>>>>> about vacation,
+>>>>>>> about living together and expectations (my 15 expectations - you just
+>>>> do
+>>>>>>> not answer)...
+>>>>>>>
+>>>>>>> On 08/26/2014 12:40 PM, Radka Kolkusová wrote:
+>>>>>>>> Yes Dear, only now came to my class!
+>>>>>>>> just writing you a nice email :-)
+>>>>>>>>
+>>>>>>>> wait..
+>>>>>>>>
+>>>>>>>>
+>>>>>>>> On Tue, Aug 26, 2014 at 1:38 PM, Zaur Molotnikov <
+>> qutorial@gmail.com>
+>>>>>>> wrote:
+>>>>>>>>
+>>>>>>>>> Radka, dear this news link is the only mail I received from you
+>>>> today.
+>>>>>>>>>
+>>>>>>>>> Are you healthy, tell me better.
+>>>>>>>>>
+>>>>>>>>> On 08/26/2014 12:22 PM, Radka Kolkusová wrote:
+>>>>>>>>>>
+>>>>>>>>>
+>>>>>>>
+>>>>
+>> http://en.ria.ru/society/20140825/192333372/China-to-Replace-Google-Microsoft-With-Homegrown-OS.html
+>>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>
+>>>>>>>
+>>>>>>
+>>>>>>
+>>>>>
+>>>>
+>>>
+>>
+> 
+
+On 08/26/2014 04:09 PM, Radka Kolkusová wrote:> Ahoj medveďik,
+> 
+> We finished lectures, and I just came to the hotel. Today it was quite
+> interesting, as I told, tomorrow it's my presentation so I will stay in the
+> hotel all evening and work on it (made nothing till now).
+> 
+> I am also looking forward to have breakfast with you, medveďik! Especially
+> if it's croissants with honey! Like a real medveď! :-)))
+> 
+> Since when you plan computer games? Interesting! :-)))
+> How are guys doing?
+> 
+> I am glad that weather got better, and you were able to go to work.
+> 
+> Now, dear, I am going to make tea and answer your emails you want to be
+> answered...
+> 
+> Love you,
+> R.
+> On Aug 26, 2014 2:42 PM, "Zaur Molotnikov" <qutorial@gmail.com> wrote:
+> 
+>> Dear, my day is quite ok. There is nothing special.
+>>
+>> I woke up early. It was raining. Stayed home, worked. Two croissants.
+>> First with honey, second with Waldfrucht Confituere. :) I am looking
+>> forward to have such breakfasts with you, my personal Zajach, who I
+>> love. :*  Next I was reading a book. Chatting a bit with guys, and tried
+>> a new game on Linux, which twins advised me: racing game :)
+>> I had lunch at home, last pack of suis mais, which I do not want to see
+>> until the next summer anymore, and then I went to work. The rain paused.
+>> And it was a good chance. I cleaned the kitchen nicely yesterday. Today
+>> made Kalk away from Kanne. Preparing for you to come.
+>> Then I travelled to work :) Now working hard. Have cool mood and speed.
+>>
+>> I love you, Zajach :)
+>>
+>> On 08/26/2014 01:33 PM, Radka Kolkusová wrote:
+>>> I love you too, medvedik.
+>>>
+>>> now break, if you like, write me something about your day. I am going to
+>>> read all mails now :-)
+>>> Just made tea, jamiiii.
+>>>
+>>> I miss you, looking forward to come to germany and to go to vacation
+>>>
+>>>
+>>> On Tue, Aug 26, 2014 at 2:01 PM, Zaur Molotnikov <qutorial@gmail.com>
+>> wrote:
+>>>
+>>>> I love you, dearest.
+>>>>
+>>>> Enjoy your lectures :)
+>>>>
+>>>> Maybe we will talkbox in the evening.
+>>>>
+>>>> On 08/26/2014 12:51 PM, Radka Kolkusová wrote:
+>>>>> I want sea, sun, beach, medvedik i zajachik under the sun! :-P
+>>>>>
+>>>>>
+>>>>> On Tue, Aug 26, 2014 at 1:50 PM, Radka Kolkusová <
+>>>> radka.kolkusova@gmail.com>
+>>>>> wrote:
+>>>>>
+>>>>>> can't now, I am in the class. can't write a lot, Dear.
+>>>>>>
+>>>>>> will answer later from my hotel room. Today I am not going anywhere,
+>>>> just
+>>>>>> in the hotel (tomorrow is my presentation so I have to prepare it).
+>>>>>>
+>>>>>> just -
+>>>>>>
+>>>>>> 1. I am very much looking forward to live with you!!!! can't wait
+>>>>>> 2. Can= t wait to vacation, especially now, when it's so cold here :-(
+>>>>>>
+>>>>>>
+>>>>>> On Tue, Aug 26, 2014 at 1:48 PM, Zaur Molotnikov <qutorial@gmail.com>
+>>>>>> wrote:
+>>>>>>
+>>>>>>> Waiting :)
+>>>>>>>
+>>>>>>> I know you have not much time, so I will also wait for your answers:
+>>>>>>>
+>>>>>>> about vacation,
+>>>>>>> about living together and expectations (my 15 expectations - you just
+>>>> do
+>>>>>>> not answer)...
+>>>>>>>
+>>>>>>> On 08/26/2014 12:40 PM, Radka Kolkusová wrote:
+>>>>>>>> Yes Dear, only now came to my class!
+>>>>>>>> just writing you a nice email :-)
+>>>>>>>>
+>>>>>>>> wait..
+>>>>>>>>
+>>>>>>>>
+>>>>>>>> On Tue, Aug 26, 2014 at 1:38 PM, Zaur Molotnikov <
+>> qutorial@gmail.com>
+>>>>>>> wrote:
+>>>>>>>>
+>>>>>>>>> Radka, dear this news link is the only mail I received from you
+>>>> today.
+>>>>>>>>>
+>>>>>>>>> Are you healthy, tell me better.
+>>>>>>>>>
+>>>>>>>>> On 08/26/2014 12:22 PM, Radka Kolkusová wrote:
+>>>>>>>>>>
+>>>>>>>>>
+>>>>>>>
+>>>>
+>> http://en.ria.ru/society/20140825/192333372/China-to-Replace-Google-Microsoft-With-Homegrown-OS.html
+>>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>
+>>>>>>>
+>>>>>>
+>>>>>>
+>>>>>
+>>>>
+>>>
+>>
+> 
+
+-- 
+
+On 08/26/2014 04:09 PM, Radka Kolkusová wrote:> Ahoj medveďik,
+> 
+> We finished lectures, and I just came to the hotel. Today it was quite
+> interesting, as I told, tomorrow it's my presentation so I will stay in the
+> hotel all evening and work on it (made nothing till now).
+> 
+> I am also looking forward to have breakfast with you, medveďik! Especially
+> if it's croissants with honey! Like a real medveď! :-)))
+> 
+> Since when you plan computer games? Interesting! :-)))
+> How are guys doing?
+> 
+> I am glad that weather got better, and you were able to go to work.
+> 
+> Now, dear, I am going to make tea and answer your emails you want to be
+> answered...
+> 
+> Love you,
+> R.
+> On Aug 26, 2014 2:42 PM, "Zaur Molotnikov" <qutorial@gmail.com> wrote:
+> 
+>> Dear, my day is quite ok. There is nothing special.
+>>
+>> I woke up early. It was raining. Stayed home, worked. Two croissants.
+>> First with honey, second with Waldfrucht Confituere. :) I am looking
+>> forward to have such breakfasts with you, my personal Zajach, who I
+>> love. :*  Next I was reading a book. Chatting a bit with guys, and tried
+>> a new game on Linux, which twins advised me: racing game :)
+>> I had lunch at home, last pack of suis mais, which I do not want to see
+>> until the next summer anymore, and then I went to work. The rain paused.
+>> And it was a good chance. I cleaned the kitchen nicely yesterday. Today
+>> made Kalk away from Kanne. Preparing for you to come.
+>> Then I travelled to work :) Now working hard. Have cool mood and speed.
+>>
+>> I love you, Zajach :)
+>>
+>> On 08/26/2014 01:33 PM, Radka Kolkusová wrote:
+>>> I love you too, medvedik.
+>>>
+>>> now break, if you like, write me something about your day. I am going to
+>>> read all mails now :-)
+>>> Just made tea, jamiiii.
+>>>
+>>> I miss you, looking forward to come to germany and to go to vacation
+>>>
+>>>
+>>> On Tue, Aug 26, 2014 at 2:01 PM, Zaur Molotnikov <qutorial@gmail.com>
+>> wrote:
+>>>
+>>>> I love you, dearest.
+>>>>
+>>>> Enjoy your lectures :)
+>>>>
+>>>> Maybe we will talkbox in the evening.
+>>>>
+>>>> On 08/26/2014 12:51 PM, Radka Kolkusová wrote:
+>>>>> I want sea, sun, beach, medvedik i zajachik under the sun! :-P
+>>>>>
+>>>>>
+>>>>> On Tue, Aug 26, 2014 at 1:50 PM, Radka Kolkusová <
+>>>> radka.kolkusova@gmail.com>
+>>>>> wrote:
+>>>>>
+>>>>>> can't now, I am in the class. can't write a lot, Dear.
+>>>>>>
+>>>>>> will answer later from my hotel room. Today I am not going anywhere,
+>>>> just
+>>>>>> in the hotel (tomorrow is my presentation so I have to prepare it).
+>>>>>>
+>>>>>> just -
+>>>>>>
+>>>>>> 1. I am very much looking forward to live with you!!!! can't wait
+>>>>>> 2. Can= t wait to vacation, especially now, when it's so cold here :-(
+>>>>>>
+>>>>>>
+>>>>>> On Tue, Aug 26, 2014 at 1:48 PM, Zaur Molotnikov <qutorial@gmail.com>
+>>>>>> wrote:
+>>>>>>
+>>>>>>> Waiting :)
+>>>>>>>
+>>>>>>> I know you have not much time, so I will also wait for your answers:
+>>>>>>>
+>>>>>>> about vacation,
+>>>>>>> about living together and expectations (my 15 expectations - you just
+>>>> do
+>>>>>>> not answer)...
+>>>>>>>
+>>>>>>> On 08/26/2014 12:40 PM, Radka Kolkusová wrote:
+>>>>>>>> Yes Dear, only now came to my class!
+>>>>>>>> just writing you a nice email :-)
+>>>>>>>>
+>>>>>>>> wait..
+>>>>>>>>
+>>>>>>>>
+>>>>>>>> On Tue, Aug 26, 2014 at 1:38 PM, Zaur Molotnikov <
+>> qutorial@gmail.com>
+>>>>>>> wrote:
+>>>>>>>>
+>>>>>>>>> Radka, dear this news link is the only mail I received from you
+>>>> today.
+>>>>>>>>>
+>>>>>>>>> Are you healthy, tell me better.
+>>>>>>>>>
+>>>>>>>>> On 08/26/2014 12:22 PM, Radka Kolkusová wrote:
+>>>>>>>>>>
+>>>>>>>>>
+>>>>>>>
+>>>>
+>> http://en.ria.ru/society/20140825/192333372/China-to-Replace-Google-Microsoft-With-Homegrown-OS.html
+>>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>
+>>>>>>>
+>>>>>>
+>>>>>>
+>>>>>
+>>>>
+>>>
+>>
+> 
+
+-- 
+Kind regards,
+Zaur.
+
+
+On 08/26/2014 04:09 PM, Radka Kolkusová wrote:> Ahoj medveďik,
+> 
+> We finished lectures, and I just came to the hotel. Today it was quite
+> interesting, as I told, tomorrow it's my presentation so I will stay in the
+> hotel all evening and work on it (made nothing till now).
+> 
+> I am also looking forward to have breakfast with you, medveďik! Especially
+> if it's croissants with honey! Like a real medveď! :-)))
+> 
+> Since when you plan computer games? Interesting! :-)))
+> How are guys doing?
+> 
+> I am glad that weather got better, and you were able to go to work.
+> 
+> Now, dear, I am going to make tea and answer your emails you want to be
+> answered...
+> 
+> Love you,
+> R.
+> On Aug 26, 2014 2:42 PM, "Zaur Molotnikov" <qutorial@gmail.com> wrote:
+> 
+>> Dear, my day is quite ok. There is nothing special.
+>>
+>> I woke up early. It was raining. Stayed home, worked. Two croissants.
+>> First with honey, second with Waldfrucht Confituere. :) I am looking
+>> forward to have such breakfasts with you, my personal Zajach, who I
+>> love. :*  Next I was reading a book. Chatting a bit with guys, and tried
+>> a new game on Linux, which twins advised me: racing game :)
+>> I had lunch at home, last pack of suis mais, which I do not want to see
+>> until the next summer anymore, and then I went to work. The rain paused.
+>> And it was a good chance. I cleaned the kitchen nicely yesterday. Today
+>> made Kalk away from Kanne. Preparing for you to come.
+>> Then I travelled to work :) Now working hard. Have cool mood and speed.
+>>
+>> I love you, Zajach :)
+>>
+>> On 08/26/2014 01:33 PM, Radka Kolkusová wrote:
+>>> I love you too, medvedik.
+>>>
+>>> now break, if you like, write me something about your day. I am going to
+>>> read all mails now :-)
+>>> Just made tea, jamiiii.
+>>>
+>>> I miss you, looking forward to come to germany and to go to vacation
+>>>
+>>>
+>>> On Tue, Aug 26, 2014 at 2:01 PM, Zaur Molotnikov <qutorial@gmail.com>
+>> wrote:
+>>>
+>>>> I love you, dearest.
+>>>>
+>>>> Enjoy your lectures :)
+>>>>
+>>>> Maybe we will talkbox in the evening.
+>>>>
+>>>> On 08/26/2014 12:51 PM, Radka Kolkusová wrote:
+>>>>> I want sea, sun, beach, medvedik i zajachik under the sun! :-P
+>>>>>
+>>>>>
+>>>>> On Tue, Aug 26, 2014 at 1:50 PM, Radka Kolkusová <
+>>>> radka.kolkusova@gmail.com>
+>>>>> wrote:
+>>>>>
+>>>>>> can't now, I am in the class. can't write a lot, Dear.
+>>>>>>
+>>>>>> will answer later from my hotel room. Today I am not going anywhere,
+>>>> just
+>>>>>> in the hotel (tomorrow is my presentation so I have to prepare it).
+>>>>>>
+>>>>>> just -
+>>>>>>
+>>>>>> 1. I am very much looking forward to live with you!!!! can't wait
+>>>>>> 2. Can= t wait to vacation, especially now, when it's so cold here :-(
+>>>>>>
+>>>>>>
+>>>>>> On Tue, Aug 26, 2014 at 1:48 PM, Zaur Molotnikov <qutorial@gmail.com>
+>>>>>> wrote:
+>>>>>>
+>>>>>>> Waiting :)
+>>>>>>>
+>>>>>>> I know you have not much time, so I will also wait for your answers:
+>>>>>>>
+>>>>>>> about vacation,
+>>>>>>> about living together and expectations (my 15 expectations - you just
+>>>> do
+>>>>>>> not answer)...
+>>>>>>>
+>>>>>>> On 08/26/2014 12:40 PM, Radka Kolkusová wrote:
+>>>>>>>> Yes Dear, only now came to my class!
+>>>>>>>> just writing you a nice email :-)
+>>>>>>>>
+>>>>>>>> wait..
+>>>>>>>>
+>>>>>>>>
+>>>>>>>> On Tue, Aug 26, 2014 at 1:38 PM, Zaur Molotnikov <
+>> qutorial@gmail.com>
+>>>>>>> wrote:
+>>>>>>>>
+>>>>>>>>> Radka, dear this news link is the only mail I received from you
+>>>> today.
+>>>>>>>>>
+>>>>>>>>> Are you healthy, tell me better.
+>>>>>>>>>
+>>>>>>>>> On 08/26/2014 12:22 PM, Radka Kolkusová wrote:
+>>>>>>>>>>
+>>>>>>>>>
+>>>>>>>
+>>>>
+>> http://en.ria.ru/society/20140825/192333372/China-to-Replace-Google-Microsoft-With-Homegrown-OS.html
+>>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>
+>>>>>>>
+>>>>>>
+>>>>>>
+>>>>>
+>>>>
+>>>
+>>
+> 
+
+-- 
+Kind regards,
+Zaur.
+
+Find my PGP key here:
+http://molotnikov.de/zaur/pgp/pgpkey.asc
+http://pgp.mit.edu/pks/lookup?op=get&search=0x5895DF95B549EA42
+Find my PGP key here:
+http://molotnikov.de/zaur/pgp/pgpkey.asc
+http://pgp.mit.edu/pks/lookup?op=get&search=0x5895DF95B549EA42
+Kind regards,
+Zaur.
+
+Find my PGP key here:
+http://molotnikov.de/zaur/pgp/pgpkey.asc
+http://pgp.mit.edu/pks/lookup?op=get&search=0x5895DF95B549EA42
+
+-- 
+Kind regards,
+Zaur.
+
+Find my PGP key here:
+http://molotnikov.de/zaur/pgp/pgpkey.asc
+http://pgp.mit.edu/pks/lookup?op=get&search=0x5895DF95B549EA42
+-- 
+Kind regards,
+Zaur.
+
+Find my PGP key here:
+http://molotnikov.de/zaur/pgp/pgpkey.asc
+http://pgp.mit.edu/pks/lookup?op=get&search=0x5895DF95B549EA42
     <key>CFBundleName</key>
     <string>MPS</string>
     <key>CFBundleGetInfoString</key>
@@ -362,7 +1420,7 @@ MPSInfoPlist= """<!DOCTYPE plist PUBLIC '-//Apple Computer//DTD PLIST 1.0//EN' '
         <string>IdeaConfig</string>
       </dict>
       <key>VMOptions</key>
-      <string>-client -Xss1024k -ea -Xmx1100m -XX:MaxPermSize=256m -XX:NewSize=256m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8 -Dapple.awt.graphics.UseQuartz=true -Didea.paths.selector=MPS31</string>
+      <string>-client -Xss1024k -ea """ + JAVA_XMX + """ -XX:MaxPermSize=256m -XX:NewSize=256m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8 -Dapple.awt.graphics.UseQuartz=true -Didea.paths.selector=MPS31</string>
       <key>WorkingDirectory</key>
       <string>$APP_PACKAGE/bin</string>
     </dict>
@@ -1609,17 +2667,18 @@ def main():
   
   greetings(MPSDir, MbeddrDir, dest);
 
-
 def RUN_TESTS():
-  log (  "URL Parsing: ", TEST_getFileNameFromUrl() );
-  log (  "OS Detection: ", TEST_getOS() );
-  log (  "Git Detection: ", TEST_checkGit() );
-  log (  "Java Detection: ", TEST_checkJava() );
-  log (  "Ant Detection: ", TEST_checkAnt() );
-  log (  "CBMC Installer Init: ", TEST_getCBMCInstaller() );
-  log (  "CBMC Detection: ", TEST_checkCBMC() );
-  log (  "MPS URL: ", TEST_getMPSUrl() );
-  log (  "MPS Installer Init: ", TEST_getMPSInstaller() );
+  log (  "URL Parsing:\t\t", TEST_getFileNameFromUrl() );
+  log (  "OS Detection:\t\t", TEST_getOS() );
+  log (  "Git Detection:\t\t", TEST_checkGit() );
+  log (  "Java Detection:\t\t", TEST_checkJava() );
+  log (  "Ant Detection:\t\t", TEST_checkAnt() );
+  log (  "CBMC Installer:\t\t", TEST_getCBMCInstaller() );
+  log (  "CBMC Detection:\t\t", TEST_checkCBMC() );
+  log (  "MPS URL:\t\t", TEST_getMPSUrl() );
+  log (  "MPS Installer:\t\t", TEST_getMPSInstaller() );
+  log (  "MPS VM Options:\t\t", TEST_getMPSVmoptions() );
+  
   
 #RUN_TESTS();
 #exit(1);
