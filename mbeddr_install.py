@@ -2273,8 +2273,8 @@ class MPSInstallerForWin(MPSInstallerBase):
   def setUpMPSHook(self, dest):
     log ( "Running the installer..." );
     
-    log ( " * Please, specify this directory in MPS Installer: " + convertPathToNative(self.getMPSEndPath(dest))); 
-    log ( "Press Enter key to continue" );
+    log ( " * Please, specify this directory in MPS Installer:\n\t" + convertPathToNative(self.getMPSEndPath(dest)) + "\n" ); 
+    log ( "Note the message above and press Enter key to continue..." );
     input();    
     
     makeExecutable(self.archive);
