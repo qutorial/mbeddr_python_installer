@@ -2431,6 +2431,11 @@ def configureMPSWithMbeddr(MPSDir, MbeddrDir):
   
   writeIdeaProperties(MPSDir, ConfigPath, SysPath);
   
+  if onLinux():
+    debug ( "Setting mps.vmoptions" );
+    rewriteFile(os.path.join(MPSDir, "bin", "mps.vmoptions"), getMPSVmoptions());
+    rewriteFile(os.path.join(MPSDir, "bin", "mps64.vmoptions"), getMPSVmoptions());
+  
   if onMac():
     debug ( "Configurring Info.Plist on Mac");
     configureInfoPlist(MPSDir, ConfigPath, SysPath);
@@ -2439,6 +2444,10 @@ def configureMPSWithMbeddr(MPSDir, MbeddrDir):
     debug ( "Configurring mps.bat on Windows" );    
     global MPS_BAT_WITH_ENV
     rewriteFile(os.path.join(MPSDir, MPSBatName), MPS_BAT_WITH_ENV);
+    debug ( "Setting mps.vmoptions" );
+    rewriteFile(os.path.join(MPSDir, "bin", "mps.exe.vmoptions"), getMPSVmoptions());
+    rewriteFile(os.path.join(MPSDir, "bin", "mps64.exe.vmoptions"), getMPSVmoptions());
+    
     
 def testConfigureMPSWithMbeddr():
   dest = prepareDestDir(False);
