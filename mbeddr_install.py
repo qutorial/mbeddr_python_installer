@@ -2504,7 +2504,7 @@ def configureMbeddr(MPSDir, MbeddrDir):
 def buildMbeddr(MbeddrDir):
   BuildPath = os.path.join(MbeddrDir, "code", "languages");
   os.chdir(BuildPath);
-  scriptname = "buildLanguages.sh";  
+  scriptname = "offlineBuildLanguages.sh";  
   scriptname = os.path.join(BuildPath, scriptname);  
   os.system(scriptname);
   
