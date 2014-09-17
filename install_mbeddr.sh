@@ -33,21 +33,21 @@ if [ "$?" -ne 0 ]; then
 fi
 
 if [ "${UNAME}" = "Linux" ]; then
-  mi=`mktemp` && wget --no-cache -nv $URL -O $mi && python3 $mi; 
+  mi=`mktemp` && wget --no-cache -nv $URL -O $mi && $PYTHON $mi; 
   res=$?;
   rm $mi;
   exit $res;
 fi
 
 if [[ "${UNAME}" == CYGWIN* ]]; then
-  mi=`mktemp` && wget --no-cache -nv $URL -O $mi && python3 $mi; 
+  mi=`mktemp` && wget --no-cache -nv $URL -O $mi && $PYTHON $mi; 
   res=$?;
   rm $mi;
   exit $res;
 fi
 
 if [ "${UNAME}" = "Darwin" ]; then
-  mi=`mktemp /tmp/mbeddr_install.py.XXXXX` && curl -L  $URL -o $mi && python3 $mi;
+  mi=`mktemp /tmp/mbeddr_install.py.XXXXX` && curl -L  $URL -o $mi && $PYTHON $mi;
   res=$?;
   rm $mi;
   exit $res;
