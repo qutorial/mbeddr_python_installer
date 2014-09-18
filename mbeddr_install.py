@@ -1542,7 +1542,7 @@ def greetings(MPSDir, MbeddrDir, dest):
   log (  os.path.join(MbeddrDir, "code", "application"),""" folder.\n"""   );
   log (  """\nVisit mbeddr.com to learn what's new!\n"""   );
   log (  """ * A user guide PDF has been downloaded to the destination folder!""" );
-  log (  """ * See the README.txt file for the further instructions and basic troubleshooting."""  );
+  log (  """ >>> HOW TO START <<< See the README.txt file for the further instructions and basic troubleshooting."""  );
   
   log (  "\nWelcome to mbeddr. C the difference C the future.\n" );
   log (  "-----------------------------------------------------------\n" );
