@@ -128,7 +128,7 @@ WindowsMbeddrDesktopLinkName = """mbeddr.lnk""";
 MPSBatName = """mps.bat"""
 
 MPSVolumesDir = """/Volumes/""" #MPSVolumesDir = """/Volumes/MPS 3.1/MPS 3.1.app"""
-MPSDestDirMac = "MPS31.app"
+MPSDestDirMac = "MPS31.app/Contents"
 
 MPS_VM_OPTIONS = """-client                                                                                                                              
 -Xss1024k                                                                                                                            
