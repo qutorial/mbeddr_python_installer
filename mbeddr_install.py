@@ -88,6 +88,14 @@ def TEST_getOS():
     return True;
   return False;
 
+
+def fixLineEndings(text):
+  if onWindows():
+    return text.replace("\r\n", "\n").replace("\n", "\r\n");
+  else:
+    return text.replace("\r\n", "\n");
+  
+  
 ################### -- CONFIGURATION -- ###################
 
 # MBEDDR CONFIGURATION
@@ -101,6 +109,9 @@ mps.platform.caches=MPSCaches
 # Points to the root folder of the mbeddr.core repository
 mbeddr.github.core.home=MbeddrDir
 """
+BuildProperties = fixLineEndings(BuildProperties);
+
+
 def getMbeddrDestDir(dest):
   return os.path.join(dest, "mbeddr.github");
 
@@ -144,6 +155,7 @@ MPS_VM_OPTIONS = """-client
 -Dapple.awt.graphics.UseQuartz=true
 -Didea.paths.selector=MPS31
 """
+MPS_VM_OPTIONS = fixLineEndings(MPS_VM_OPTIONS);
 
 def getMPSVmoptions():
   global MPS_VM_OPTIONS;
@@ -228,6 +240,7 @@ goto :eof
 set ACC=%1
 goto :eof
 """
+MPS_BAT_WITH_ENV = fixLineEndings(MPS_BAT_WITH_ENV);
 
 IdeaPropertiesPriv= """#---------------------------------------------------------------------
 # Uncomment this option if you want to customize path to MPS config folder
@@ -288,6 +301,7 @@ sun.java2d.d3d=false
 #----------------------------------------------------------------------
 sun.java2d.pmoffscreen=false
 """
+IdeaPropertiesPriv = fixLineEndings(IdeaPropertiesPriv);
 
 def getTemplateForMPSProperties():
   return IdeaPropertiesPriv;
@@ -309,6 +323,7 @@ MPSLibraryManager = """<?xml version="1.0" encoding="UTF-8"?>
     </option>
   </component>
 </application>"""
+MPSLibraryManager = fixLineEndings(MPSLibraryManager);
 
 MPSPathMacros = """<?xml version="1.0" encoding="UTF-8"?>
 <application>
@@ -317,6 +332,7 @@ MPSPathMacros = """<?xml version="1.0" encoding="UTF-8"?>
   </component>
 </application>
 """
+MPSPathMacros = fixLineEndings(MPSPathMacros);
 
 MPSInfoPlist= """<!DOCTYPE plist PUBLIC '-//Apple Computer//DTD PLIST 1.0//EN' 'http://www.apple.com/DTDs/PropertyList-1.0.dtd'>
 <plist version="1.0">
@@ -396,6 +412,7 @@ MPSInfoPlist= """<!DOCTYPE plist PUBLIC '-//Apple Computer//DTD PLIST 1.0//EN' '
     </dict>
   </dict>
 </plist>"""
+MPSInfoPlist = fixLineEndings(MPSInfoPlist);
 
 # CBMC CONFIGURATION
 CBMCVersion="""4"""
@@ -882,7 +899,7 @@ class CBMCInstallerBase:
   def getCBMCCopyright(self): 
     return self.getCBMCIntro() + self.getOnlyCBMCCopyright();
   
-  def getCBMCFallbackLicense(self):
+  def getCBMCFallbackLicensePriv(self):
     return """(C) 2001-2008, Daniel Kroening, ETH Zurich,
 Edmund Clarke, Computer Science Department, Carnegie Mellon University
 
@@ -920,6 +937,9 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
 LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
 OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 DAMAGE.\n"""
+
+  def getCBMCFallbackLicense(self):
+    return fixLineEndings(self.getCBMCFallbackLicensePriv());
 
   def getCBMCLicense(self):
     try:
@@ -1555,7 +1575,7 @@ https://github.com/qutorial/mbeddr_python_installer
 """ );
 
 def printErrorMessage():
-  log (  """The installation went wrong, unfortunately.
+  msg =  """The installation went wrong, unfortunately.
 
 Please, report an issue on the installer's GitHub page:
 https://github.com/qutorial/mbeddr_python_installer
@@ -1565,7 +1585,9 @@ difficulties, what did not work for you? Which environment did you have, in part
 Please, include the error messages appearing above on the console.
 
 This installer is created by Zaur Molotnikov ( molotnikov at fortiss dot org ).
-Please, write an email on this address, if you experience troubles using the installer or mbeddr.""" );
+Please, write an email on this address, if you experience troubles using the installer or mbeddr.""" ;
+  msg = fixLineEndings(msg);
+  log ( msg );
   
 # ---------- END OF :  FINAL GREETINGS ------------
 
@@ -1660,8 +1682,8 @@ def RUN_TESTS():
   log (  "MPS VM Options:\t\t", TEST_getMPSVmoptions() );
   
   
-#RUN_TESTS();
-#exit(1);
+RUN_TESTS();
+exit(1);
 
 def reportException(exc_type, exc_value, exc_traceback):
   log (  "\nException:" )
