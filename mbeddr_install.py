@@ -1682,8 +1682,8 @@ def RUN_TESTS():
   log (  "MPS VM Options:\t\t", TEST_getMPSVmoptions() );
   
   
-RUN_TESTS();
-exit(1);
+#RUN_TESTS();
+#exit(1);
 
 def reportException(exc_type, exc_value, exc_traceback):
   log (  "\nException:" )
