@@ -107,6 +107,8 @@ def getMbeddrDestDir(dest):
 # MPS CONFIGURATION
 
 JAVA_XMX="-Xmx2048m"
+if onWindows():
+  JAVA_XMX="-Xmx700m"
 
 MPSMac = """https://raw.githubusercontent.com/mbeddr/mbeddr.core/"""+TheBranch+"""/versions/MPSMac.txt"""
 MPSLin = """https://raw.githubusercontent.com/mbeddr/mbeddr.core/"""+TheBranch+"""/versions/MPSLin.txt"""
@@ -130,16 +132,16 @@ MPSBatName = """mps.bat"""
 MPSVolumesDir = """/Volumes/""" #MPSVolumesDir = """/Volumes/MPS 3.1/MPS 3.1.app"""
 MPSDestDirMac = "MPS31.app/Contents"
 
-MPS_VM_OPTIONS = """-client                                                                                                                              
--Xss1024k                                                                                                                            
+MPS_VM_OPTIONS = """-client
+-Xss1024k
 -ea                                                                                                                                  
-""" + JAVA_XMX + """                                                                                                                            
--XX:MaxPermSize=256m                                                                                                                 
--XX:NewSize=256m                                                                                                                     
--XX:+HeapDumpOnOutOfMemoryError                                                                                                      
--Xverify:none                                                                                                                        
--Dfile.encoding=UTF-8                                                                                                                
--Dapple.awt.graphics.UseQuartz=true                                                                                                  
+""" + JAVA_XMX + """
+-XX:MaxPermSize=256m
+-XX:NewSize=256m
+-XX:+HeapDumpOnOutOfMemoryError
+-Xverify:none
+-Dfile.encoding=UTF-8
+-Dapple.awt.graphics.UseQuartz=true
 -Didea.paths.selector=MPS31
 """
 
