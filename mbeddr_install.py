@@ -145,7 +145,7 @@ MPSDestDirMac = "MPS31.app/Contents"
 
 MPS_VM_OPTIONS = """-client
 -Xss1024k
--ea                                                                                                                                  
+-ea
 """ + JAVA_XMX + """
 -XX:MaxPermSize=256m
 -XX:NewSize=256m
