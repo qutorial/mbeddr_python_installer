@@ -1465,7 +1465,8 @@ def cloneMbeddr(MbeddrDir, branch):
   if onWindows():    
     os.environ['PATH'] = "/usr/bin"+ os.pathsep + "/bin";  
   
-  os.system("git clone --recursive -b " + branch + " " + MbeddrRepo+ " .");  
+  # Added depth 1 to save the space
+  os.system("git clone --depth 1 --recursive -b " + branch + " " + MbeddrRepo+ " .");  
   
   if onWindows():
     os.environ['PATH'] = theOldPath;
