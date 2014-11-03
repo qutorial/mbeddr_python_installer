@@ -1376,8 +1376,9 @@ def configureInfoPlist(MPSDir, ConfigPath, SysPath):
 
 def getIdeaPropertiesFile(MPSDir):
   firstPart = os.path.join(MPSDir);
-  if onMac():
-    firstPart = os.path.join(firstPart, "Contents");  
+# Preparing for MPS 3.1.5
+#  if onMac():
+#    firstPart = os.path.join(firstPart, "Contents");  
   return os.path.join(firstPart, "bin", "idea.properties");
     
 
