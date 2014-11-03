@@ -1374,9 +1374,13 @@ def configureInfoPlist(MPSDir, ConfigPath, SysPath):
 
 # END OF MAC PART
 
-def getIdeaPropertiesFile(MPSDir):
-  return os.path.join(MPSDir, "bin", "idea.properties");
+def getIdeaPropertiesFilePrivate(MPSDir):
+  firstPart = os.path.join(MPSDir);
+  if onMac():
+    firstPart = os.path.join(firstPart, "Contents");  
+  os.path.join(firstPart, "bin", "idea.properties");
     
+
   
 def writeIdeaProperties (MPSDir, ConfigPath, SysPath):  
   optsPath = getIdeaPropertiesFile(MPSDir)
