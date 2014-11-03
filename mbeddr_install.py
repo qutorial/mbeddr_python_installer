@@ -1374,7 +1374,7 @@ def configureInfoPlist(MPSDir, ConfigPath, SysPath):
 
 # END OF MAC PART
 
-def getIdeaPropertiesFilePrivate(MPSDir):
+def getIdeaPropertiesFile(MPSDir):
   firstPart = os.path.join(MPSDir);
   if onMac():
     firstPart = os.path.join(firstPart, "Contents");  
