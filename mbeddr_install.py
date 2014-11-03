@@ -1378,7 +1378,7 @@ def getIdeaPropertiesFile(MPSDir):
   firstPart = os.path.join(MPSDir);
   if onMac():
     firstPart = os.path.join(firstPart, "Contents");  
-  os.path.join(firstPart, "bin", "idea.properties");
+  return os.path.join(firstPart, "bin", "idea.properties");
     
 
   
