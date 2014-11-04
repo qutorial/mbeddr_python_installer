@@ -1490,6 +1490,9 @@ def getBuildProperties(MPSDir, MbeddrDir):
   if onWindows():
     return BuildProperties.replace("MPSDir", p2nfs(MPSDir)).replace("MPSCaches", p2nfs(caches)).replace("MbeddrDir", p2nfs(MbeddrDir));
   else:
+    if onMac():
+      MPSDir = os.path.join(MPSDir, "Contents");
+      
     return BuildProperties.replace("MPSDir", MPSDir).replace("MPSCaches", caches).replace("MbeddrDir", MbeddrDir)
   
 def configureMbeddr(MPSDir, MbeddrDir):    
