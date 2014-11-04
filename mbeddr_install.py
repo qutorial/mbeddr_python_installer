@@ -141,7 +141,7 @@ WindowsMbeddrDesktopLinkName = """mbeddr.lnk""";
 MPSBatName = """mps.bat"""
 
 MPSVolumesDir = """/Volumes/""" #MPSVolumesDir = """/Volumes/MPS 3.1/MPS 3.1.app"""
-MPSContentsDirMac = "MPS31.app/Contents"
+MPSContentsDirMac = "MPS31.app"
 
 MPS_VM_OPTIONS = """-client
 -Xss1024k
@@ -1353,7 +1353,7 @@ def replaceConfigAndSystemPaths(template, ConfigPath, SysPath):
   return opts;
 
 def getFileNameToWriteInfoPlistTo(MPSDir):
-  return os.path.join(MPSDir, "Info.plist");
+  return os.path.join(MPSDir, "Contents", "Info.plist");
     
 def getTemplateForMPSInfoPlist():
   return MPSInfoPlist;
