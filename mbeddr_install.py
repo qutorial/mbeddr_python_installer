@@ -100,8 +100,11 @@ def fixLineEndings(text):
 
 # MBEDDR CONFIGURATION
 MbeddrRepo = """https://github.com/mbeddr/mbeddr.core.git"""
+MbeddrRepoPush = """git@github.com:mbeddr/mbeddr.core.git"""
+
 #TheBranch = "fortiss_stable"
 TheBranch = "master"
+
 BuildProperties = """# MPS installation
 mps.home=MPSDir
 # Folder where MPS stores it's cache
@@ -1471,6 +1474,9 @@ def cloneMbeddr(MbeddrDir, branch):
   
   # Added depth 1 to save the space
   os.system("git clone --depth 1 --recursive -b " + branch + " " + MbeddrRepo+ " .");  
+  
+  # SSH address to push to the repo
+  os.system("git remote set-url --add --push origin " + MbeddrRepoPush);
   
   if onWindows():
     os.environ['PATH'] = theOldPath;
