@@ -27,8 +27,8 @@ URL="https://github.com/qutorial/mbeddr_python_installer/raw/"$BRANCH"/mbeddr_in
 
 PYTHON=""
 
-arr="python3
-python3.4
+arr="python3.4
+python3
 python3.3
 python3.2"
 
