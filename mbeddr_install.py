@@ -343,7 +343,7 @@ MPSGenerationSettings = """<?xml version="1.0" encoding="UTF-8"?>
     <option name="myCheckModelsBeforeGeneration" value="false" />
   </component>
 </application>"""
-MPSGeneralSettings = fixLineEndings(MPSGeneralSettings);
+MPSGenerationSettings = fixLineEndings(MPSGenerationSettings);
 
 MPSIdeGeneral = """<?xml version="1.0" encoding="UTF-8"?>
 <application>
