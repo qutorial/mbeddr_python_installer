@@ -447,7 +447,7 @@ MPSInfoPlist = fixLineEndings(MPSInfoPlist);
 
 # CBMC CONFIGURATION
 CBMCVersion="""4"""
-CBMCSubVersion = """7"""
+CBMCSubVersion = """9"""
 
 #Linux
 CBMC32BitLinuxUrl = """http://www.cprover.org/cbmc/download/cbmc-""" + CBMCVersion + "-" + CBMCSubVersion + """-linux-32.tgz"""
