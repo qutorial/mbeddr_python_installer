@@ -1,4 +1,4 @@
-#!python3
+#!/usr/bin/env python3
 # THE WAY TO RUN THE NEWEST SCRIPT VERSION
 
 #bash command to run it on Linux
@@ -896,18 +896,20 @@ def locateAndExecuteCBMC():
         debug ( "Located Existing CBMC at: " + CBMCEndPathWin );
         makeAllExesExecutable(CBMCEndPathWin);
         replaceCbmcbinInBat(CBMCEndPathWin);
-        return getOutput([cbmcExe, "--version"]);  
+        return getOutput([cbmcExe, "--version"])[0];
   
   #if stuff above did not work for windows - last attempt and solution for Unix
   return getOutput(["cbmc", "--version"]);
   
 class CBMCInstallerBase:
+  def versiontuple(self, v):
+    return tuple(map(int, (v.split("."))))
   
   def getCBMCVersion(self):
     return CBMCVersion + "." + CBMCSubVersion
     
   def checkCBMCVersion(self, cbmc):
-    if self.getCBMCVersion() in cbmc:      
+    if self.versiontuple(self.getCBMCVersion()) <= self.versiontuple(cbmc):
       return True;
     else:
       return "Unrecognized CBMC C Prover version\n"
