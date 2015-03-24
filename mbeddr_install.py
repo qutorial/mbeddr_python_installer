@@ -1689,6 +1689,7 @@ def main():
          log ( "Please, consider fixing it by executing this command:" );
          log ( "sudo ln -s -f /usr/share/java/jaxp-1.4.jar /usr/share/java/xmlParserAPIs.jar" );
          log ( "The build might fail otherwise, see the details: https://youtrack.jetbrains.com/issue/MPS-21734" );
+         log ( "Press Enter to continue..." );
          input();
     except:
       exc_type, exc_value, exc_traceback = sys.exc_info();
