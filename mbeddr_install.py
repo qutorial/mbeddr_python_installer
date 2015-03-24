@@ -1680,10 +1680,10 @@ def main():
     log (  j );
     return 1;  
   
+  # Working around the XML Parser API problem on Debian systems.
   if onLinux():
     try:
-      xmlJar = getOutput("readlink /usr/share/java/xmlParserAPIs.jar");
-      log ( xmlJar );
+      xmlJar = getOutput("readlink /usr/share/java/xmlParserAPIs.jar");      
       if '1.3' in xmlJar:
          log ( "Your Linux distribution seem to have a bug linking to a wrong xmlParserAPIs." );
          log ( "Please, consider fixing it by executing this command:" );
