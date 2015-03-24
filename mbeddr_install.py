@@ -50,9 +50,12 @@ LINUX32 = "Lin32"
 LINUX64 = "Lin64"
 MACOS = "Mac"
 WINDOWS = "Win"
-    
+
+def getPlatform():
+  return platform.platform();
+   
 def getOS():
-  s = platform.platform()
+  s = getPlatform();
   if "Lin" in s:
     if platform.architecture()[0] == '64bit':
       return LINUX64
@@ -1645,6 +1648,13 @@ def checkRights():
     if rc != 0:
       log ( "\nPlease, run Cygwin Terminal as an Administrator!" );
       raise ShutDownSilently();
+    
+
+def reportException(exc_type, exc_value, exc_traceback):
+  log (  "\nException:" )
+  traceback.print_exception(exc_type, exc_value, exc_traceback)
+  log (  "\n" )
+  printErrorMessage()
   
 def main():  
 
@@ -1669,6 +1679,23 @@ def main():
   if j != True:
     log (  j );
     return 1;  
+  
+  if onLinux():
+    try:
+      xmlJar = getOutput("readlink /usr/share/java/xmlParserAPIs.jar");
+      log ( xmlJar );
+      if '1.3' in xmlJar:
+         log ( "Your Linux distribution seem to have a bug linking to a wrong xmlParserAPIs." );
+         log ( "Please, consider fixing it by executing this command:" );
+         log ( "sudo ln -s -f /usr/share/java/jaxp-1.4.jar /usr/share/java/xmlParserAPIs.jar" );
+         log ( "The build might fail otherwise, see the details: https://youtrack.jetbrains.com/issue/MPS-21734" );
+         input();
+    except:
+      exc_type, exc_value, exc_traceback = sys.exc_info();
+      log ( "Exception while checking xmlParserAPIs.jar" );
+      reportException(exc_type, exc_value, exc_traceback);
+      
+    
   
   log (  "Preparing destination directory"   );
   dest = prepareDestDir();
@@ -1733,11 +1760,7 @@ def RUN_TESTS():
 #RUN_TESTS();
 #exit(1);
 
-def reportException(exc_type, exc_value, exc_traceback):
-  log (  "\nException:" )
-  traceback.print_exception(exc_type, exc_value, exc_traceback)
-  log (  "\n" )
-  printErrorMessage()
+
 
 try:
   main();
