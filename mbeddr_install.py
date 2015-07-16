@@ -449,8 +449,8 @@ MPSInfoPlist= """<!DOCTYPE plist PUBLIC '-//Apple Computer//DTD PLIST 1.0//EN' '
 MPSInfoPlist = fixLineEndings(MPSInfoPlist);
 
 # CBMC CONFIGURATION
-CBMCVersion="""4"""
-CBMCSubVersion = """9"""
+CBMCVersion="""5""
+CBMCSubVersion = """1"""
 
 #Linux
 CBMC32BitLinuxUrl = """http://www.cprover.org/cbmc/download/cbmc-""" + CBMCVersion + "-" + CBMCSubVersion + """-linux-32.tgz"""
