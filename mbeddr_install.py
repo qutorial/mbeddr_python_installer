@@ -105,8 +105,8 @@ def fixLineEndings(text):
 MbeddrRepo = """https://github.com/mbeddr/mbeddr.core.git"""
 MbeddrRepoPush = """git@github.com:mbeddr/mbeddr.core.git"""
 
-#TheBranch = "fortiss_stable"
-TheBranch = "master"
+TheBranch = "fortiss_stable"
+#TheBranch = "master"
 
 BuildProperties = """# MPS installation
 mps.home=MPSDir
