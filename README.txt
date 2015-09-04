@@ -13,7 +13,7 @@ mbeddr is used from within MPS. Run MPS first to use mbeddr.
 
 In the installation directory you have the MPS set up for you. The installed
 MPS instance has been preconfigured to use mbeddr. You can start it either
-entering the MPS directory and running _mps.sh_ script, or starting the MPS
+entering the MPS/bin directory and running _mps.sh_ script, or starting the MPS
 app, clicking on its icon in Mac OS X. The app is in the installation
 directory.
 
