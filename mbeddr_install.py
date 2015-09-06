@@ -133,21 +133,21 @@ MPSWin = """https://raw.githubusercontent.com/mbeddr/mbeddr.core/"""+TheBranch+"
 
 MPSArcDir="MPS" #This is just a part of the unarchived folder name
 
-MPSDestDirLinux = "MPS31"
+MPSDestDirLinux = "MPS33"
 
 MPSDestDirWin = MPSDestDirLinux
 
 
-MPSDestDirWinDefault = """/cygdrive/c/Program Files (x86)/JetBrains/MPS 3.1"""
+MPSDestDirWinDefault = """/cygdrive/c/Program Files (x86)/JetBrains/MPS 3.3"""
 WindowsUsualJavaLocation = """/cygdrive/c/Program Files/Java/jdk1.7.0_65"""
 WindowsUsualAntLocation = """/cygdrive/c/apache-ant-1.9.4"""
 CygwinDocsAndSettings = """/cygdrive/c/Documents and Settings/"""
-WindowsMPSDesktopLinkName = """JetBrains MPS 3.1.lnk""";
+WindowsMPSDesktopLinkName = """JetBrains MPS 3.3.lnk""";
 WindowsMbeddrDesktopLinkName = """mbeddr.lnk""";
 MPSBatName = """mps.bat"""
 
-MPSVolumesDir = """/Volumes/""" #MPSVolumesDir = """/Volumes/MPS 3.1/MPS 3.1.app"""
-MPSContentsDirMac = "MPS31.app"
+MPSVolumesDir = """/Volumes/""" #MPSVolumesDir = """/Volumes/MPS 3.3/MPS 3.3.app"""
+MPSContentsDirMac = "MPS33.app"
 
 MPS_VM_OPTIONS = """-client
 -Xss1024k
@@ -159,7 +159,7 @@ MPS_VM_OPTIONS = """-client
 -Xverify:none
 -Dfile.encoding=UTF-8
 -Dapple.awt.graphics.UseQuartz=true
--Didea.paths.selector=MPS31
+-Didea.paths.selector=MPS33
 """
 MPS_VM_OPTIONS = fixLineEndings(MPS_VM_OPTIONS);
 
@@ -375,9 +375,9 @@ MPSInfoPlist= """<!DOCTYPE plist PUBLIC '-//Apple Computer//DTD PLIST 1.0//EN' '
     <key>CFBundleName</key>
     <string>MPS</string>
     <key>CFBundleGetInfoString</key>
-    <string>JetBrains MPS 3.1 EAP</string>
+    <string>JetBrains MPS 3.3 EAP</string>
     <key>CFBundleShortVersionString</key>
-    <string>3.1 EAP</string>
+    <string>3.3 EAP</string>
     <key>CFBundleVersion</key>
     <string>MPS-133.1407</string>
     <key>CFBundleExecutable</key>
@@ -440,7 +440,7 @@ MPSInfoPlist= """<!DOCTYPE plist PUBLIC '-//Apple Computer//DTD PLIST 1.0//EN' '
         <string>IdeaConfig</string>
       </dict>
       <key>VMOptions</key>
-      <string>-client -Xss1024k -ea """ + JAVA_XMX + """ -XX:MaxPermSize=256m -XX:NewSize=256m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8 -Dapple.awt.graphics.UseQuartz=true -Didea.paths.selector=MPS31</string>
+      <string>-client -Xss1024k -ea """ + JAVA_XMX + """ -XX:MaxPermSize=256m -XX:NewSize=256m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8 -Dapple.awt.graphics.UseQuartz=true -Didea.paths.selector=MPS33</string>
       <key>WorkingDirectory</key>
       <string>$APP_PACKAGE/bin</string>
     </dict>
