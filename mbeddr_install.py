@@ -133,7 +133,7 @@ MPSWin = """https://raw.githubusercontent.com/mbeddr/mbeddr.core/"""+TheBranch+"
 
 MPSArcDir="MPS" #This is just a part of the unarchived folder name
 
-MPSDestDirLinux = "MPS33"
+MPSDestDirLinux = "MPS"
 
 MPSDestDirWin = MPSDestDirLinux
 
