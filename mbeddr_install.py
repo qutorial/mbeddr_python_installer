@@ -735,6 +735,7 @@ def checkJavaVersion(java):
   b1 = [s for s in vals if "1.7" in s]
   b2 = [s for s in vals if "1.8" in s]
   c = [s for s in vals if "HotSpot" in s]
+  c = c or [s for s in vals if "OpenJDK" in s]
   if len(c) > 0:
     if len(a) + len(b1) + len(b2) > 0:
       return True;
