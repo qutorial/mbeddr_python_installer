@@ -252,7 +252,8 @@ goto :eof
 """
 MPS_BAT_WITH_ENV = fixLineEndings(MPS_BAT_WITH_ENV);
 
-IdeaPropertiesPriv= """#---------------------------------------------------------------------
+IdeaPropertiesPriv="""
+#---------------------------------------------------------------------
 # Uncomment this option if you want to customize path to MPS config folder
 #---------------------------------------------------------------------
 idea.config.path=IdeaConfig
@@ -265,12 +266,12 @@ idea.system.path=IdeaSystem
 #---------------------------------------------------------------------
 # Uncomment this option if you want to customize path to user installed plugins folder
 #---------------------------------------------------------------------
-# idea.plugins.path=${user.home}/.MPS30/config/plugins
+# idea.plugins.path=${user.home}/.MPS33/config/plugins
 
 #---------------------------------------------------------------------
 # Uncomment this option if you want to customize path to MPS logs folder. Make sure you're using forward slashes
 #---------------------------------------------------------------------
-# idea.log.path=${user.home}/.MPS30/system/log
+# idea.log.path=${user.home}/.MPS33/system/log
 
 
 #---------------------------------------------------------------------
@@ -279,7 +280,7 @@ idea.system.path=IdeaSystem
 # if intellisense is enabled. Remove this property or set to very large number if you need
 # intellisense for any files available regardless their size.
 #---------------------------------------------------------------------
-idea.max.intellisense.filesize=2500
+idea.max.intellisense.filesize=100000
 
 # MPS copies library jars to prevent their locking. If copying is not desirable, specify "true"
 idea.jars.nocopy=false
@@ -1342,7 +1343,7 @@ class MPSInstallerForMac(MPSInstallerBase):
     self.mpsPath = self.getMPSEndPath(dest);
     log (  "Copying MPS..." );
     log (  "Please, do not eject the MPS drive..." );
-    shutil.copytree(MPSVolumesDirLocal, self.mpsPath);
+    shutil.copytree(MPSVolumesDirLocal, self.mpsPath, symlinks=True);
     log (  "Ready!" );
     log (  "Ejecting the MPS image now..."     );
     ejectImageMac(self.archive);
